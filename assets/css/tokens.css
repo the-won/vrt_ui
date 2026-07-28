@@ -1,0 +1,98 @@
+/* ==========================================================================
+   디자인 토큰 — 색상 / 간격 / 타이포 / 반경 / 그림자 / 모션
+   세 레이아웃 변형(classic / bento / analytics)이 이 파일을 공유한다.
+   ========================================================================== */
+
+:root {
+	/* ---- 라이트 테마 표면 계층 ---- */
+	--bg: #F3F4F7;
+	--surface: #FFFFFF;
+	--surface-raised: #FFFFFF;
+	--surface-sunken: #EBEDF1;
+	--surface-hover: #F6F7F9;
+
+	/* ---- 경계 ---- */
+	--border-subtle: #E4E6EB;
+	--border-strong: #D3D6DC;
+
+	/* ---- 텍스트 ---- */
+	--text-primary: #14161A;
+	--text-secondary: #5B6068;
+	--text-muted: #9AA0AA;
+	--text-on-accent: #FFFFFF;
+
+	/* ---- 액센트 (단일 hue 램프) ---- */
+	--accent: #4F6BFF;
+	--accent-strong: #3450E0;
+	--accent-soft: #E8ECFF;
+	--accent-ring: rgba(79, 107, 255, 0.35);
+
+	/* ---- 시맨틱 (절제해서 사용) ---- */
+	--success: #1FA971;
+	--warning: #C98A1B;
+	--danger: #E1483F;
+
+	/* ---- 간격 스케일 (4px 기반) ---- */
+	--sp-2: 2px;
+	--sp-4: 4px;
+	--sp-8: 8px;
+	--sp-12: 12px;
+	--sp-16: 16px;
+	--sp-24: 24px;
+	--sp-32: 32px;
+	--sp-48: 48px;
+	--sp-64: 64px;
+
+	/* ---- 반경 리듬 ---- */
+	--radius-lg: 16px;
+	--radius-md: 10px;
+	--radius-sm: 6px;
+	--radius-pill: 999px;
+
+	/* ---- 그림자 (2겹 레이어) ---- */
+	--shadow-sm: 0 1px 2px rgba(20, 22, 26, 0.04), 0 1px 1px rgba(20, 22, 26, 0.03);
+	--shadow-md: 0 4px 10px rgba(20, 22, 26, 0.06), 0 12px 28px rgba(20, 22, 26, 0.06);
+	--shadow-lg: 0 8px 20px rgba(20, 22, 26, 0.08), 0 24px 48px rgba(20, 22, 26, 0.09);
+
+	/* ---- 모션 ---- */
+	--ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+	--dur-fast: 120ms;
+	--dur-base: 200ms;
+	--dur-slow: 320ms;
+
+	/* ---- 레이아웃 치수 (변형별로 재정의) ---- */
+	--topbar-h: 64px;
+	--sidebar-w: 260px;
+	--sidebar-w-collapsed: 72px;
+}
+
+/* ---- 다크 테마 ---- */
+:root[data-theme="dark"] {
+	--bg: #0B0D10;
+	--surface: #14171C;
+	--surface-raised: #1B1F26;
+	--surface-sunken: #0E1114;
+	--surface-hover: #1F242C;
+
+	--border-subtle: #262B33;
+	--border-strong: #333944;
+
+	--text-primary: #F2F3F5;
+	--text-secondary: #A6ACB6;
+	--text-muted: #6B7280;
+	--text-on-accent: #FFFFFF;
+
+	--accent: #6B84FF;
+	--accent-strong: #8B9FFF;
+	--accent-soft: #202544;
+	--accent-ring: rgba(107, 132, 255, 0.45);
+
+	--success: #33C98E;
+	--warning: #E0A83E;
+	--danger: #F16860;
+
+	/* 다크 테마에서는 그림자 대신 경계선 대비로 깊이를 표현 */
+	--shadow-sm: 0 0 0 1px var(--border-subtle);
+	--shadow-md: 0 0 0 1px var(--border-subtle), 0 12px 28px rgba(0, 0, 0, 0.35);
+	--shadow-lg: 0 0 0 1px var(--border-strong), 0 24px 48px rgba(0, 0, 0, 0.45);
+}

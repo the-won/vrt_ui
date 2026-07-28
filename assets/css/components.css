@@ -1,0 +1,511 @@
+/* ==========================================================================
+   컴포넌트 껍데기 — 내용물 없이 형태만 존재하는 재사용 조각
+   card / panel / skeleton / nav-item / btn / chip / avatar / search-field
+   ========================================================================== */
+
+/* ---------------------------------------------------------------------- */
+/* Card / Panel                                                            */
+/* ---------------------------------------------------------------------- */
+
+.card,
+.panel {
+	background: var(--surface);
+	border: 1px solid var(--border-subtle);
+	border-radius: var(--radius-lg);
+	box-shadow: var(--shadow-sm);
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	min-height: 0;
+	overflow: hidden;
+	transition: box-shadow var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out);
+}
+
+.card:hover,
+.panel:hover {
+	box-shadow: var(--shadow-md);
+	transform: translateY(-1px);
+}
+
+.card__header,
+.panel__header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--sp-12);
+	padding: var(--sp-16) var(--sp-16) var(--sp-12);
+	flex-shrink: 0;
+}
+
+.card__title-slot {
+	flex: 1;
+	min-width: 0;
+}
+
+.card__actions-slot {
+	display: flex;
+	align-items: center;
+	gap: var(--sp-8);
+	flex-shrink: 0;
+}
+
+.card__body,
+.panel__body {
+	flex: 1;
+	min-height: 0;
+	padding: 0 var(--sp-16) var(--sp-16);
+	display: flex;
+	flex-direction: column;
+	gap: var(--sp-12);
+}
+
+.card--dense .card__body {
+	padding: var(--sp-12);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Skeleton — 콘텐츠 자리 표시용 시머                                      */
+/* ---------------------------------------------------------------------- */
+
+.skeleton {
+	position: relative;
+	display: block;
+	border-radius: var(--radius-sm);
+	background: var(--surface-sunken);
+	overflow: hidden;
+}
+
+.skeleton::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	transform: translateX(-100%);
+	background: linear-gradient(
+		90deg,
+		transparent 0%,
+		rgba(255, 255, 255, 0.35) 50%,
+		transparent 100%
+	);
+	animation: skeleton-shimmer 1.6s ease-in-out infinite;
+}
+
+:root[data-theme="dark"] .skeleton::after {
+	background: linear-gradient(
+		90deg,
+		transparent 0%,
+		rgba(255, 255, 255, 0.08) 50%,
+		transparent 100%
+	);
+}
+
+@keyframes skeleton-shimmer {
+	100% {
+		transform: translateX(100%);
+	}
+}
+
+.skeleton--title {
+	width: 40%;
+	height: 16px;
+}
+
+.skeleton--label {
+	width: 60px;
+	height: 12px;
+}
+
+.skeleton--text {
+	width: 100%;
+	height: 10px;
+}
+
+.skeleton--text:last-child {
+	width: 70%;
+}
+
+.skeleton--kpi-value {
+	width: 55%;
+	height: 24px;
+}
+
+.skeleton--chart {
+	flex: 1;
+	width: 100%;
+	min-height: 120px;
+	border-radius: var(--radius-md);
+}
+
+.skeleton--table-row {
+	width: 100%;
+	height: 32px;
+	border-radius: var(--radius-sm);
+}
+
+.skeleton--avatar {
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	flex-shrink: 0;
+}
+
+.skeleton--icon {
+	width: 20px;
+	height: 20px;
+	border-radius: var(--radius-sm);
+	flex-shrink: 0;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Nav item — 사이드바 / 레일 공용                                        */
+/* ---------------------------------------------------------------------- */
+
+.nav-item {
+	display: flex;
+	align-items: center;
+	gap: var(--sp-12);
+	padding: var(--sp-8) var(--sp-12);
+	border-radius: var(--radius-md);
+	color: var(--text-secondary);
+	position: relative;
+	transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+
+.nav-item:hover {
+	background: var(--surface-hover);
+	color: var(--text-primary);
+}
+
+.nav-item--active {
+	color: var(--text-primary);
+	background: var(--accent-soft);
+}
+
+.nav-item--active::before {
+	content: "";
+	position: absolute;
+	left: -12px;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 3px;
+	height: 18px;
+	border-radius: var(--radius-pill);
+	background: var(--accent);
+}
+
+.nav-item__icon {
+	width: 18px;
+	height: 18px;
+	border-radius: var(--radius-sm);
+	background: currentColor;
+	opacity: 0.35;
+	flex-shrink: 0;
+}
+
+.nav-item--active .nav-item__icon {
+	opacity: 0.9;
+	background: var(--accent);
+}
+
+.nav-item__label {
+	flex: 1;
+	min-width: 0;
+}
+
+.nav-group__title {
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--text-muted);
+	padding: 0 var(--sp-12);
+	margin-bottom: var(--sp-8);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Button / Icon button                                                    */
+/* ---------------------------------------------------------------------- */
+
+.btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--sp-8);
+	height: 36px;
+	padding: 0 var(--sp-16);
+	border-radius: var(--radius-md);
+	font-size: 13px;
+	font-weight: 600;
+	white-space: nowrap;
+	border: 1px solid var(--border-subtle);
+	background: var(--surface);
+	color: var(--text-primary);
+	transition: background var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+}
+
+.btn:hover {
+	background: var(--surface-hover);
+	border-color: var(--border-strong);
+}
+
+.btn:active {
+	transform: scale(0.98);
+}
+
+.btn--primary {
+	background: var(--accent);
+	border-color: var(--accent);
+	color: var(--text-on-accent);
+}
+
+.btn--primary:hover {
+	background: var(--accent-strong);
+	border-color: var(--accent-strong);
+}
+
+.btn--icon {
+	width: 36px;
+	height: 36px;
+	padding: 0;
+	border-radius: var(--radius-md);
+	background: transparent;
+	border: 1px solid transparent;
+	color: var(--text-secondary);
+}
+
+.btn--icon:hover {
+	background: var(--surface-hover);
+	color: var(--text-primary);
+}
+
+.btn--icon svg,
+.btn--icon .icon-glyph {
+	width: 18px;
+	height: 18px;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Chip / Badge                                                            */
+/* ---------------------------------------------------------------------- */
+
+.chip {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--sp-4);
+	height: 28px;
+	padding: 0 var(--sp-12);
+	border-radius: var(--radius-pill);
+	font-size: 12px;
+	font-weight: 500;
+	background: var(--surface-sunken);
+	color: var(--text-secondary);
+	border: 1px solid transparent;
+	white-space: nowrap;
+}
+
+.chip--active {
+	background: var(--accent-soft);
+	color: var(--accent-strong);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Avatar                                                                   */
+/* ---------------------------------------------------------------------- */
+
+.avatar {
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+	flex-shrink: 0;
+}
+
+.avatar--sm {
+	width: 24px;
+	height: 24px;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Search field                                                            */
+/* ---------------------------------------------------------------------- */
+
+.search-field {
+	display: flex;
+	align-items: center;
+	gap: var(--sp-8);
+	height: 36px;
+	padding: 0 var(--sp-12);
+	border-radius: var(--radius-md);
+	background: var(--surface-sunken);
+	border: 1px solid transparent;
+	color: var(--text-muted);
+	font-size: 13px;
+	transition: border-color var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out);
+}
+
+.search-field:focus-within {
+	border-color: var(--accent);
+	background: var(--surface);
+}
+
+.search-field__icon {
+	width: 16px;
+	height: 16px;
+	flex-shrink: 0;
+	opacity: 0.7;
+}
+
+.search-field input {
+	flex: 1;
+	min-width: 0;
+	background: transparent;
+	border: none;
+	color: var(--text-primary);
+}
+
+.search-field input::placeholder {
+	color: var(--text-muted);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Theme toggle                                                            */
+/* ---------------------------------------------------------------------- */
+
+.theme-toggle {
+	width: 36px;
+	height: 36px;
+	border-radius: var(--radius-md);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: transparent;
+	border: 1px solid var(--border-subtle);
+	color: var(--text-secondary);
+	transition: background var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+}
+
+.theme-toggle:hover {
+	background: var(--surface-hover);
+	color: var(--text-primary);
+}
+
+.theme-toggle:active {
+	transform: scale(0.94);
+}
+
+.theme-toggle .icon-glyph {
+	width: 18px;
+	height: 18px;
+}
+
+.theme-toggle .icon-sun {
+	display: none;
+}
+
+:root[data-theme="dark"] .theme-toggle .icon-sun {
+	display: block;
+}
+
+:root[data-theme="dark"] .theme-toggle .icon-moon {
+	display: none;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Date picker — 날짜 칩 클릭 시 뜨는 월간 캘린더 팝오버                      */
+/* ---------------------------------------------------------------------- */
+
+.date-picker {
+	position: relative;
+	display: inline-flex;
+}
+
+.date-picker__panel {
+	position: absolute;
+	top: calc(100% + var(--sp-8));
+	right: 0;
+	z-index: 50;
+	width: 264px;
+	padding: var(--sp-12);
+	background: var(--surface);
+	border: 1px solid var(--border-subtle);
+	border-radius: var(--radius-md);
+	box-shadow: var(--shadow-lg);
+}
+
+.date-picker__header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: var(--sp-8);
+}
+
+.date-picker__title {
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--text-primary);
+}
+
+.date-picker__weekdays {
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	margin-bottom: var(--sp-4);
+}
+
+.date-picker__weekdays span {
+	text-align: center;
+	font-size: 11px;
+	font-weight: 600;
+	color: var(--text-muted);
+}
+
+.date-picker__grid {
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	gap: 2px;
+}
+
+.date-picker__day {
+	width: 32px;
+	height: 32px;
+	border-radius: var(--radius-sm);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 12px;
+	color: var(--text-primary);
+	transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+
+.date-picker__day:hover {
+	background: var(--surface-hover);
+}
+
+.date-picker__day--muted {
+	color: var(--text-muted);
+}
+
+.date-picker__day--today {
+	box-shadow: inset 0 0 0 1px var(--accent);
+	font-weight: 600;
+}
+
+.date-picker__day--selected {
+	background: var(--accent);
+	color: var(--text-on-accent);
+	font-weight: 600;
+}
+
+/* ---------------------------------------------------------------------- */
+/* KPI 자리 표시 블록                                                       */
+/* ---------------------------------------------------------------------- */
+
+.kpi-card__body {
+	display: flex;
+	flex-direction: column;
+	gap: var(--sp-8);
+}
+
+.kpi-card__trend {
+	display: flex;
+	align-items: center;
+	gap: var(--sp-4);
+}

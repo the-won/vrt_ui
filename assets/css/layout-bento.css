@@ -1,0 +1,154 @@
+/* ==========================================================================
+   변형 B — 벤토 그리드형 레이아웃
+   ========================================================================== */
+
+.bento-page {
+	min-height: 100vh;
+	background: var(--bg);
+}
+
+/* ---------------------------------------------------------------------- */
+/* 플로팅 글래스 헤더                                                       */
+/* ---------------------------------------------------------------------- */
+
+.glass-header {
+	position: sticky;
+	top: 0;
+	z-index: 10;
+	display: flex;
+	align-items: center;
+	gap: var(--sp-24);
+	height: var(--topbar-h);
+	padding: 0 var(--sp-32);
+	background: color-mix(in srgb, var(--surface) 78%, transparent);
+	backdrop-filter: blur(14px);
+	-webkit-backdrop-filter: blur(14px);
+	border-bottom: 1px solid var(--border-subtle);
+}
+
+.glass-header__brand {
+	display: flex;
+	align-items: center;
+	gap: var(--sp-8);
+	font-weight: 700;
+	font-size: 15px;
+	flex-shrink: 0;
+}
+
+.glass-header__brand .logo-glyph {
+	width: 26px;
+	height: 26px;
+	border-radius: var(--radius-sm);
+	background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+}
+
+.glass-header__nav {
+	display: flex;
+	align-items: center;
+	gap: var(--sp-24);
+}
+
+.glass-header__nav a {
+	position: relative;
+	padding: var(--sp-8) 0;
+	font-size: 13px;
+	font-weight: 500;
+	color: var(--text-secondary);
+}
+
+.glass-header__nav a:hover {
+	color: var(--text-primary);
+}
+
+.glass-header__nav a.is-active {
+	color: var(--text-primary);
+}
+
+.glass-header__nav a.is-active::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: -1px;
+	height: 2px;
+	border-radius: var(--radius-pill);
+	background: var(--accent);
+}
+
+.glass-header__actions {
+	margin-left: auto;
+	display: flex;
+	align-items: center;
+	gap: var(--sp-8);
+	flex-shrink: 0;
+}
+
+/* ---------------------------------------------------------------------- */
+/* 벤토 그리드                                                              */
+/* ---------------------------------------------------------------------- */
+
+.bento-wrap {
+	max-width: 1400px;
+	margin: 0 auto;
+	padding: var(--sp-32);
+}
+
+.bento-grid {
+	display: grid;
+	grid-template-columns: repeat(12, 1fr);
+	grid-auto-rows: 96px;
+	gap: var(--sp-16);
+}
+
+.tile {
+	grid-column: span var(--col-span, 3);
+	grid-row: span var(--row-span, 2);
+	min-width: 0;
+	min-height: 0;
+}
+
+.tile--hero {
+	background: linear-gradient(135deg, var(--accent-soft), var(--surface) 70%);
+}
+
+:root[data-theme="dark"] .tile--hero {
+	background: linear-gradient(135deg, var(--accent-soft), var(--surface-raised) 75%);
+}
+
+/* ---------------------------------------------------------------------- */
+/* 반응형                                                                   */
+/* ---------------------------------------------------------------------- */
+
+@media (max-width: 1199px) {
+	.bento-wrap {
+		padding: var(--sp-24);
+	}
+
+	.glass-header {
+		padding: 0 var(--sp-24);
+	}
+}
+
+@media (max-width: 1023px) {
+	.bento-grid {
+		grid-template-columns: repeat(6, 1fr);
+		grid-auto-rows: 88px;
+	}
+
+	/* col-span 값이 6을 넘으면 브라우저가 자동으로 한 줄 전체로 축소한다 */
+
+	.glass-header__nav {
+		display: none;
+	}
+}
+
+@media (max-width: 767px) {
+	.bento-grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.tile {
+		grid-column: 1 / -1;
+		grid-row: span 3;
+	}
+}

@@ -1,0 +1,326 @@
+/* ==========================================================================
+   런처 페이지 — 갤러리 헤로 + 3개 미니어처 프리뷰 카드
+   ========================================================================== */
+
+.launcher {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: var(--sp-64) var(--sp-24);
+	background:
+		radial-gradient(600px 300px at 15% -10%, var(--accent-soft), transparent),
+		var(--bg);
+}
+
+.launcher__topbar {
+	position: fixed;
+	top: var(--sp-24);
+	right: var(--sp-24);
+}
+
+.launcher__hero {
+	max-width: 640px;
+	text-align: center;
+	margin-bottom: var(--sp-48);
+}
+
+.launcher__eyebrow {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--sp-8);
+	padding: var(--sp-4) var(--sp-12);
+	border-radius: var(--radius-pill);
+	background: var(--accent-soft);
+	color: var(--accent-strong);
+	font-size: 12px;
+	font-weight: 600;
+	margin-bottom: var(--sp-16);
+}
+
+.launcher__title {
+	font-size: 34px;
+	font-weight: 800;
+	letter-spacing: -0.02em;
+	margin-bottom: var(--sp-12);
+}
+
+.launcher__desc {
+	color: var(--text-secondary);
+	font-size: 15px;
+	line-height: 1.6;
+}
+
+.gallery {
+	width: 100%;
+	max-width: 1200px;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: var(--sp-24);
+}
+
+.gallery-card {
+	display: flex;
+	flex-direction: column;
+	gap: var(--sp-16);
+	padding: var(--sp-16);
+	border-radius: var(--radius-lg);
+	background: var(--surface);
+	border: 1px solid var(--border-subtle);
+	box-shadow: var(--shadow-sm);
+	transition: box-shadow var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out), border-color var(--dur-base) var(--ease-out);
+}
+
+.gallery-card:hover {
+	box-shadow: var(--shadow-lg);
+	transform: translateY(-4px);
+	border-color: var(--border-strong);
+}
+
+.gallery-card__label {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.gallery-card__name {
+	font-weight: 700;
+	font-size: 15px;
+}
+
+.gallery-card__tag {
+	font-size: 11px;
+	font-weight: 600;
+	color: var(--text-muted);
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+}
+
+.gallery-card__desc {
+	color: var(--text-secondary);
+	font-size: 13px;
+	line-height: 1.5;
+}
+
+.gallery-card__go {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--sp-4);
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--accent);
+}
+
+.gallery-card:hover .gallery-card__go .go-arrow {
+	transform: translateX(3px);
+}
+
+.go-arrow {
+	transition: transform var(--dur-fast) var(--ease-out);
+}
+
+/* ---------------------------------------------------------------------- */
+/* 미니어처 프리뷰 박스 (공통)                                              */
+/* ---------------------------------------------------------------------- */
+
+.mini {
+	position: relative;
+	height: 168px;
+	border-radius: var(--radius-md);
+	background: var(--bg);
+	border: 1px solid var(--border-subtle);
+	overflow: hidden;
+	display: flex;
+}
+
+.mini__block {
+	background: var(--surface-sunken);
+	border-radius: 3px;
+	transition: background var(--dur-base) var(--ease-out);
+}
+
+.gallery-card:hover .mini__block--accent {
+	background: var(--accent-soft);
+}
+
+.mini__block--accent {
+	background: color-mix(in srgb, var(--accent) 16%, var(--surface-sunken));
+}
+
+/* ---- 미니: 클래식 사이드바 ---- */
+.mini-classic {
+	flex-direction: row;
+	gap: 4px;
+	padding: 6px;
+}
+
+.mini-classic__sidebar {
+	width: 26%;
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+}
+
+.mini-classic__sidebar .mini__block {
+	height: 8px;
+}
+
+.mini-classic__sidebar .mini__block:first-child {
+	height: 14px;
+	margin-bottom: 4px;
+}
+
+.mini-classic__main {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	min-width: 0;
+}
+
+.mini-classic__topbar {
+	height: 10px;
+}
+
+.mini-classic__kpis {
+	display: flex;
+	gap: 4px;
+}
+
+.mini-classic__kpis .mini__block {
+	flex: 1;
+	height: 22px;
+}
+
+.mini-classic__row {
+	display: flex;
+	gap: 4px;
+	flex: 1;
+}
+
+.mini-classic__row .mini__block:first-child {
+	flex: 2;
+}
+
+.mini-classic__row .mini__block:last-child {
+	flex: 1;
+}
+
+/* ---- 미니: 벤토 그리드 ---- */
+.mini-bento {
+	flex-direction: column;
+	gap: 4px;
+	padding: 6px;
+}
+
+.mini-bento__header {
+	height: 10px;
+}
+
+.mini-bento__grid {
+	flex: 1;
+	display: grid;
+	grid-template-columns: repeat(6, 1fr);
+	grid-template-rows: repeat(4, 1fr);
+	gap: 4px;
+}
+
+.mini-bento__hero {
+	grid-column: span 3;
+	grid-row: span 3;
+}
+
+.mini-bento__a {
+	grid-column: span 3;
+	grid-row: span 2;
+}
+
+.mini-bento__b {
+	grid-column: span 3;
+	grid-row: span 1;
+}
+
+.mini-bento__c {
+	grid-column: span 2;
+	grid-row: span 1;
+}
+
+.mini-bento__d {
+	grid-column: span 2;
+	grid-row: span 1;
+}
+
+.mini-bento__e {
+	grid-column: span 2;
+	grid-row: span 1;
+}
+
+/* ---- 미니: 멀티패널 분석 ---- */
+.mini-analytics {
+	flex-direction: row;
+	gap: 4px;
+	padding: 6px;
+}
+
+.mini-analytics__rail {
+	width: 24%;
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+}
+
+.mini-analytics__rail .mini__block {
+	height: 8px;
+}
+
+.mini-analytics__rail .mini__block:first-child {
+	height: 14px;
+	margin-bottom: 4px;
+}
+
+.mini-analytics__main {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	min-width: 0;
+}
+
+.mini-analytics__bar {
+	height: 8px;
+}
+
+.mini-analytics__kpis {
+	display: flex;
+	gap: 3px;
+}
+
+.mini-analytics__kpis .mini__block {
+	flex: 1;
+	height: 16px;
+}
+
+.mini-analytics__panels {
+	flex: 1;
+	display: flex;
+	gap: 4px;
+}
+
+.mini-analytics__panels .mini__block {
+	flex: 1;
+}
+
+.mini-analytics__inspector {
+	width: 16%;
+}
+
+/* ---------------------------------------------------------------------- */
+/* 반응형                                                                   */
+/* ---------------------------------------------------------------------- */
+
+@media (max-width: 1023px) {
+	.gallery {
+		grid-template-columns: 1fr;
+		max-width: 480px;
+	}
+}

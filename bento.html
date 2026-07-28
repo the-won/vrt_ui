@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>변형 B · 벤토 그리드 — 대시보드</title>
+	<script>
+		(function () {
+			try {
+				var saved = localStorage.getItem("dashboard-theme");
+				var theme = saved || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+				document.documentElement.setAttribute("data-theme", theme);
+			} catch (e) {
+				document.documentElement.setAttribute("data-theme", "light");
+			}
+		})();
+	</script>
+	<link rel="stylesheet" href="assets/css/tokens.css" />
+	<link rel="stylesheet" href="assets/css/base.css" />
+	<link rel="stylesheet" href="assets/css/components.css" />
+	<link rel="stylesheet" href="assets/css/layout-bento.css" />
+</head>
+<body class="bento-page">
+
+	<header class="glass-header">
+		<div class="glass-header__brand">
+			<span class="logo-glyph"></span>
+			<span>Dashboard</span>
+		</div>
+		<nav class="glass-header__nav" data-tab-group aria-label="주 내비게이션">
+			<a href="#" data-tab class="is-active">Home</a>
+			<a href="#" data-tab>Analytics</a>
+			<a href="#" data-tab>Reports</a>
+			<a href="#" data-tab>Team</a>
+		</nav>
+		<div class="glass-header__actions">
+			<div class="search-field" style="width:180px;">
+				<svg class="search-field__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+					<circle cx="11" cy="11" r="7" />
+					<path d="M21 21l-4.3-4.3" stroke-linecap="round" />
+				</svg>
+				<input type="text" placeholder="검색..." aria-label="검색" />
+			</div>
+			<button class="theme-toggle" data-theme-toggle aria-label="테마 전환">
+				<svg class="icon-glyph icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+					<path d="M21 12.5A8.5 8.5 0 0111.5 3 8.5 8.5 0 1021 12.5z" stroke-linejoin="round" />
+				</svg>
+				<svg class="icon-glyph icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+					<circle cx="12" cy="12" r="4.5" />
+					<path d="M12 2.5v2M12 19.5v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2.5 12h2M19.5 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" stroke-linecap="round" />
+				</svg>
+			</button>
+			<span class="avatar" aria-hidden="true"></span>
+		</div>
+	</header>
+
+	<div class="bento-wrap">
+		<div class="bento-grid">
+
+			<!-- 히어로 타일 -->
+			<div class="card tile tile--hero" style="--col-span:6;--row-span:3;">
+				<div class="card__header">
+					<span class="skeleton skeleton--title"></span>
+					<span class="chip chip--active">Live</span>
+				</div>
+				<div class="card__body">
+					<span class="skeleton skeleton--chart"></span>
+				</div>
+			</div>
+
+			<div class="card tile" style="--col-span:3;--row-span:2;">
+				<div class="card__header">
+					<span class="skeleton skeleton--label"></span>
+				</div>
+				<div class="card__body kpi-card__body">
+					<span class="skeleton skeleton--kpi-value"></span>
+				</div>
+			</div>
+
+			<div class="card tile" style="--col-span:3;--row-span:2;">
+				<div class="card__header">
+					<span class="skeleton skeleton--label"></span>
+				</div>
+				<div class="card__body kpi-card__body">
+					<span class="skeleton skeleton--kpi-value"></span>
+				</div>
+			</div>
+
+			<div class="card tile" style="--col-span:6;--row-span:1;">
+				<div class="card__body" style="flex-direction:row;align-items:center;padding-top:var(--sp-16);">
+					<span class="skeleton skeleton--text" style="width:60%;height:12px;"></span>
+				</div>
+			</div>
+
+			<!-- 하단 섹션 -->
+			<div class="card tile" style="--col-span:3;--row-span:4;">
+				<div class="card__header">
+					<span class="skeleton skeleton--title"></span>
+				</div>
+				<div class="card__body">
+					<span class="skeleton skeleton--avatar"></span>
+					<span class="skeleton skeleton--text"></span>
+					<span class="skeleton skeleton--text"></span>
+					<span class="skeleton skeleton--text"></span>
+				</div>
+			</div>
+
+			<div class="card tile" style="--col-span:6;--row-span:2;">
+				<div class="card__header">
+					<span class="skeleton skeleton--title"></span>
+					<div class="card__actions-slot">
+						<span class="chip">Week</span>
+						<span class="chip chip--active">Month</span>
+					</div>
+				</div>
+				<div class="card__body">
+					<span class="skeleton skeleton--chart"></span>
+				</div>
+			</div>
+
+			<div class="card tile" style="--col-span:3;--row-span:2;">
+				<div class="card__header">
+					<span class="skeleton skeleton--label"></span>
+				</div>
+				<div class="card__body kpi-card__body">
+					<span class="skeleton skeleton--kpi-value"></span>
+					<span class="skeleton skeleton--text" style="width:50%;"></span>
+				</div>
+			</div>
+
+			<div class="card tile" style="--col-span:9;--row-span:2;">
+				<div class="card__header">
+					<span class="skeleton skeleton--title"></span>
+					<span class="skeleton skeleton--icon"></span>
+				</div>
+				<div class="card__body">
+					<span class="skeleton skeleton--table-row"></span>
+					<span class="skeleton skeleton--table-row"></span>
+					<span class="skeleton skeleton--table-row"></span>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<a href="index.html" class="btn" style="position:fixed;left:16px;bottom:16px;z-index:20;box-shadow:var(--shadow-md);">← 갤러리로</a>
+
+	<script src="assets/js/theme.js"></script>
+	<script src="assets/js/shell.js"></script>
+</body>
+</html>

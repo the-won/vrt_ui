@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>대시보드 레이아웃 갤러리</title>
+	<script>
+		(function () {
+			try {
+				var saved = localStorage.getItem("dashboard-theme");
+				var theme = saved || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+				document.documentElement.setAttribute("data-theme", theme);
+			} catch (e) {
+				document.documentElement.setAttribute("data-theme", "light");
+			}
+		})();
+	</script>
+	<link rel="stylesheet" href="assets/css/tokens.css" />
+	<link rel="stylesheet" href="assets/css/base.css" />
+	<link rel="stylesheet" href="assets/css/components.css" />
+	<link rel="stylesheet" href="assets/css/launcher.css" />
+</head>
+<body>
+	<div class="launcher">
+
+		<div class="launcher__topbar">
+			<button class="theme-toggle" data-theme-toggle aria-label="테마 전환">
+				<svg class="icon-glyph icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+					<path d="M21 12.5A8.5 8.5 0 0111.5 3 8.5 8.5 0 1021 12.5z" stroke-linejoin="round" />
+				</svg>
+				<svg class="icon-glyph icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+					<circle cx="12" cy="12" r="4.5" />
+					<path d="M12 2.5v2M12 19.5v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2.5 12h2M19.5 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" stroke-linecap="round" />
+				</svg>
+			</button>
+		</div>
+
+		<div class="launcher__hero">
+			<span class="launcher__eyebrow">Layout Shell · No Content</span>
+			<h1 class="launcher__title">대시보드 레이아웃 갤러리</h1>
+			<p class="launcher__desc">
+				콘텐츠는 배제하고 구조만 완성했습니다. 세 가지 레이아웃을 직접 둘러보고 마음에 드는 방향을 골라주세요.
+			</p>
+		</div>
+
+		<div class="gallery">
+
+			<!-- 변형 A : 클래식 사이드바 -->
+			<a class="gallery-card" href="classic.html">
+				<div class="mini mini-classic">
+					<div class="mini-classic__sidebar">
+						<div class="mini__block mini__block--accent"></div>
+						<div class="mini__block"></div>
+						<div class="mini__block"></div>
+						<div class="mini__block"></div>
+					</div>
+					<div class="mini-classic__main">
+						<div class="mini__block mini-classic__topbar"></div>
+						<div class="mini-classic__kpis">
+							<div class="mini__block"></div>
+							<div class="mini__block"></div>
+							<div class="mini__block"></div>
+							<div class="mini__block"></div>
+						</div>
+						<div class="mini-classic__row">
+							<div class="mini__block mini__block--accent"></div>
+							<div class="mini__block"></div>
+						</div>
+					</div>
+				</div>
+				<div class="gallery-card__label">
+					<span class="gallery-card__name">클래식 사이드바형</span>
+					<span class="gallery-card__tag">Variant A</span>
+				</div>
+				<p class="gallery-card__desc">고정 사이드바 + 톱바 + 12칼럼 콘텐츠 그리드. 가장 안정적인 관리자 대시보드 구조.</p>
+				<span class="gallery-card__go">
+					둘러보기 <span class="go-arrow">→</span>
+				</span>
+			</a>
+
+			<!-- 변형 B : 벤토 그리드 -->
+			<a class="gallery-card" href="bento.html">
+				<div class="mini mini-bento">
+					<div class="mini__block mini-bento__header"></div>
+					<div class="mini-bento__grid">
+						<div class="mini__block mini__block--accent mini-bento__hero"></div>
+						<div class="mini__block mini-bento__a"></div>
+						<div class="mini__block mini-bento__a"></div>
+						<div class="mini__block mini-bento__b"></div>
+						<div class="mini__block mini-bento__c"></div>
+						<div class="mini__block mini-bento__d"></div>
+						<div class="mini__block mini-bento__e"></div>
+					</div>
+				</div>
+				<div class="gallery-card__label">
+					<span class="gallery-card__name">벤토 그리드형</span>
+					<span class="gallery-card__tag">Variant B</span>
+				</div>
+				<p class="gallery-card__desc">사이드바 없이 비대칭 타일을 자유롭게 배치. 비주얼이 화려하고 트렌디한 구조.</p>
+				<span class="gallery-card__go">
+					둘러보기 <span class="go-arrow">→</span>
+				</span>
+			</a>
+
+			<!-- 변형 C : 멀티패널 분석 -->
+			<a class="gallery-card" href="analytics.html">
+				<div class="mini mini-analytics">
+					<div class="mini-analytics__rail">
+						<div class="mini__block mini__block--accent"></div>
+						<div class="mini__block"></div>
+						<div class="mini__block"></div>
+						<div class="mini__block"></div>
+					</div>
+					<div class="mini-analytics__main">
+						<div class="mini__block mini-analytics__bar"></div>
+						<div class="mini-analytics__kpis">
+							<div class="mini__block"></div>
+							<div class="mini__block"></div>
+							<div class="mini__block"></div>
+							<div class="mini__block"></div>
+						</div>
+						<div class="mini-analytics__panels">
+							<div class="mini__block mini__block--accent"></div>
+							<div class="mini__block"></div>
+						</div>
+					</div>
+					<div class="mini__block mini-analytics__inspector"></div>
+				</div>
+				<div class="gallery-card__label">
+					<span class="gallery-card__name">멀티패널 분석형</span>
+					<span class="gallery-card__tag">Variant C</span>
+				</div>
+				<p class="gallery-card__desc">클래식형 사이드바 + 필터바 + 인스펙터 드로어. 정보 밀도가 가장 높은 데이터 툴 스타일.</p>
+				<span class="gallery-card__go">
+					둘러보기 <span class="go-arrow">→</span>
+				</span>
+			</a>
+
+		</div>
+	</div>
+
+	<script src="assets/js/theme.js"></script>
+</body>
+</html>

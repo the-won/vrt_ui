@@ -1,0 +1,114 @@
+/* ==========================================================================
+   베이스 — 리셋 / 타이포 / 스크롤바 / 포커스 / 접근성 기본값
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	height: 100%;
+}
+
+body {
+	margin: 0;
+	font-family: -apple-system, "Segoe UI", "Pretendard", "Malgun Gothic", system-ui, sans-serif;
+	font-size: 14px;
+	line-height: 1.5;
+	color: var(--text-primary);
+	background: var(--bg);
+	-webkit-font-smoothing: antialiased;
+	transition: background var(--dur-base) var(--ease-out), color var(--dur-base) var(--ease-out);
+}
+
+img,
+svg {
+	display: block;
+	max-width: 100%;
+}
+
+button,
+input,
+select {
+	font: inherit;
+	color: inherit;
+}
+
+button {
+	cursor: pointer;
+	background: none;
+	border: none;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+h1, h2, h3, h4, p {
+	margin: 0;
+}
+
+/* ---- 포커스 링 : 키보드 탐색 시에만 노출 ---- */
+:focus {
+	outline: none;
+}
+
+:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: 2px;
+	border-radius: var(--radius-sm);
+}
+
+/* ---- 스크롤바 (메인 영역 전용, 얇고 절제된 스타일) ---- */
+.scroll-region {
+	scrollbar-width: thin;
+	scrollbar-color: var(--border-strong) transparent;
+}
+
+.scroll-region::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+
+.scroll-region::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+.scroll-region::-webkit-scrollbar-thumb {
+	background: var(--border-strong);
+	border-radius: var(--radius-pill);
+	border: 2px solid transparent;
+	background-clip: padding-box;
+}
+
+.scroll-region::-webkit-scrollbar-thumb:hover {
+	background: var(--text-muted);
+	background-clip: padding-box;
+}
+
+/* ---- 동작 줄이기 : 모든 트랜지션/애니메이션 정지 ---- */
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.001ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.001ms !important;
+		scroll-behavior: auto !important;
+	}
+}
+
+/* ---- 가로 스크롤 방지 안전장치 ---- */
+html {
+	overflow-x: hidden;
+}
