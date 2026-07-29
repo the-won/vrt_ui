@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>시안 B · 콘솔형 — VRT 리뷰·실행</title>
+	<script>
+		(function () {
+			try {
+				var saved = localStorage.getItem("dashboard-theme");
+				var theme = saved || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+				document.documentElement.setAttribute("data-theme", theme);
+			} catch (e) {
+				document.documentElement.setAttribute("data-theme", "light");
+			}
+		})();
+	</script>
+	<link rel="stylesheet" href="assets/css/tokens.css" />
+	<link rel="stylesheet" href="assets/css/base.css" />
+	<link rel="stylesheet" href="assets/css/components.css" />
+	<link rel="stylesheet" href="assets/css/layout-vrt-console.css" />
+</head>
+<body>
+	<div class="app-shell" data-app-shell>
+
+		<!-- 아이콘 레일 -->
+		<aside class="rail" aria-label="주 내비게이션">
+			<span class="rail__brand"></span>
+			<a class="rail__item rail__item--active" href="#" aria-label="VRT 리뷰·실행">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+					<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z" stroke-linejoin="round" />
+					<circle cx="12" cy="12" r="3" />
+				</svg>
+			</a>
+			<a class="rail__item" href="#" aria-label="스냅샷 히스토리">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+					<path d="M12 8v4l3 3" stroke-linecap="round" stroke-linejoin="round" />
+					<circle cx="12" cy="12" r="9" />
+				</svg>
+			</a>
+			<a class="rail__item" href="#" aria-label="배포 이력">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+					<path d="M12 3v12M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+					<path d="M4 19h16" stroke-linecap="round" />
+				</svg>
+			</a>
+			<span class="rail__spacer"></span>
+			<button class="theme-toggle" data-theme-toggle aria-label="테마 전환" style="width:40px;height:40px;">
+				<svg class="icon-glyph icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+					<path d="M21 12.5A8.5 8.5 0 0111.5 3 8.5 8.5 0 1021 12.5z" stroke-linejoin="round" />
+				</svg>
+				<svg class="icon-glyph icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+					<circle cx="12" cy="12" r="4.5" />
+					<path d="M12 2.5v2M12 19.5v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2.5 12h2M19.5 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" stroke-linecap="round" />
+				</svg>
+			</button>
+			<span class="avatar avatar--sm" aria-hidden="true"></span>
+		</aside>
+
+		<!-- 톱바/커맨드탭/메인 콘텐츠 컬럼 (레일과 형제 — 진짜 문서 스크롤) -->
+		<div class="app-content">
+
+		<!-- 커맨드바 -->
+		<header class="topbar">
+			<span class="topbar__title">vrt · review-and-run</span>
+			<div class="stat-chip-group">
+				<span class="stat-chip"><span class="stat-chip__dot stat-chip__dot--muted"></span>대기 3</span>
+				<span class="stat-chip"><span class="stat-chip__dot stat-chip__dot--success"></span>통과 125</span>
+				<span class="stat-chip"><span class="stat-chip__dot stat-chip__dot--danger"></span>실패 0</span>
+			</div>
+			<div class="topbar__actions">
+				<button class="btn btn--primary">
+					<svg class="icon-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="width:16px;height:16px;">
+						<path d="M5 12l5 5L20 7" stroke-linecap="round" stroke-linejoin="round" />
+					</svg>
+					Jenkins 배포
+				</button>
+			</div>
+		</header>
+
+		<!-- 커맨드 탭 -->
+		<div class="commandtabs" data-tab-group>
+			<a href="#" data-tab class="is-active">전체 실행</a>
+			<a href="#" data-tab>메인</a>
+			<a href="#" data-tab>최저가보상</a>
+			<a href="#" data-tab>장보기</a>
+			<a href="#" data-tab>전용스토어</a>
+		</div>
+
+		<!-- 메인 -->
+		<main class="main">
+
+			<!-- 테스트 실행 -->
+			<section class="console-panel">
+				<div class="console-panel__header">
+					<span class="console-panel__title">테스트 실행</span>
+				</div>
+				<div class="console-panel__body">
+					<div class="page-select-groups">
+						<div class="page-select-group page-select-group--accent">
+							<div class="page-select-group__title">메인</div>
+							<label class="page-select-item">
+								<input type="checkbox" />
+								section-home-v2305
+							</label>
+						</div>
+						<div class="page-select-group page-select-group--warning">
+							<div class="page-select-group__title">최저가보상</div>
+							<label class="page-select-item">
+								<input type="checkbox" />
+								section-price-match
+							</label>
+							<label class="page-select-item">
+								<input type="checkbox" />
+								section-secret-deal
+							</label>
+						</div>
+						<div class="page-select-group page-select-group--success">
+							<div class="page-select-group__title">장보기</div>
+							<label class="page-select-item">
+								<input type="checkbox" checked />
+								section-mart-v2
+							</label>
+						</div>
+						<div class="page-select-group">
+							<div class="page-select-group__title">전용스토어</div>
+							<label class="page-select-item">
+								<input type="checkbox" checked />
+								section-vendorMall
+							</label>
+							<label class="page-select-item">
+								<input type="checkbox" />
+								section-vendorMall-detail
+							</label>
+							<label class="page-select-item">
+								<input type="checkbox" />
+								section-brandHall
+							</label>
+						</div>
+					</div>
+
+					<div class="run-actions">
+						<button class="btn btn--terminal">▶ RUN SELECTED (2)</button>
+						<span class="run-actions__hint">2개 선택됨</span>
+					</div>
+				</div>
+			</section>
+
+			<!-- 리뷰 대기 (기본 = 밀도형 접힌 행, 첫 행만 펼친 예시로 고정 표시) -->
+			<section class="console-panel">
+				<div class="console-panel__header">
+					<span class="console-panel__title">리뷰 대기 (3)</span>
+				</div>
+				<div class="console-panel__body">
+					<div class="review-list">
+
+						<!-- 항목 1 : 펼쳐진 예시 -->
+						<div class="review-entry">
+							<div class="review-row review-row--expanded">
+								<span class="review-row__dot review-row__dot--danger"></span>
+								<span class="review-row__path">메인<span class="path-sep">/</span>section-home-v2305</span>
+								<span class="review-row__diff review-row__diff--danger">Δ 12.4%</span>
+								<div class="review-row__actions">
+									<button class="btn btn--icon" aria-label="승인" style="color:var(--success);">
+										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+											<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" />
+										</svg>
+									</button>
+									<button class="btn btn--icon" aria-label="무시" style="color:var(--danger);">
+										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+											<path d="M6 6l12 12M18 6L6 18" stroke-linecap="round" />
+										</svg>
+									</button>
+									<button class="btn btn--icon review-row__expand is-expanded" aria-label="접기" aria-expanded="true">
+										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+											<path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+										</svg>
+									</button>
+								</div>
+							</div>
+							<div class="diff-viewer--console">
+								<div class="diff-viewer--console__toolbar">
+									<span class="stat-chip"><span class="stat-chip__dot stat-chip__dot--success"></span>SYNC SCROLL</span>
+									<span class="diff-viewer--console__hint"># 긴 페이지는 프레임 내부 스크롤로 같은 위치를 비교합니다</span>
+								</div>
+								<div class="diff-viewer--console__cols">
+									<div class="diff-viewer--console__col">
+										<span class="diff-viewer--console__col-label">before</span>
+										<div class="diff-viewer--console__frame scroll-region">
+											<span class="skeleton diff-viewer--console__tall"></span>
+										</div>
+									</div>
+									<div class="diff-viewer--console__col">
+										<span class="diff-viewer--console__col-label">diff</span>
+										<div class="diff-viewer--console__frame scroll-region">
+											<span class="skeleton diff-viewer--console__tall"></span>
+										</div>
+									</div>
+									<div class="diff-viewer--console__col">
+										<span class="diff-viewer--console__col-label">after</span>
+										<div class="diff-viewer--console__frame scroll-region">
+											<span class="skeleton diff-viewer--console__tall"></span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- 항목 2 : 접힌 상태 -->
+						<div class="review-entry">
+							<div class="review-row">
+								<span class="review-row__dot review-row__dot--warning"></span>
+								<span class="review-row__path">최저가보상<span class="path-sep">/</span>section-price-match</span>
+								<span class="review-row__diff review-row__diff--warning">Δ 2.1%</span>
+								<div class="review-row__actions">
+									<button class="btn btn--icon" aria-label="승인" style="color:var(--success);">
+										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+											<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" />
+										</svg>
+									</button>
+									<button class="btn btn--icon" aria-label="무시" style="color:var(--danger);">
+										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+											<path d="M6 6l12 12M18 6L6 18" stroke-linecap="round" />
+										</svg>
+									</button>
+									<button class="btn btn--icon review-row__expand" aria-label="펼치기" aria-expanded="false">
+										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+											<path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+										</svg>
+									</button>
+								</div>
+							</div>
+						</div>
+
+						<!-- 항목 3 : 접힌 상태 -->
+						<div class="review-entry">
+							<div class="review-row">
+								<span class="review-row__dot review-row__dot--muted"></span>
+								<span class="review-row__path">장보기<span class="path-sep">/</span>section-mart-v2</span>
+								<span class="review-row__diff">Δ 0.3%</span>
+								<div class="review-row__actions">
+									<button class="btn btn--icon" aria-label="승인" style="color:var(--success);">
+										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+											<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" />
+										</svg>
+									</button>
+									<button class="btn btn--icon" aria-label="무시" style="color:var(--danger);">
+										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+											<path d="M6 6l12 12M18 6L6 18" stroke-linecap="round" />
+										</svg>
+									</button>
+									<button class="btn btn--icon review-row__expand" aria-label="펼치기" aria-expanded="false">
+										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+											<path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+										</svg>
+									</button>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</section>
+
+			<!-- 히스토리 작성 대기 -->
+			<section class="console-panel">
+				<div class="console-panel__header">
+					<span class="console-panel__title">히스토리 작성 대기 (1)</span>
+					<div class="console-panel__header-actions">
+						<button class="btn">전체 선택</button>
+						<button class="btn">선택 해제</button>
+					</div>
+				</div>
+				<div class="console-panel__body">
+					<table class="history-table">
+						<thead>
+							<tr>
+								<th style="width:24px;"></th>
+								<th style="width:56px;">스냅샷</th>
+								<th>경로</th>
+								<th>시각</th>
+								<th style="text-align:right;">액션</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><input type="checkbox" aria-label="장보기 > section-mart-v2 선택" /></td>
+								<td><span class="skeleton history-table__thumb"></span></td>
+								<td class="history-table__path">장보기<span class="path-sep">/</span>section-mart-v2</td>
+								<td class="history-table__time">2026-07-20 17:13:37</td>
+								<td>
+									<div class="history-table__actions">
+										<button class="btn btn--icon" aria-label="확대">
+											<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+												<circle cx="11" cy="11" r="7" />
+												<path d="M21 21l-4.3-4.3" stroke-linecap="round" />
+											</svg>
+										</button>
+										<button class="btn btn--icon" aria-label="무시" style="color:var(--danger);">
+											<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+												<path d="M6 6l12 12M18 6L6 18" stroke-linecap="round" />
+											</svg>
+										</button>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<div class="compose-form">
+						<div class="form-field">
+							<label class="form-field__label" for="vrt-comment-b"># comment</label>
+							<textarea id="vrt-comment-b" class="form-textarea" placeholder="선택한 항목들을 하나의 변경 이력으로 기록합니다. 예: AI 추천영역 구좌 추가"></textarea>
+						</div>
+						<div class="form-field">
+							<label class="form-field__label" for="vrt-ticket-b"># ticket-url</label>
+							<input id="vrt-ticket-b" class="form-input" type="text" placeholder="선택, 콤마 또는 줄바꿈으로 여러 개 — 예: http://itsm.skmns.co.kr/browse/BENEDR-27287" />
+						</div>
+						<div class="compose-footer">
+							<span class="compose-footer__hint">0개 선택됨</span>
+							<button class="btn btn--terminal" disabled>기록 &gt;&gt;</button>
+						</div>
+					</div>
+				</div>
+			</section>
+
+		</main>
+
+		</div>
+	</div>
+
+	<a href="index.html" class="btn" style="position:fixed;left:16px;bottom:16px;z-index:40;box-shadow:var(--shadow-md);">← 갤러리로</a>
+
+	<script src="assets/js/theme.js"></script>
+	<script src="assets/js/shell.js"></script>
+</body>
+</html>

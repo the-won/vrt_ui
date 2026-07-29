@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>시안 A · 대시보드형 — VRT 리뷰·실행</title>
+	<script>
+		(function () {
+			try {
+				var saved = localStorage.getItem("dashboard-theme");
+				var theme = saved || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+				document.documentElement.setAttribute("data-theme", theme);
+			} catch (e) {
+				document.documentElement.setAttribute("data-theme", "light");
+			}
+		})();
+	</script>
+	<link rel="stylesheet" href="assets/css/tokens.css" />
+	<link rel="stylesheet" href="assets/css/base.css" />
+	<link rel="stylesheet" href="assets/css/components.css" />
+	<link rel="stylesheet" href="assets/css/layout-vrt-dashboard.css" />
+</head>
+<body>
+	<div class="app-shell" data-app-shell data-sidebar-state="expanded">
+
+		<!-- 사이드바 -->
+		<aside class="sidebar" aria-label="주 내비게이션">
+			<div class="sidebar__brand">
+				<div class="sidebar__brand-mark">
+					<span class="logo-glyph"></span>
+					<span class="sidebar__brand-label">QA Console</span>
+				</div>
+				<button class="btn btn--icon" data-sidebar-collapse aria-label="사이드바 접기/펼치기">
+					<svg class="icon-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+						<path d="M4 6h16M4 12h10M4 18h16" stroke-linecap="round" />
+					</svg>
+				</button>
+			</div>
+
+			<nav class="sidebar__nav scroll-region">
+				<div class="nav-group">
+					<div class="nav-group__title">품질 관리</div>
+					<a class="nav-item nav-item--active" href="#">
+						<span class="nav-item__icon"></span>
+						<span class="nav-item__label">VRT 리뷰·실행</span>
+					</a>
+					<a class="nav-item" href="#">
+						<span class="nav-item__icon"></span>
+						<span class="nav-item__label">스냅샷 히스토리</span>
+					</a>
+					<a class="nav-item" href="#">
+						<span class="nav-item__icon"></span>
+						<span class="nav-item__label">배포 이력</span>
+					</a>
+				</div>
+				<div class="nav-group">
+					<div class="nav-group__title">설정</div>
+					<a class="nav-item" href="#">
+						<span class="nav-item__icon"></span>
+						<span class="nav-item__label">테스트 대상 관리</span>
+					</a>
+					<a class="nav-item" href="#">
+						<span class="nav-item__icon"></span>
+						<span class="nav-item__label">알림</span>
+					</a>
+				</div>
+			</nav>
+
+			<div class="sidebar__footer">
+				<span class="avatar" aria-hidden="true"></span>
+				<div class="sidebar__user-info">
+					<span class="skeleton skeleton--label"></span>
+				</div>
+				<button class="btn btn--icon" aria-label="사용자 메뉴">
+					<svg class="icon-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+						<circle cx="12" cy="6" r="1.4" />
+						<circle cx="12" cy="12" r="1.4" />
+						<circle cx="12" cy="18" r="1.4" />
+					</svg>
+				</button>
+			</div>
+		</aside>
+
+		<!-- 톱바/필터바/메인 콘텐츠 컬럼 (사이드바와 형제 — 진짜 문서 스크롤) -->
+		<div class="app-content">
+
+		<!-- 톱바 -->
+		<header class="topbar">
+			<div class="topbar__titles">
+				<span class="topbar__title">VRT 리뷰 · 실행</span>
+				<span class="topbar__subtitle">리뷰 대기 3건</span>
+			</div>
+			<div class="topbar__actions">
+				<button class="theme-toggle" data-theme-toggle aria-label="테마 전환">
+					<svg class="icon-glyph icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+						<path d="M21 12.5A8.5 8.5 0 0111.5 3 8.5 8.5 0 1021 12.5z" stroke-linejoin="round" />
+					</svg>
+					<svg class="icon-glyph icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+						<circle cx="12" cy="12" r="4.5" />
+						<path d="M12 2.5v2M12 19.5v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2.5 12h2M19.5 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" stroke-linecap="round" />
+					</svg>
+				</button>
+				<button class="btn btn--primary">
+					<svg class="icon-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="width:16px;height:16px;">
+						<path d="M5 12l5 5L20 7" stroke-linecap="round" stroke-linejoin="round" />
+					</svg>
+					Jenkins 배포
+				</button>
+			</div>
+		</header>
+
+		<!-- 필터바 -->
+		<div class="filterbar" data-tab-group>
+			<div class="filterbar__tabs">
+				<a href="#" data-tab class="is-active">전체 실행</a>
+				<a href="#" data-tab>메인</a>
+				<a href="#" data-tab>최저가보상</a>
+				<a href="#" data-tab>장보기</a>
+				<a href="#" data-tab>전용스토어</a>
+			</div>
+		</div>
+
+		<!-- 메인 -->
+		<main class="main">
+
+			<!-- 테스트 실행 -->
+			<section class="card section-card">
+				<div class="card__header">
+					<span class="section-card__title">테스트 실행</span>
+					<span class="chip section-card__count">2개 선택됨</span>
+				</div>
+				<div class="card__body">
+					<div class="page-select-grid">
+						<div class="page-select-group">
+							<div class="page-select-group__title">메인</div>
+							<div class="page-select-group__items">
+								<label class="page-select-item">
+									<input type="checkbox" />
+									section-home-v2305
+								</label>
+							</div>
+						</div>
+						<div class="page-select-group">
+							<div class="page-select-group__title">최저가보상</div>
+							<div class="page-select-group__items">
+								<label class="page-select-item">
+									<input type="checkbox" />
+									section-price-match
+								</label>
+								<label class="page-select-item">
+									<input type="checkbox" />
+									section-secret-deal
+								</label>
+							</div>
+						</div>
+						<div class="page-select-group">
+							<div class="page-select-group__title">장보기</div>
+							<div class="page-select-group__items">
+								<label class="page-select-item">
+									<input type="checkbox" checked />
+									section-mart-v2
+								</label>
+							</div>
+						</div>
+						<div class="page-select-group">
+							<div class="page-select-group__title">전용스토어</div>
+							<div class="page-select-group__items">
+								<label class="page-select-item">
+									<input type="checkbox" checked />
+									section-vendorMall
+								</label>
+								<label class="page-select-item">
+									<input type="checkbox" />
+									section-vendorMall-detail
+								</label>
+								<label class="page-select-item">
+									<input type="checkbox" />
+									section-brandHall
+								</label>
+							</div>
+						</div>
+					</div>
+
+					<div class="run-actions">
+						<button class="btn btn--primary">
+							<svg class="icon-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="width:16px;height:16px;">
+								<path d="M6 4l14 8-14 8V4z" stroke-linejoin="round" />
+							</svg>
+							선택한 페이지 실행
+						</button>
+						<span class="run-actions__hint">2개 선택됨</span>
+					</div>
+				</div>
+			</section>
+
+			<!-- 리뷰 대기 (기본 = 접힌 요약행, 첫 항목만 펼친 예시로 고정 표시) -->
+			<section class="card section-card">
+				<div class="card__header">
+					<span class="section-card__title">리뷰 대기</span>
+					<span class="chip chip--active section-card__count">3</span>
+				</div>
+				<div class="card__body" style="padding:0 0 var(--sp-16);">
+					<div class="review-list" style="padding:0 var(--sp-16);">
+
+						<!-- 항목 1 : 펼쳐진 예시 -->
+						<div class="review-item">
+							<div class="review-item__row">
+								<span class="skeleton review-item__thumb"></span>
+								<div class="review-item__meta">
+									<span class="review-item__group">메인</span>
+									<span class="review-item__name">section-home-v2305</span>
+								</div>
+								<span class="review-item__time">2026. 7. 29. 오전 10:02:11</span>
+								<span class="chip chip--danger review-item__diff">변경 12.4%</span>
+								<div class="review-item__actions">
+									<button class="btn btn--danger-ghost">무시</button>
+									<button class="btn btn--success">승인</button>
+								</div>
+								<button class="btn btn--icon review-item__expand is-expanded" aria-label="접기" aria-expanded="true">
+									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="width:16px;height:16px;">
+										<path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+									</svg>
+								</button>
+							</div>
+
+							<div class="diff-viewer">
+								<div class="diff-viewer__toolbar">
+									<span class="chip chip--active">
+										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;">
+											<path d="M17 2l4 4-4 4M3 6h18M7 22l-4-4 4-4M21 18H3" stroke-linecap="round" stroke-linejoin="round" />
+										</svg>
+										스크롤 동기화
+									</span>
+									<span class="diff-viewer__toolbar-hint">긴 페이지는 프레임 안에서 스크롤해 같은 위치를 비교하세요</span>
+								</div>
+								<div class="diff-viewer__cols">
+									<div class="diff-viewer__col">
+										<span class="diff-viewer__col-label">Before</span>
+										<div class="diff-viewer__frame scroll-region">
+											<span class="skeleton diff-viewer__tall-content"></span>
+										</div>
+									</div>
+									<div class="diff-viewer__col">
+										<span class="diff-viewer__col-label">Diff</span>
+										<div class="diff-viewer__frame scroll-region">
+											<span class="skeleton diff-viewer__tall-content"></span>
+										</div>
+									</div>
+									<div class="diff-viewer__col">
+										<span class="diff-viewer__col-label">After</span>
+										<div class="diff-viewer__frame scroll-region">
+											<span class="skeleton diff-viewer__tall-content"></span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- 항목 2 : 접힌 상태 -->
+						<div class="review-item">
+							<div class="review-item__row">
+								<span class="skeleton review-item__thumb"></span>
+								<div class="review-item__meta">
+									<span class="review-item__group">최저가보상</span>
+									<span class="review-item__name">section-price-match</span>
+								</div>
+								<span class="review-item__time">2026. 7. 29. 오전 10:03:47</span>
+								<span class="chip chip--warning review-item__diff">변경 2.1%</span>
+								<div class="review-item__actions">
+									<button class="btn btn--danger-ghost">무시</button>
+									<button class="btn btn--success">승인</button>
+								</div>
+								<button class="btn btn--icon review-item__expand" aria-label="펼치기" aria-expanded="false">
+									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="width:16px;height:16px;">
+										<path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+									</svg>
+								</button>
+							</div>
+						</div>
+
+						<!-- 항목 3 : 접힌 상태 -->
+						<div class="review-item">
+							<div class="review-item__row">
+								<span class="skeleton review-item__thumb"></span>
+								<div class="review-item__meta">
+									<span class="review-item__group">장보기</span>
+									<span class="review-item__name">section-mart-v2</span>
+								</div>
+								<span class="review-item__time">2026. 7. 29. 오전 10:05:02</span>
+								<span class="chip review-item__diff">변경 0.3%</span>
+								<div class="review-item__actions">
+									<button class="btn btn--danger-ghost">무시</button>
+									<button class="btn btn--success">승인</button>
+								</div>
+								<button class="btn btn--icon review-item__expand" aria-label="펼치기" aria-expanded="false">
+									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="width:16px;height:16px;">
+										<path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+									</svg>
+								</button>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</section>
+
+			<!-- 히스토리 작성 대기 -->
+			<section class="card section-card">
+				<div class="card__header">
+					<span class="section-card__title">히스토리 작성 대기</span>
+					<span class="chip chip--active section-card__count">1</span>
+					<div class="section-card__header-actions">
+						<button class="btn">전체 선택</button>
+						<button class="btn">선택 해제</button>
+					</div>
+				</div>
+				<div class="card__body">
+					<div class="history-list">
+						<div class="history-item">
+							<input type="checkbox" aria-label="장보기 > section-mart-v2 선택" />
+							<span class="skeleton history-item__thumb"></span>
+							<div class="history-item__meta">
+								<span class="history-item__title">장보기<span class="path-sep">&gt;</span>section-mart-v2</span>
+								<span class="history-item__time">2026. 7. 20. 오후 5:13:37</span>
+							</div>
+							<div class="history-item__actions">
+								<button class="btn">
+									<svg class="icon-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="width:14px;height:14px;">
+										<circle cx="11" cy="11" r="7" />
+										<path d="M21 21l-4.3-4.3" stroke-linecap="round" />
+									</svg>
+									확대
+								</button>
+								<button class="btn btn--danger-ghost">무시</button>
+							</div>
+						</div>
+					</div>
+
+					<div class="compose-form">
+						<div class="form-field">
+							<label class="form-field__label" for="vrt-comment-a">변경 이력 코멘트</label>
+							<textarea id="vrt-comment-a" class="form-textarea" placeholder="선택한 항목들을 하나의 변경 이력으로 기록합니다. 예: AI 추천영역 구좌 추가"></textarea>
+						</div>
+						<div class="form-field">
+							<label class="form-field__label" for="vrt-ticket-a">관련 티켓 URL</label>
+							<input id="vrt-ticket-a" class="form-input" type="text" placeholder="선택, 콤마 또는 줄바꿈으로 여러 개 — 예: http://itsm.skmns.co.kr/browse/BENEDR-27287" />
+						</div>
+						<div class="compose-footer">
+							<span class="compose-footer__hint">0개 선택됨</span>
+							<button class="btn btn--primary" disabled>
+								<svg class="icon-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="width:16px;height:16px;">
+									<path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z" stroke-linejoin="round" />
+									<path d="M9 21v-6h6v6M9 3v5h6" stroke-linejoin="round" />
+								</svg>
+								히스토리로 기록
+							</button>
+						</div>
+					</div>
+				</div>
+			</section>
+
+		</main>
+
+		</div>
+	</div>
+
+	<a href="index.html" class="btn" style="position:fixed;left:16px;bottom:16px;z-index:40;box-shadow:var(--shadow-md);">← 갤러리로</a>
+
+	<script src="assets/js/theme.js"></script>
+	<script src="assets/js/shell.js"></script>
+</body>
+</html>
