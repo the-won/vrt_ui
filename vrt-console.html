@@ -69,12 +69,15 @@
 				<span class="stat-chip"><span class="stat-chip__dot stat-chip__dot--danger"></span>실패 0</span>
 			</div>
 			<div class="topbar__actions">
-				<button class="btn btn--primary">
+				<span id="deploy-status" class="stat-chip"></span>
+				<button id="btn-jenkins-deploy" class="btn btn--primary">
 					<svg class="icon-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="width:16px;height:16px;">
 						<path d="M5 12l5 5L20 7" stroke-linecap="round" stroke-linejoin="round" />
 					</svg>
 					Jenkins 배포
 				</button>
+				<button id="btn-jenkins-push" class="btn" disabled>Push</button>
+				<button id="btn-jenkins-revert" class="btn" disabled style="color:var(--danger);">되돌리기</button>
 			</div>
 		</header>
 
@@ -333,5 +336,6 @@
 
 	<script src="assets/js/theme.js"></script>
 	<script src="assets/js/shell.js"></script>
+	<script src="assets/js/deploy.js"></script>
 </body>
 </html>

@@ -144,6 +144,9 @@
 .stat-chip__dot--success { background: var(--success); }
 .stat-chip__dot--danger { background: var(--danger); }
 
+.stat-chip--success { color: var(--success); }
+.stat-chip--danger { color: var(--danger); }
+
 .topbar__actions {
 	margin-left: auto;
 	display: flex;

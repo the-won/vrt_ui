@@ -1,0 +1,9 @@
+{
+  "name": "vrt-dashboard-mockup",
+  "version": "1.0.0",
+  "private": true,
+  "description": "VRT 대시보드 디자인 시안 + 로컬 배포 자동화 서버",
+  "scripts": {
+    "deploy-server": "node server/deploy-server.js"
+  }
+}
