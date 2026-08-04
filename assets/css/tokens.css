@@ -60,6 +60,11 @@
 	--dur-base: 200ms;
 	--dur-slow: 320ms;
 
+	/* ---- 버튼 치수 (가이드 문서의 스펙 표와 1:1 대응) ---- */
+	--btn-h-sm: 28px;
+	--btn-h-md: 36px;
+	--btn-h-lg: 44px;
+
 	/* ---- 레이아웃 치수 (변형별로 재정의) ---- */
 	--topbar-h: 64px;
 	--sidebar-w: 260px;

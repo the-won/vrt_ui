@@ -230,7 +230,7 @@
 	align-items: center;
 	justify-content: center;
 	gap: var(--sp-8);
-	height: 36px;
+	height: var(--btn-h-md);
 	padding: 0 var(--sp-16);
 	border-radius: var(--radius-md);
 	font-size: 13px;
@@ -242,13 +242,21 @@
 	transition: background var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
 }
 
-.btn:hover {
+.btn:hover,
+.btn.is-hover {
 	background: var(--surface-hover);
 	border-color: var(--border-strong);
 }
 
-.btn:active {
+.btn:active,
+.btn.is-active {
 	transform: scale(0.98);
+}
+
+/* 키보드 포커스 링을 강제로 재현할 때 쓰는 미러 클래스 */
+.btn.is-focus {
+	outline: 2px solid var(--accent);
+	outline-offset: 2px;
 }
 
 .btn--primary {
@@ -257,7 +265,8 @@
 	color: var(--text-on-accent);
 }
 
-.btn--primary:hover {
+.btn--primary:hover,
+.btn--primary.is-hover {
 	background: var(--accent-strong);
 	border-color: var(--accent-strong);
 }
@@ -272,7 +281,8 @@
 	color: var(--text-secondary);
 }
 
-.btn--icon:hover {
+.btn--icon:hover,
+.btn--icon.is-hover {
 	background: var(--surface-hover);
 	color: var(--text-primary);
 }
@@ -281,6 +291,189 @@
 .btn--icon .icon-glyph {
 	width: 18px;
 	height: 18px;
+}
+
+/* 텍스트 버튼 안의 아이콘 기본 크기 (아이콘 전용 버튼보다 한 단계 작다) */
+.btn > svg,
+.btn > .icon-glyph {
+	width: 16px;
+	height: 16px;
+	flex-shrink: 0;
+}
+
+/* ---- 크기 변형 ---- */
+
+.btn--sm {
+	height: var(--btn-h-sm);
+	padding: 0 var(--sp-12);
+	gap: var(--sp-4);
+	font-size: 12px;
+	border-radius: var(--radius-sm);
+}
+
+.btn--sm > svg,
+.btn--sm > .icon-glyph {
+	width: 14px;
+	height: 14px;
+}
+
+.btn--lg {
+	height: var(--btn-h-lg);
+	padding: 0 var(--sp-24);
+	font-size: 14px;
+}
+
+.btn--lg > svg,
+.btn--lg > .icon-glyph {
+	width: 18px;
+	height: 18px;
+}
+
+.btn--icon.btn--sm {
+	width: var(--btn-h-sm);
+	height: var(--btn-h-sm);
+	padding: 0;
+}
+
+.btn--icon.btn--lg {
+	width: var(--btn-h-lg);
+	height: var(--btn-h-lg);
+	padding: 0;
+}
+
+/* ---- 스타일 변형 ---- */
+
+.btn--subtle {
+	background: var(--accent-soft);
+	border-color: transparent;
+	color: var(--accent-strong);
+}
+
+.btn--subtle:hover,
+.btn--subtle.is-hover {
+	background: var(--accent-soft);
+	border-color: var(--accent);
+}
+
+.btn--ghost {
+	background: transparent;
+	border-color: transparent;
+	color: var(--text-secondary);
+}
+
+.btn--ghost:hover,
+.btn--ghost.is-hover {
+	background: var(--surface-hover);
+	border-color: transparent;
+	color: var(--text-primary);
+}
+
+.btn--danger {
+	background: var(--danger);
+	border-color: var(--danger);
+	color: var(--text-on-accent);
+}
+
+.btn--danger:hover,
+.btn--danger.is-hover {
+	background: var(--danger);
+	border-color: var(--danger);
+	filter: brightness(0.93);
+}
+
+/* ---- 상태 ---- */
+
+.btn:disabled {
+	opacity: 0.45;
+	cursor: not-allowed;
+	pointer-events: none;
+}
+
+/* 비활성 상태를 시각적으로만 재현 (실제로는 클릭 가능) */
+.btn.is-disabled {
+	opacity: 0.45;
+	cursor: not-allowed;
+}
+
+.btn.is-loading {
+	pointer-events: none;
+}
+
+.btn__spinner {
+	width: 14px;
+	height: 14px;
+	flex-shrink: 0;
+	border-radius: 50%;
+	border: 2px solid currentColor;
+	border-top-color: transparent;
+	animation: btn-spin 0.6s linear infinite;
+}
+
+@keyframes btn-spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+.btn--block {
+	display: flex;
+	width: 100%;
+}
+
+/* ---- 배치 : 나란히 놓기 / 정렬 ---- */
+
+.btn-row {
+	display: flex;
+	align-items: center;
+	gap: var(--sp-8);
+	flex-wrap: wrap;
+}
+
+.btn-row--end {
+	justify-content: flex-end;
+}
+
+.btn-row--center {
+	justify-content: center;
+}
+
+.btn-row--between {
+	justify-content: space-between;
+}
+
+/* ---- 세그먼트 그룹 : 경계선을 겹쳐 하나의 덩어리로 ---- */
+
+.btn-group {
+	display: inline-flex;
+}
+
+.btn-group .btn {
+	border-radius: 0;
+	margin-left: -1px;
+}
+
+.btn-group .btn:first-child {
+	margin-left: 0;
+	border-top-left-radius: var(--radius-md);
+	border-bottom-left-radius: var(--radius-md);
+}
+
+.btn-group .btn:last-child {
+	border-top-right-radius: var(--radius-md);
+	border-bottom-right-radius: var(--radius-md);
+}
+
+.btn-group .btn:hover {
+	position: relative;
+	z-index: 1;
+}
+
+.btn-group .btn.is-selected {
+	position: relative;
+	z-index: 2;
+	background: var(--accent-soft);
+	border-color: var(--accent);
+	color: var(--accent-strong);
 }
 
 /* ---------------------------------------------------------------------- */
