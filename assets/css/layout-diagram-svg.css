@@ -1,0 +1,184 @@
+/* ==========================================================================
+   CSS 의존성 — 순수 SVG 다이어그램 스타일
+   이 파일은 "SVG 바깥" 크롬(톱바/셸/히어로/나머지 목록)만 담당한다.
+   다이어그램 본체는 HTML에 인라인으로 심은 <svg> 하나이며, 그 안의
+   fill/stroke는 currentColor 또는 var(--*) 토큰을 직접 참조해 테마를 따른다.
+   다른 두 다이어그램 페이지(layout-diagram.css / layout-diagram-uml.css)와
+   스타일을 공유하지 않는다.
+   ========================================================================== */
+
+.svgdia-page {
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+/* ---------------------------------------------------------------------- */
+/* 톱바                                                                    */
+/* ---------------------------------------------------------------------- */
+
+.svgdia-topbar {
+	position: sticky;
+	top: 0;
+	z-index: 20;
+	display: flex;
+	align-items: center;
+	gap: var(--sp-12);
+	height: 56px;
+	padding: 0 var(--sp-24);
+	background: var(--bg);
+	background: color-mix(in srgb, var(--bg) 82%, transparent);
+	-webkit-backdrop-filter: blur(12px);
+	backdrop-filter: blur(12px);
+	border-bottom: 1px solid var(--border-subtle);
+	flex-wrap: wrap;
+	row-gap: var(--sp-8);
+}
+
+.svgdia-topbar__title {
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--text-secondary);
+}
+
+.svgdia-topbar__actions {
+	margin-left: auto;
+	display: flex;
+	align-items: center;
+	gap: var(--sp-8);
+	flex-wrap: wrap;
+}
+
+/* ---------------------------------------------------------------------- */
+/* 셸 · 히어로                                                             */
+/* ---------------------------------------------------------------------- */
+
+.svgdia-shell {
+	width: 100%;
+	max-width: 1280px;
+	margin: 0 auto;
+	padding: var(--sp-24) var(--sp-24) var(--sp-64);
+}
+
+.svgdia-hero {
+	text-align: center;
+	margin-bottom: var(--sp-20);
+}
+
+.svgdia-hero__emoji {
+	font-size: 26px;
+	line-height: 1;
+	margin-bottom: var(--sp-8);
+}
+
+.svgdia-hero h1 {
+	font-size: 22px;
+	font-weight: 700;
+	letter-spacing: -0.02em;
+	margin: 0 0 var(--sp-4);
+}
+
+.svgdia-hero__sub {
+	font-size: 12.5px;
+	color: var(--text-muted);
+	margin: 0;
+}
+
+/* ---------------------------------------------------------------------- */
+/* SVG 캔버스 래퍼 — 아주 좁은 화면에서도 도형이 뭉개지지 않도록            */
+/* viewBox 비율은 유지한 채 가로 스크롤로 대응한다                          */
+/* ---------------------------------------------------------------------- */
+
+.svgdia-canvas-wrap {
+	overflow-x: auto;
+	border-radius: var(--radius-lg);
+	margin-bottom: var(--sp-32);
+}
+
+.svgdia-canvas-wrap svg {
+	display: block;
+	width: 100%;
+	min-width: 720px;
+	height: auto;
+}
+
+/* SVG 내부 텍스트가 시스템 폰트 대신 프로젝트 모노스페이스를 쓰도록 */
+.svgdia-canvas-wrap svg text {
+	font-family: "SFMono-Regular", "Consolas", "Menlo", monospace;
+}
+
+.svgdia-canvas-wrap svg text.sans {
+	font-family: -apple-system, "Segoe UI", "Pretendard", "Malgun Gothic", system-ui, sans-serif;
+}
+
+/* ---------------------------------------------------------------------- */
+/* 나머지 페이지 — 압축 목록 (SVG 바깥, 일반 HTML)                         */
+/* ---------------------------------------------------------------------- */
+
+.svgdia-lists {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--sp-16);
+	margin-bottom: var(--sp-24);
+}
+
+.svgdia-list {
+	border: 1px solid var(--border-subtle);
+	border-radius: var(--radius-md);
+	padding: var(--sp-12) var(--sp-16);
+}
+
+.svgdia-list__head {
+	display: flex;
+	align-items: center;
+	gap: var(--sp-8);
+	font-size: 11.5px;
+	font-weight: 700;
+	color: var(--text-muted);
+	margin-bottom: var(--sp-8);
+}
+
+.svgdia-list__dot {
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	flex-shrink: 0;
+}
+
+.svgdia-list__dot--a { background: var(--accent); }
+.svgdia-list__dot--b { background: var(--warning); }
+
+.svgdia-list__items {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+}
+
+.svgdia-pill {
+	font-family: "SFMono-Regular", "Consolas", "Menlo", monospace;
+	font-size: 11px;
+	padding: var(--sp-4) var(--sp-8);
+	border-radius: var(--radius-sm);
+	background: var(--surface-sunken);
+	color: var(--text-secondary);
+}
+
+.svgdia-note {
+	font-size: 11.5px;
+	color: var(--text-muted);
+	text-align: center;
+	line-height: 1.7;
+	max-width: 70ch;
+	margin: 0 auto;
+}
+
+.svgdia-note a {
+	color: var(--accent-strong);
+	font-weight: 600;
+}
+
+@media (max-width: 700px) {
+	.svgdia-lists {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}

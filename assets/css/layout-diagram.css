@@ -1,0 +1,527 @@
+/* ==========================================================================
+   CSS 의존성 다이어그램 — 전용 스타일 (플로차트형)
+   실제 <link> 태그 grep + components.css/layout-vrt-*.css 내부 섹션 확인 결과를
+   박스+화살표로 그린다. 새 색상을 발명하지 않고 tokens.css 시맨틱 토큰만 쓴다:
+   --accent = 일반 페이지 그룹, --warning = 주의가 필요한 페이지 그룹,
+   --success = 단일 소스(안전), --danger = 중복 위험.
+   ========================================================================== */
+
+.diagram-page {
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+/* ---------------------------------------------------------------------- */
+/* 톱바                                                                    */
+/* ---------------------------------------------------------------------- */
+
+.diagram-topbar {
+	position: sticky;
+	top: 0;
+	z-index: 20;
+	display: flex;
+	align-items: center;
+	gap: var(--sp-12);
+	height: 56px;
+	padding: 0 var(--sp-24);
+	background: var(--bg);
+	background: color-mix(in srgb, var(--bg) 82%, transparent);
+	-webkit-backdrop-filter: blur(12px);
+	backdrop-filter: blur(12px);
+	border-bottom: 1px solid var(--border-subtle);
+}
+
+.diagram-topbar__title {
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--text-secondary);
+}
+
+.diagram-topbar__actions {
+	margin-left: auto;
+	display: flex;
+	align-items: center;
+	gap: var(--sp-8);
+}
+
+/* ---------------------------------------------------------------------- */
+/* 셸                                                                      */
+/* ---------------------------------------------------------------------- */
+
+.diagram-shell {
+	width: 100%;
+	max-width: 1120px;
+	margin: 0 auto;
+	padding: var(--sp-24) var(--sp-24) var(--sp-48);
+}
+
+/* ---------------------------------------------------------------------- */
+/* 히어로 (축소판)                                                         */
+/* ---------------------------------------------------------------------- */
+
+.diagram-hero {
+	text-align: center;
+	margin-bottom: var(--sp-24);
+}
+
+.diagram-hero__emoji {
+	font-size: 26px;
+	line-height: 1;
+	margin-bottom: var(--sp-8);
+}
+
+.diagram-hero h1 {
+	font-size: 22px;
+	font-weight: 700;
+	letter-spacing: -0.02em;
+	margin: 0 0 var(--sp-4);
+}
+
+.diagram-hero__sub {
+	font-size: 12.5px;
+	color: var(--text-muted);
+	margin: 0;
+}
+
+/* ---------------------------------------------------------------------- */
+/* 범례 (인라인 한 줄)                                                     */
+/* ---------------------------------------------------------------------- */
+
+.diagram-legend {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: var(--sp-16);
+	margin-bottom: var(--sp-32);
+	font-size: 12px;
+	color: var(--text-muted);
+}
+
+.diagram-legend span {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--sp-4);
+}
+
+.legend-dot {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	flex-shrink: 0;
+}
+
+.legend-dot--shared { background: var(--success); }
+.legend-dot--own-a { background: var(--accent); }
+.legend-dot--own-b { background: var(--warning); }
+.legend-dot--mock { background: transparent; border: 1.5px dashed var(--border-strong); }
+
+/* ---------------------------------------------------------------------- */
+/* 그룹 2개를 나란히                                                       */
+/* ---------------------------------------------------------------------- */
+
+.dep-groups {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--sp-20);
+	align-items: start;
+}
+
+.dep-group {
+	border: 1px solid var(--border-subtle);
+	border-radius: var(--radius-lg);
+	background: var(--surface);
+	overflow: hidden;
+	box-shadow: var(--shadow-sm);
+}
+
+.dep-group__header {
+	display: flex;
+	align-items: center;
+	gap: var(--sp-8);
+	padding: var(--sp-12) var(--sp-16);
+	font-size: 13px;
+	font-weight: 700;
+	color: var(--text-on-accent);
+}
+
+.dep-group--a .dep-group__header { background: linear-gradient(135deg, var(--accent), var(--accent-strong)); }
+.dep-group--b .dep-group__header { background: linear-gradient(135deg, var(--warning), color-mix(in srgb, var(--warning) 70%, var(--danger))); }
+
+.dep-group__header svg {
+	width: 16px;
+	height: 16px;
+	flex-shrink: 0;
+}
+
+.dep-group__tag {
+	margin-left: auto;
+	font-size: 10.5px;
+	font-weight: 700;
+	padding: 2px var(--sp-8);
+	border-radius: var(--radius-pill);
+	background: rgba(255, 255, 255, 0.22);
+}
+
+.dep-group__body {
+	padding: var(--sp-24) var(--sp-16);
+	display: grid;
+	grid-template-columns: auto 40px minmax(0, 1fr);
+	grid-template-rows: auto 40px auto auto;
+	align-items: center;
+	justify-items: start;
+}
+
+.gp-page { grid-column: 1; grid-row: 1; }
+.gp-arrow-right { grid-column: 2; grid-row: 1; justify-self: center; }
+.gp-shared { grid-column: 3; grid-row: 1; }
+.gp-arrow-down { grid-column: 1; grid-row: 2; justify-self: center; }
+.gp-own { grid-column: 1; grid-row: 3; display: flex; flex-direction: column; gap: var(--sp-8); align-items: flex-start; }
+.gp-arrow-right2 { grid-column: 2; grid-row: 3; justify-self: center; }
+.gp-branch { grid-column: 3; grid-row: 3; }
+.gp-js { grid-column: 1 / -1; grid-row: 4; }
+
+/* ---- 화살표 커넥터 ---- */
+
+.dep-arrow {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--border-strong);
+}
+
+.dep-arrow svg {
+	width: 22px;
+	height: 22px;
+	flex-shrink: 0;
+}
+
+.dep-arrow--vertical svg {
+	width: 18px;
+	height: 18px;
+}
+
+.dep-arrow__label {
+	position: absolute;
+	font-size: 9.5px;
+	font-weight: 700;
+	color: var(--text-muted);
+	white-space: nowrap;
+	background: var(--surface);
+	padding: 0 var(--sp-4);
+}
+
+.dep-arrow {
+	position: relative;
+}
+
+.dep-arrow--right .dep-arrow__label { top: -14px; }
+.dep-arrow--down .dep-arrow__label { left: 26px; top: 50%; transform: translateY(-50%); }
+
+/* ---------------------------------------------------------------------- */
+/* 박스 (공통 조각)                                                        */
+/* ---------------------------------------------------------------------- */
+
+.dep-box {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--sp-8);
+	padding: var(--sp-8) var(--sp-12);
+	border-radius: var(--radius-md);
+	border: 1.5px solid var(--border-subtle);
+	background: var(--surface);
+	font-family: "SFMono-Regular", "Consolas", "Menlo", monospace;
+	font-size: 12px;
+	font-weight: 700;
+	white-space: nowrap;
+}
+
+.dep-box svg {
+	width: 15px;
+	height: 15px;
+	flex-shrink: 0;
+}
+
+.dep-box--page {
+	flex-direction: column;
+	align-items: center;
+	gap: var(--sp-4);
+	padding: var(--sp-12);
+	border-color: var(--border-strong);
+	background: var(--surface-sunken);
+	white-space: normal;
+	text-align: center;
+	width: 118px;
+}
+
+.dep-box--page svg {
+	width: 22px;
+	height: 22px;
+}
+
+.dep-stack {
+	display: flex;
+	flex-direction: column;
+	gap: var(--sp-12);
+}
+
+/* "로드" 1차 정보 — tokens/base/components 3종이 상세 항목 없이 바로 붙어
+   한눈에 스캔되도록 가로로 묶는다 */
+.dep-shared-top {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--sp-8);
+}
+
+/* "내부 구성" 2차 정보 — 1차 클러스터와 점선으로 분리된 보조 상세 영역.
+   왼쪽 세로 가이드라인 + padding-left로 "위 3종의 하위"라는 걸 위치로도 보여준다
+   (트리 뷰의 들여쓰기 표현과 동일한 원리) */
+.dep-shared-detail {
+	margin-left: var(--sp-8);
+	padding-top: var(--sp-12);
+	padding-left: var(--sp-16);
+	border-top: 1px dashed var(--border-subtle);
+	border-left: 2px solid var(--border-subtle);
+	display: flex;
+	flex-direction: column;
+	gap: var(--sp-8);
+}
+
+/* 내부 항목 칩들을 세로로 쌓지 않고 가로로 wrap해 세로 길이를 줄인다 */
+.dep-mini-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--sp-4);
+}
+
+.dep-box--shared {
+	border-color: color-mix(in srgb, var(--success) 45%, var(--border-subtle));
+	color: var(--success);
+}
+
+.dep-box--shared svg { color: var(--success); }
+
+.dep-group--a .dep-box--own { border-color: var(--accent); color: var(--accent-strong); }
+.dep-group--a .dep-box--own svg { color: var(--accent); }
+
+.dep-group--b .dep-box--own { border-color: var(--warning); color: color-mix(in srgb, var(--warning) 70%, var(--text-primary)); }
+.dep-group--b .dep-box--own svg { color: var(--warning); }
+
+.dep-branch-stack {
+	display: flex;
+	flex-direction: column;
+	gap: var(--sp-6, 6px);
+}
+
+/* 공유 파일(dep-box--shared) 내부 블록 — 같은 success 톤을 쓰되 살짝 작게 만들어
+   "상세"임을 표시한다. .dep-mini-row 안에서 가로로 wrap된다 */
+.dep-box--block {
+	font-size: 11px;
+	font-weight: 600;
+	padding: var(--sp-4) var(--sp-8);
+	border-color: color-mix(in srgb, var(--success) 30%, var(--border-subtle));
+	color: var(--success);
+	background: color-mix(in srgb, var(--success) 6%, var(--surface));
+}
+
+.dep-box--block svg { color: var(--success); opacity: 0.7; }
+
+.dep-stack__divider {
+	margin: 0;
+	font-size: 10px;
+	font-weight: 700;
+	color: var(--text-muted);
+}
+
+/* layout-vrt-console.css 내부에 실제로 들어있는 하위 클래스 — group B 톤(warning) 재사용 */
+.dep-box--sub {
+	font-size: 11px;
+	font-weight: 600;
+	padding: var(--sp-4) var(--sp-8);
+	border-color: color-mix(in srgb, var(--warning) 45%, var(--border-subtle));
+	color: color-mix(in srgb, var(--warning) 70%, var(--text-primary));
+	background: color-mix(in srgb, var(--warning) 8%, var(--surface));
+}
+
+.dep-box--sub svg { color: var(--warning); }
+
+.dep-box__note {
+	margin-top: var(--sp-4);
+	font-size: 10px;
+	color: var(--text-muted);
+}
+
+/* 실제로 존재하지 않는 예시용 항목 — 점선 테두리 + 무채색으로 "검증 안 됨"을 명시 */
+.dep-box--mock {
+	border-style: dashed;
+	border-color: var(--border-strong);
+	color: var(--text-muted);
+	background: transparent;
+}
+
+.dep-box--mock svg {
+	color: var(--text-muted);
+	opacity: 0.6;
+}
+
+/* 전용 CSS 목록 안에서 mock 항목은 실제 파일보다 한 단계 들여써서
+   "실제 항목에 딸린 부수적인 제안"이라는 위계를 위치로도 드러낸다 */
+.gp-own .dep-box--mock {
+	margin-left: var(--sp-20);
+}
+
+/* ---------------------------------------------------------------------- */
+/* JS 의존성 행 — CSS 그리드 아래 가로 스트립                              */
+/* ---------------------------------------------------------------------- */
+
+.dep-js-row {
+	margin-top: var(--sp-20);
+	padding-top: var(--sp-16);
+	border-top: 1px dashed var(--border-subtle);
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: var(--sp-8);
+}
+
+.dep-js-row__label {
+	font-size: 10px;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--text-muted);
+	margin-right: var(--sp-4);
+}
+
+.dep-js-row__sub {
+	font-size: 10px;
+	font-weight: 700;
+	color: var(--text-muted);
+	margin-left: var(--sp-8);
+}
+
+.dep-js-row .dep-box {
+	font-size: 11px;
+	padding: var(--sp-4) var(--sp-8);
+}
+
+/* ---------------------------------------------------------------------- */
+/* 나머지 페이지 — 압축 목록                                               */
+/* ---------------------------------------------------------------------- */
+
+.pattern-lists {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--sp-16);
+	margin-top: var(--sp-16);
+}
+
+.pattern-list {
+	border: 1px solid var(--border-subtle);
+	border-radius: var(--radius-md);
+	padding: var(--sp-12) var(--sp-16);
+}
+
+.pattern-list__head {
+	display: flex;
+	align-items: center;
+	gap: var(--sp-8);
+	font-size: 11.5px;
+	font-weight: 700;
+	color: var(--text-muted);
+	margin-bottom: var(--sp-8);
+}
+
+.pattern-list__head .legend-dot {
+	width: 7px;
+	height: 7px;
+}
+
+.pattern-list__items {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--sp-6, 6px);
+}
+
+.pattern-pill {
+	font-family: "SFMono-Regular", "Consolas", "Menlo", monospace;
+	font-size: 11px;
+	padding: var(--sp-4) var(--sp-8);
+	border-radius: var(--radius-sm);
+	background: var(--surface-sunken);
+	color: var(--text-secondary);
+}
+
+/* ---------------------------------------------------------------------- */
+/* 하단 노트                                                               */
+/* ---------------------------------------------------------------------- */
+
+.diagram-note {
+	text-align: center;
+	font-size: 11.5px;
+	color: var(--text-muted);
+	margin-top: var(--sp-24);
+	line-height: 1.7;
+}
+
+.diagram-note a {
+	color: var(--accent-strong);
+	font-weight: 600;
+}
+
+/* ---------------------------------------------------------------------- */
+/* 반응형                                                                  */
+/* ---------------------------------------------------------------------- */
+
+@media (max-width: 900px) {
+	.dep-groups,
+	.pattern-lists {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+@media (max-width: 560px) {
+	.dep-group__body {
+		grid-template-columns: 1fr;
+		grid-template-rows: none;
+		justify-items: stretch;
+		gap: var(--sp-8);
+	}
+
+	.gp-page,
+	.gp-arrow-right,
+	.gp-shared,
+	.gp-arrow-down,
+	.gp-own,
+	.gp-arrow-right2,
+	.gp-branch,
+	.gp-js {
+		grid-column: 1;
+		grid-row: auto;
+		justify-self: stretch;
+	}
+
+	.dep-box--page {
+		width: 100%;
+		flex-direction: row;
+	}
+
+	/* 가로 화살표(→)만 세로 흐름에 맞춰 아래쪽(↓)으로 회전. 세로 화살표는 이미 아래를 향하므로 그대로 둔다. */
+	.dep-arrow--right svg {
+		transform: rotate(90deg);
+	}
+
+	.dep-arrow--right .dep-arrow__label,
+	.dep-arrow--down .dep-arrow__label {
+		position: static;
+		transform: none;
+		background: transparent;
+	}
+
+	/* .dep-stack 자체는 top/detail을 세로로 쌓는 바깥 컨테이너라 row로 바꾸지 않는다.
+	   실제 칩 나열은 .dep-shared-top/.dep-mini-row가 이미 항상 row-wrap이라 그대로 둔다. */
+	.dep-branch-stack {
+		flex-direction: row;
+		flex-wrap: wrap;
+	}
+}

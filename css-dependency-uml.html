@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>CSS 의존성 — UML 클래스 다이어그램</title>
+	<script>
+		(function () {
+			try {
+				var saved = localStorage.getItem("dashboard-theme");
+				var theme = saved || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+				document.documentElement.setAttribute("data-theme", theme);
+			} catch (e) {
+				document.documentElement.setAttribute("data-theme", "light");
+			}
+		})();
+	</script>
+	<link rel="stylesheet" href="assets/css/tokens.css" />
+	<link rel="stylesheet" href="assets/css/base.css" />
+	<link rel="stylesheet" href="assets/css/components.css" />
+	<link rel="stylesheet" href="assets/css/layout-diagram-uml.css" />
+</head>
+<body>
+	<div class="uml-page">
+
+		<header class="uml-topbar">
+			<span class="uml-topbar__title">architecture · css-dependency (UML)</span>
+			<div class="uml-topbar__actions">
+				<button class="theme-toggle" data-theme-toggle aria-label="테마 전환">
+					<svg class="icon-glyph icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+						<path d="M21 12.5A8.5 8.5 0 0111.5 3 8.5 8.5 0 1021 12.5z" stroke-linejoin="round" />
+					</svg>
+					<svg class="icon-glyph icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+						<circle cx="12" cy="12" r="4.5" />
+						<path d="M12 2.5v2M12 19.5v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2.5 12h2M19.5 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" stroke-linecap="round" />
+					</svg>
+				</button>
+				<a class="btn btn--sm btn--ghost" href="css-dependency.html">플로차트 버전 →</a>
+				<a class="btn btn--sm btn--ghost" href="css-dependency-svg.html">SVG 버전 →</a>
+				<a class="btn btn--sm btn--ghost" href="index.html">← 갤러리로</a>
+			</div>
+		</header>
+
+		<main class="uml-shell">
+
+			<section class="uml-hero">
+				<div class="uml-hero__emoji">📐</div>
+				<h1>CSS 의존성 — UML 클래스 다이어그램</h1>
+				<p class="uml-hero__sub">같은 데이터를 UML 표기로. 각 HTML/CSS 파일 = 클래스, 점선 화살표 = 의존성(Dependency)</p>
+			</section>
+
+			<div class="uml-legend">
+				<span><b>«stereotype»</b> = 파일 종류(page/stylesheet)</span>
+				<span class="uml-legend__dep">
+					<svg viewBox="0 0 40 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M0 7h30" stroke-dasharray="3 3" /><path d="M30 2l7 5-7 5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+					= 의존성(«import»)
+				</span>
+				<span>속성 구획 = 그 파일이 실제로 갖는 하위 항목(선택자·참조 파일)</span>
+			</div>
+
+			<!-- ================= 파운데이션 클래스 ================= -->
+			<section class="uml-section">
+				<p class="uml-section__title">Foundation Classes</p>
+				<div class="uml-foundation-row">
+
+					<div class="uml-class uml-class--foundation">
+						<div class="uml-class__head">
+							<span class="uml-class__stereotype">«stylesheet»</span>
+							<span class="uml-class__name">tokens.css</span>
+						</div>
+						<ul class="uml-class__attrs uml-class__attrs--empty"><li>(색상 · 간격 · 타이포 변수)</li></ul>
+						<div class="uml-class__methods"></div>
+					</div>
+
+					<div class="uml-class uml-class--foundation">
+						<div class="uml-class__head">
+							<span class="uml-class__stereotype">«stylesheet»</span>
+							<span class="uml-class__name">base.css</span>
+						</div>
+						<ul class="uml-class__attrs uml-class__attrs--empty"><li>(리셋 · 접근성 기본값)</li></ul>
+						<div class="uml-class__methods"></div>
+					</div>
+
+					<div class="uml-class uml-class--foundation">
+						<div class="uml-class__head">
+							<span class="uml-class__stereotype">«stylesheet»</span>
+							<span class="uml-class__name">components.css</span>
+						</div>
+						<ul class="uml-class__attrs">
+							<li>- Card / Panel</li>
+							<li>- Skeleton</li>
+							<li>- Nav Item</li>
+							<li>- Button</li>
+							<li>- Chip / Badge</li>
+							<li>- Avatar</li>
+							<li>- Search Field</li>
+							<li>- Theme Toggle</li>
+							<li>- Date Picker</li>
+							<li>- KPI 블록</li>
+						</ul>
+						<div class="uml-class__methods"></div>
+					</div>
+
+				</div>
+			</section>
+
+			<!-- ================= 페이지 클래스 × 9 ================= -->
+			<section class="uml-section">
+				<p class="uml-section__title">Page Classes → Own Stylesheet (1:1 Dependency)</p>
+				<div class="uml-rows">
+
+					<!-- index.html -->
+					<div class="uml-row">
+						<div class="uml-class uml-class--page">
+							<div class="uml-class__head"><span class="uml-class__stereotype">«page»</span><span class="uml-class__name">index.html</span></div>
+							<ul class="uml-class__attrs">
+								<li>- tokens.css</li>
+								<li>- base.css</li>
+								<li>- components.css</li>
+								<li class="uml-attr--own">- launcher.css</li>
+							</ul>
+							<div class="uml-class__methods"></div>
+						</div>
+						<div class="uml-dep">
+							<span class="uml-dep__label">«import»</span>
+							<div class="uml-dep__line">
+								<span class="uml-dep__dash"></span>
+								<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 2l6 6-6 6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+							</div>
+						</div>
+						<div class="uml-class uml-class--own">
+							<div class="uml-class__head"><span class="uml-class__stereotype">«stylesheet»</span><span class="uml-class__name">launcher.css</span></div>
+							<ul class="uml-class__attrs uml-class__attrs--empty"><li>(런처 갤러리 카드 스타일)</li></ul>
+							<div class="uml-class__methods"></div>
+						</div>
+					</div>
+
+					<!-- classic.html -->
+					<div class="uml-row">
+						<div class="uml-class uml-class--page">
+							<div class="uml-class__head"><span class="uml-class__stereotype">«page»</span><span class="uml-class__name">classic.html</span></div>
+							<ul class="uml-class__attrs">
+								<li>- tokens.css</li>
+								<li>- base.css</li>
+								<li>- components.css</li>
+								<li class="uml-attr--own">- layout-classic.css</li>
+							</ul>
+							<div class="uml-class__methods"></div>
+						</div>
+						<div class="uml-dep">
+							<span class="uml-dep__label">«import»</span>
+							<div class="uml-dep__line">
+								<span class="uml-dep__dash"></span>
+								<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 2l6 6-6 6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+							</div>
+						</div>
+						<div class="uml-class uml-class--own">
+							<div class="uml-class__head"><span class="uml-class__stereotype">«stylesheet»</span><span class="uml-class__name">layout-classic.css</span></div>
+							<ul class="uml-class__attrs uml-class__attrs--empty"><li>(클래식 사이드바 레이아웃)</li></ul>
+							<div class="uml-class__methods"></div>
+						</div>
+					</div>
+
+					<!-- bento.html -->
+					<div class="uml-row">
+						<div class="uml-class uml-class--page">
+							<div class="uml-class__head"><span class="uml-class__stereotype">«page»</span><span class="uml-class__name">bento.html</span></div>
+							<ul class="uml-class__attrs">
+								<li>- tokens.css</li>
+								<li>- base.css</li>
+								<li>- components.css</li>
+								<li class="uml-attr--own">- layout-bento.css</li>
+							</ul>
+							<div class="uml-class__methods"></div>
+						</div>
+						<div class="uml-dep">
+							<span class="uml-dep__label">«import»</span>
+							<div class="uml-dep__line">
+								<span class="uml-dep__dash"></span>
+								<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 2l6 6-6 6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+							</div>
+						</div>
+						<div class="uml-class uml-class--own">
+							<div class="uml-class__head"><span class="uml-class__stereotype">«stylesheet»</span><span class="uml-class__name">layout-bento.css</span></div>
+							<ul class="uml-class__attrs uml-class__attrs--empty"><li>(벤토 그리드 레이아웃)</li></ul>
+							<div class="uml-class__methods"></div>
+						</div>
+					</div>
+
+					<!-- analytics.html -->
+					<div class="uml-row">
+						<div class="uml-class uml-class--page">
+							<div class="uml-class__head"><span class="uml-class__stereotype">«page»</span><span class="uml-class__name">analytics.html</span></div>
+							<ul class="uml-class__attrs">
+								<li>- tokens.css</li>
+								<li>- base.css</li>
+								<li>- components.css</li>
+								<li class="uml-attr--own">- layout-analytics.css</li>
+							</ul>
+							<div class="uml-class__methods"></div>
+						</div>
+						<div class="uml-dep">
+							<span class="uml-dep__label">«import»</span>
+							<div class="uml-dep__line">
+								<span class="uml-dep__dash"></span>
+								<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 2l6 6-6 6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+							</div>
+						</div>
+						<div class="uml-class uml-class--own">
+							<div class="uml-class__head"><span class="uml-class__stereotype">«stylesheet»</span><span class="uml-class__name">layout-analytics.css</span></div>
+							<ul class="uml-class__attrs uml-class__attrs--empty"><li>(멀티패널 분석 레이아웃)</li></ul>
+							<div class="uml-class__methods"></div>
+						</div>
+					</div>
+
+					<!-- guide.html -->
+					<div class="uml-row">
+						<div class="uml-class uml-class--page">
+							<div class="uml-class__head"><span class="uml-class__stereotype">«page»</span><span class="uml-class__name">guide.html</span></div>
+							<ul class="uml-class__attrs">
+								<li>- tokens.css</li>
+								<li>- base.css</li>
+								<li>- components.css</li>
+								<li class="uml-attr--own">- layout-guide.css</li>
+							</ul>
+							<div class="uml-class__methods"></div>
+						</div>
+						<div class="uml-dep">
+							<span class="uml-dep__label">«import»</span>
+							<div class="uml-dep__line">
+								<span class="uml-dep__dash"></span>
+								<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 2l6 6-6 6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+							</div>
+						</div>
+						<div class="uml-class uml-class--own">
+							<div class="uml-class__head"><span class="uml-class__stereotype">«stylesheet»</span><span class="uml-class__name">layout-guide.css</span></div>
+							<ul class="uml-class__attrs uml-class__attrs--empty"><li>(컴포넌트 가이드 문서 셸)</li></ul>
+							<div class="uml-class__methods"></div>
+						</div>
+					</div>
+
+					<!-- css-dependency.html -->
+					<div class="uml-row">
+						<div class="uml-class uml-class--page">
+							<div class="uml-class__head"><span class="uml-class__stereotype">«page»</span><span class="uml-class__name">css-dependency.html</span></div>
+							<ul class="uml-class__attrs">
+								<li>- tokens.css</li>
+								<li>- base.css</li>
+								<li>- components.css</li>
+								<li class="uml-attr--own">- layout-diagram.css</li>
+							</ul>
+							<div class="uml-class__methods"></div>
+						</div>
+						<div class="uml-dep">
+							<span class="uml-dep__label">«import»</span>
+							<div class="uml-dep__line">
+								<span class="uml-dep__dash"></span>
+								<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 2l6 6-6 6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+							</div>
+						</div>
+						<div class="uml-class uml-class--own">
+							<div class="uml-class__head"><span class="uml-class__stereotype">«stylesheet»</span><span class="uml-class__name">layout-diagram.css</span></div>
+							<ul class="uml-class__attrs uml-class__attrs--empty"><li>(플로차트형 의존성 다이어그램)</li></ul>
+							<div class="uml-class__methods"></div>
+						</div>
+					</div>
+
+					<!-- css-dependency-uml.html (self) -->
+					<div class="uml-row">
+						<div class="uml-class uml-class--page">
+							<div class="uml-class__head"><span class="uml-class__stereotype">«page»</span><span class="uml-class__name">css-dependency-uml.html</span></div>
+							<ul class="uml-class__attrs">
+								<li>- tokens.css</li>
+								<li>- base.css</li>
+								<li>- components.css</li>
+								<li class="uml-attr--own">- layout-diagram-uml.css</li>
+							</ul>
+							<div class="uml-class__methods"></div>
+						</div>
+						<div class="uml-dep">
+							<span class="uml-dep__label">«import»</span>
+							<div class="uml-dep__line">
+								<span class="uml-dep__dash"></span>
+								<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 2l6 6-6 6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+							</div>
+						</div>
+						<div class="uml-class uml-class--own">
+							<div class="uml-class__head"><span class="uml-class__stereotype">«stylesheet»</span><span class="uml-class__name">layout-diagram-uml.css</span></div>
+							<ul class="uml-class__attrs uml-class__attrs--empty"><li>(지금 이 페이지 = 자기 참조)</li></ul>
+							<div class="uml-class__methods"></div>
+						</div>
+					</div>
+
+					<!-- css-dependency-svg.html -->
+					<div class="uml-row">
+						<div class="uml-class uml-class--page">
+							<div class="uml-class__head"><span class="uml-class__stereotype">«page»</span><span class="uml-class__name">css-dependency-svg.html</span></div>
+							<ul class="uml-class__attrs">
+								<li>- tokens.css</li>
+								<li>- base.css</li>
+								<li>- components.css</li>
+								<li class="uml-attr--own">- layout-diagram-svg.css</li>
+							</ul>
+							<div class="uml-class__methods"></div>
+						</div>
+						<div class="uml-dep">
+							<span class="uml-dep__label">«import»</span>
+							<div class="uml-dep__line">
+								<span class="uml-dep__dash"></span>
+								<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 2l6 6-6 6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+							</div>
+						</div>
+						<div class="uml-class uml-class--own">
+							<div class="uml-class__head"><span class="uml-class__stereotype">«stylesheet»</span><span class="uml-class__name">layout-diagram-svg.css</span></div>
+							<ul class="uml-class__attrs uml-class__attrs--empty"><li>(순수 SVG 캔버스 다이어그램)</li></ul>
+							<div class="uml-class__methods"></div>
+						</div>
+					</div>
+
+					<!-- vrt-console.html -->
+					<div class="uml-row">
+						<div class="uml-class uml-class--page">
+							<div class="uml-class__head"><span class="uml-class__stereotype">«page»</span><span class="uml-class__name">vrt-console.html</span></div>
+							<ul class="uml-class__attrs">
+								<li>- tokens.css</li>
+								<li>- base.css</li>
+								<li>- components.css</li>
+								<li class="uml-attr--own-warn">- layout-vrt-console.css</li>
+							</ul>
+							<div class="uml-class__methods"></div>
+						</div>
+						<div class="uml-dep">
+							<span class="uml-dep__label">«import»</span>
+							<div class="uml-dep__line">
+								<span class="uml-dep__dash"></span>
+								<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 2l6 6-6 6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+							</div>
+						</div>
+						<div class="uml-class uml-class--own-warn">
+							<div class="uml-class__head"><span class="uml-class__stereotype">«stylesheet»</span><span class="uml-class__name">layout-vrt-console.css</span></div>
+							<ul class="uml-class__attrs">
+								<li>- .compose-form</li>
+								<li>- .form-field</li>
+								<li>- .form-input</li>
+								<li>- .form-textarea</li>
+								<li>- .history-table</li>
+							</ul>
+							<div class="uml-class__methods"></div>
+						</div>
+					</div>
+
+					<!-- vrt-dashboard.html -->
+					<div class="uml-row">
+						<div class="uml-class uml-class--page">
+							<div class="uml-class__head"><span class="uml-class__stereotype">«page»</span><span class="uml-class__name">vrt-dashboard.html</span></div>
+							<ul class="uml-class__attrs">
+								<li>- tokens.css</li>
+								<li>- base.css</li>
+								<li>- components.css</li>
+								<li class="uml-attr--own-warn">- layout-vrt-dashboard.css</li>
+							</ul>
+							<div class="uml-class__methods"></div>
+						</div>
+						<div class="uml-dep">
+							<span class="uml-dep__label">«import»</span>
+							<div class="uml-dep__line">
+								<span class="uml-dep__dash"></span>
+								<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 2l6 6-6 6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+							</div>
+						</div>
+						<div class="uml-class uml-class--own-warn">
+							<div class="uml-class__head"><span class="uml-class__stereotype">«stylesheet»</span><span class="uml-class__name">layout-vrt-dashboard.css</span></div>
+							<ul class="uml-class__attrs">
+								<li>- .compose-form</li>
+								<li>- .form-field</li>
+								<li>- .form-input</li>
+								<li>- .form-textarea</li>
+								<li>- .history-table</li>
+							</ul>
+							<div class="uml-class__methods"></div>
+						</div>
+					</div>
+
+					<!-- vrt-gallery.html -->
+					<div class="uml-row">
+						<div class="uml-class uml-class--page">
+							<div class="uml-class__head"><span class="uml-class__stereotype">«page»</span><span class="uml-class__name">vrt-gallery.html</span></div>
+							<ul class="uml-class__attrs">
+								<li>- tokens.css</li>
+								<li>- base.css</li>
+								<li>- components.css</li>
+								<li class="uml-attr--own-warn">- layout-vrt-gallery.css</li>
+							</ul>
+							<div class="uml-class__methods"></div>
+						</div>
+						<div class="uml-dep">
+							<span class="uml-dep__label">«import»</span>
+							<div class="uml-dep__line">
+								<span class="uml-dep__dash"></span>
+								<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 2l6 6-6 6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+							</div>
+						</div>
+						<div class="uml-class uml-class--own-warn">
+							<div class="uml-class__head"><span class="uml-class__stereotype">«stylesheet»</span><span class="uml-class__name">layout-vrt-gallery.css</span></div>
+							<ul class="uml-class__attrs">
+								<li>- .compose-form</li>
+								<li>- .form-field</li>
+								<li>- .form-input</li>
+								<li>- .form-textarea</li>
+								<li>- .history-table</li>
+							</ul>
+							<div class="uml-class__methods"></div>
+						</div>
+					</div>
+
+				</div>
+			</section>
+
+			<p class="uml-note">
+				↑ 마지막 세 클래스(<code>layout-vrt-*.css</code>)의 속성 목록을 나란히 비교하면, 화살표 없이도 같은 5개 항목이
+				세 곳에 독립적으로 존재한다는 걸 알 수 있습니다 — <a href="templates/component-guide-sync/README.md">component-guide-sync</a>가
+				감시 대상으로 삼을 만한 지점입니다.
+			</p>
+
+		</main>
+	</div>
+
+	<script src="assets/js/theme.js"></script>
+</body>
+</html>

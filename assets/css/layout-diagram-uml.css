@@ -1,0 +1,310 @@
+/* ==========================================================================
+   CSS 의존성 — UML 클래스 다이어그램 스타일
+   css-dependency.html(컬러풀한 플로차트)과는 완전히 다른 스타일 언어를 쓰므로
+   layout-diagram.css를 공유하지 않고 이 파일에서 전부 정의한다.
+   실제 UML 클래스 다이어그램 표기를 따른다:
+   - 클래스 박스 = «스테레오타입» + 이름 + 속성 구획 + (빈) 메서드 구획
+   - 점선 + 열린 화살표 + «import» = 의존성(Dependency) 관계
+   새 색상을 발명하지 않고 tokens.css 시맨틱 토큰만 쓴다. UML 특유의 절제된
+   흑백 톤을 유지하기 위해 박스 배경은 거의 항상 --surface, 색은 상단 강조선과
+   화살표에만 최소로 사용한다.
+   ========================================================================== */
+
+.uml-page {
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+/* ---------------------------------------------------------------------- */
+/* 톱바                                                                    */
+/* ---------------------------------------------------------------------- */
+
+.uml-topbar {
+	position: sticky;
+	top: 0;
+	z-index: 20;
+	display: flex;
+	align-items: center;
+	gap: var(--sp-12);
+	height: 56px;
+	padding: 0 var(--sp-24);
+	background: var(--bg);
+	background: color-mix(in srgb, var(--bg) 82%, transparent);
+	-webkit-backdrop-filter: blur(12px);
+	backdrop-filter: blur(12px);
+	border-bottom: 1px solid var(--border-subtle);
+}
+
+.uml-topbar__title {
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--text-secondary);
+}
+
+.uml-topbar__actions {
+	margin-left: auto;
+	display: flex;
+	align-items: center;
+	gap: var(--sp-8);
+}
+
+/* ---------------------------------------------------------------------- */
+/* 셸 · 히어로 · 범례                                                      */
+/* ---------------------------------------------------------------------- */
+
+.uml-shell {
+	width: 100%;
+	max-width: 980px;
+	margin: 0 auto;
+	padding: var(--sp-24) var(--sp-24) var(--sp-64);
+}
+
+.uml-hero {
+	text-align: center;
+	margin-bottom: var(--sp-8);
+}
+
+.uml-hero__emoji {
+	font-size: 26px;
+	line-height: 1;
+	margin-bottom: var(--sp-8);
+}
+
+.uml-hero h1 {
+	font-size: 22px;
+	font-weight: 700;
+	letter-spacing: -0.02em;
+	margin: 0 0 var(--sp-4);
+}
+
+.uml-hero__sub {
+	font-size: 12.5px;
+	color: var(--text-muted);
+	margin: 0;
+}
+
+.uml-legend {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: var(--sp-16);
+	margin: var(--sp-16) 0 var(--sp-32);
+	padding: var(--sp-8) var(--sp-16);
+	border: 1px solid var(--border-subtle);
+	border-radius: var(--radius-md);
+	background: var(--surface);
+	font-size: 11.5px;
+	color: var(--text-secondary);
+}
+
+.uml-legend b {
+	font-family: "SFMono-Regular", "Consolas", "Menlo", monospace;
+	color: var(--text-primary);
+}
+
+.uml-legend__dep {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--sp-4);
+}
+
+.uml-legend__dep svg {
+	width: 26px;
+	height: 10px;
+}
+
+/* ---------------------------------------------------------------------- */
+/* 섹션                                                                    */
+/* ---------------------------------------------------------------------- */
+
+.uml-section {
+	margin-bottom: var(--sp-32);
+}
+
+.uml-section__title {
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--text-muted);
+	margin: 0 0 var(--sp-16);
+	padding-bottom: var(--sp-8);
+	border-bottom: 1px solid var(--border-subtle);
+}
+
+.uml-foundation-row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	gap: var(--sp-20);
+}
+
+.uml-rows {
+	display: flex;
+	flex-direction: column;
+	gap: var(--sp-20);
+}
+
+.uml-row {
+	display: flex;
+	align-items: center;
+	gap: var(--sp-12);
+}
+
+/* ---------------------------------------------------------------------- */
+/* 클래스 박스                                                             */
+/* ---------------------------------------------------------------------- */
+
+.uml-class {
+	flex-shrink: 0;
+	width: 236px;
+	border: 1.5px solid var(--border-strong);
+	border-top-width: 3px;
+	background: var(--surface);
+	box-shadow: var(--shadow-sm);
+	font-size: 12px;
+}
+
+.uml-class--page { border-top-color: var(--text-muted); }
+.uml-class--foundation { border-top-color: var(--success); width: auto; min-width: 200px; }
+.uml-class--own { border-top-color: var(--accent); }
+.uml-class--own-warn { border-top-color: var(--warning); }
+
+.uml-class__head {
+	text-align: center;
+	padding: var(--sp-8) var(--sp-12);
+	border-bottom: 1px solid var(--border-subtle);
+}
+
+.uml-class__stereotype {
+	display: block;
+	font-size: 10px;
+	font-style: italic;
+	color: var(--text-muted);
+	margin-bottom: 2px;
+}
+
+.uml-class__name {
+	display: block;
+	font-family: "SFMono-Regular", "Consolas", "Menlo", monospace;
+	font-size: 12.5px;
+	font-weight: 700;
+	color: var(--text-primary);
+	word-break: break-all;
+}
+
+.uml-class__attrs {
+	list-style: none;
+	margin: 0;
+	padding: var(--sp-8) var(--sp-12);
+	border-bottom: 1px solid var(--border-subtle);
+	font-family: "SFMono-Regular", "Consolas", "Menlo", monospace;
+	font-size: 11px;
+	line-height: 1.8;
+	color: var(--text-secondary);
+	min-height: 20px;
+}
+
+.uml-class__attrs--empty {
+	color: var(--text-muted);
+	font-style: italic;
+	text-align: center;
+}
+
+.uml-attr--own {
+	color: var(--accent-strong);
+	font-weight: 700;
+}
+
+.uml-attr--own-warn {
+	color: color-mix(in srgb, var(--warning) 75%, var(--text-primary));
+	font-weight: 700;
+}
+
+.uml-class__methods {
+	height: 18px;
+	padding: 0 var(--sp-12);
+}
+
+/* ---------------------------------------------------------------------- */
+/* 의존성 화살표 (점선 + 열린 화살표 + «import»)                           */
+/* ---------------------------------------------------------------------- */
+
+.uml-dep {
+	flex: 1;
+	min-width: 56px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 2px;
+	color: var(--border-strong);
+}
+
+.uml-dep__label {
+	font-size: 9.5px;
+	font-style: italic;
+	color: var(--text-muted);
+	white-space: nowrap;
+}
+
+.uml-dep__line {
+	width: 100%;
+	display: flex;
+	align-items: center;
+}
+
+.uml-dep__dash {
+	flex: 1;
+	border-top: 1.5px dashed var(--border-strong);
+}
+
+.uml-dep__line svg {
+	width: 14px;
+	height: 14px;
+	flex-shrink: 0;
+	margin-left: -1px;
+}
+
+.uml-note {
+	font-size: 12.5px;
+	line-height: 1.7;
+	color: var(--text-secondary);
+	text-align: center;
+	max-width: 68ch;
+	margin: var(--sp-8) auto 0;
+}
+
+.uml-note a {
+	color: var(--accent-strong);
+	font-weight: 600;
+}
+
+/* ---------------------------------------------------------------------- */
+/* 반응형                                                                  */
+/* ---------------------------------------------------------------------- */
+
+@media (max-width: 620px) {
+	.uml-row {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	.uml-class {
+		width: 100%;
+	}
+
+	.uml-dep {
+		flex-direction: row;
+		min-width: 0;
+		padding: var(--sp-4) 0;
+	}
+
+	.uml-dep__label {
+		flex-shrink: 0;
+	}
+
+	.uml-dep__line svg {
+		transform: rotate(90deg);
+	}
+}
