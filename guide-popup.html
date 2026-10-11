@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Layer Popup · 컴포넌트 가이드</title>
+	<script>
+		(function () {
+			try {
+				var saved = localStorage.getItem("dashboard-theme");
+				var theme = saved || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+				document.documentElement.setAttribute("data-theme", theme);
+			} catch (e) {
+				document.documentElement.setAttribute("data-theme", "light");
+			}
+		})();
+	</script>
+	<link rel="stylesheet" href="assets/css/tokens.css" />
+	<link rel="stylesheet" href="assets/css/base.css" />
+	<link rel="stylesheet" href="assets/css/components.css" />
+	<link rel="stylesheet" href="assets/css/layout-guide.css" />
+	<link rel="stylesheet" href="assets/css/popup.css" />
+</head>
+<body>
+	<div class="guide-shell">
+
+		<!-- ================= 좌측 내비 ================= -->
+		<aside class="guide-sidebar">
+			<a class="guide-brand" href="index.html">
+				<span class="guide-brand__mark"></span>
+				<span class="guide-brand__text">
+					<b>Design System</b>
+					<small>퍼블리싱 컴포넌트 가이드</small>
+				</span>
+			</a>
+
+			<div class="guide-nav-scroll scroll-region">
+				<p class="guide-nav__group">Foundations</p>
+				<nav>
+					<span class="guide-nav__item is-todo">색상 <span class="guide-nav__flag">준비중</span></span>
+					<span class="guide-nav__item is-todo">타이포그래피 <span class="guide-nav__flag">준비중</span></span>
+					<span class="guide-nav__item is-todo">간격 <span class="guide-nav__flag">준비중</span></span>
+				</nav>
+
+				<p class="guide-nav__group">Components</p>
+				<nav>
+					<a class="guide-nav__item" href="guide.html">
+						Button
+						<span class="guide-nav__flag">Stable</span>
+					</a>
+					<a class="guide-nav__item is-current" href="guide-popup.html">
+						Layer Popup
+						<span class="guide-nav__flag">Stable</span>
+					</a>
+					<span class="guide-nav__item is-todo">Form <span class="guide-nav__flag">준비중</span></span>
+					<span class="guide-nav__item is-todo">Table <span class="guide-nav__flag">준비중</span></span>
+					<span class="guide-nav__item is-todo">Chip <span class="guide-nav__flag">준비중</span></span>
+				</nav>
+			</div>
+		</aside>
+
+		<!-- ================= 본문 ================= -->
+		<div class="guide-main">
+
+			<header class="guide-topbar" data-topbar>
+				<div class="guide-crumb">
+					<span>Components</span>
+					<span>/</span>
+					<b>Layer Popup</b>
+				</div>
+
+				<div class="guide-topbar__actions">
+					<a class="btn btn--sm btn--ghost" href="popup-demo.html">검증 하네스</a>
+
+					<button class="theme-toggle" data-theme-toggle aria-label="테마 전환">
+						<svg class="icon-glyph icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+							<path d="M21 12.5A8.5 8.5 0 0111.5 3 8.5 8.5 0 1021 12.5z" stroke-linejoin="round" />
+						</svg>
+						<svg class="icon-glyph icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+							<circle cx="12" cy="12" r="4.5" />
+							<path d="M12 2.5v2M12 19.5v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2.5 12h2M19.5 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" stroke-linecap="round" />
+						</svg>
+					</button>
+				</div>
+			</header>
+
+			<main class="guide-content">
+
+				<!-- ---------- 히어로 ---------- -->
+				<section class="guide-hero">
+					<h1>Layer Popup</h1>
+					<p class="guide-hero__lead">
+						페이지 안에 이미 있는 영역을 숨겼다가 보여주는 방식입니다. 파일을 가져오지 않습니다.
+						<b>동작은 <code>data-pop*</code> 속성</b>이 담당하고 <b>생김새는 클래스</b>가 담당하므로,
+						디자인이 바뀌어도 호출 코드는 그대로입니다.
+					</p>
+
+					<div class="guide-meta">
+						<span class="guide-meta__item"><span class="guide-meta__dot"></span> <b>Stable</b></span>
+						<span class="guide-meta__item">최종 수정 <b>2026-10-08</b></span>
+						<span class="guide-meta__item">의존 <b>popup.css · popup.js</b></span>
+						<span class="guide-meta__item">기본 선택자 <b>[data-pop]</b></span>
+					</div>
+
+					<div class="guide-stats">
+						<div class="guide-stat">
+							<div class="guide-stat__value">2</div>
+							<div class="guide-stat__label">호출 방식</div>
+						</div>
+						<div class="guide-stat">
+							<div class="guide-stat__value">3</div>
+							<div class="guide-stat__label">팝업 유형</div>
+						</div>
+						<div class="guide-stat">
+							<div class="guide-stat__value">3</div>
+							<div class="guide-stat__label">딤 모드</div>
+						</div>
+						<div class="guide-stat">
+							<div class="guide-stat__value">12</div>
+							<div class="guide-stat__label">data 속성</div>
+						</div>
+					</div>
+				</section>
+
+				<!-- ---------- 01 개요 ---------- -->
+				<section class="guide-section" id="overview">
+					<div class="guide-section__head">
+						<span class="guide-section__index">01</span>
+						<h2>개요</h2>
+						<p class="guide-section__desc">
+							팝업 마크업을 페이지(또는 인클루드) 안에 <code>hidden</code> 상태로 두고, 버튼이나
+							스크립트가 그것을 엽니다. 서버에서 파일을 받아오지 않으므로 네트워크 지연도, 로딩
+							상태도 없습니다.
+						</p>
+					</div>
+
+					<div class="example">
+						<div class="example__head">
+							<span class="example__title">최소 구성</span>
+							<code class="example__class">[data-pop-open] + [data-pop]</code>
+							<div class="example__actions">
+								<button class="btn btn--sm btn--ghost" data-code-toggle aria-expanded="false">코드</button>
+								<button class="btn btn--sm btn--ghost" data-copy>복사</button>
+							</div>
+						</div>
+						<div class="example__stage">
+							<span class="spec-item">
+								<button class="btn btn--primary" data-pop-open="g-basic">장바구니 열기</button>
+								<span class="spec-item__tag">버튼과 팝업을 이름으로 연결</span>
+							</span>
+						</div>
+						<div class="example__code" hidden>
+<pre><code>&lt;!-- 여는 버튼 --&gt;
+&lt;button type="button" data-pop-open="g-basic"&gt;장바구니 열기&lt;/button&gt;
+
+&lt;!-- 팝업 영역 : 페이지 어디에 작성해도 된다 --&gt;
+&lt;div class="layerpopup lp" data-pop="g-basic" hidden&gt;
+  &lt;div class="lp__panel" data-pop-panel&gt;
+    &lt;div class="lp__head"&gt;
+      &lt;h2 class="lp__title" data-pop-label&gt;장바구니&lt;/h2&gt;
+    &lt;/div&gt;
+    &lt;div class="lp__body"&gt;내용&lt;/div&gt;
+    &lt;div class="lp__foot"&gt;
+      &lt;button type="button" class="btn" data-pop-close&gt;닫기&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+						</div>
+						<p class="example__note">
+							<code>data-pop-open</code>의 값과 <code>data-pop</code>의 값이 같으면 연결됩니다.
+							<code>id</code>를 쓰지 않는 이유는 한 페이지에 중복될 수 있고, 클래스처럼 스타일과
+							얽히기 쉬워서입니다.
+						</p>
+					</div>
+
+					<div class="callout">
+						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+							<path d="M12 4.5l8 14H4l8-14z" stroke-linejoin="round" />
+							<path d="M12 10v3.5" stroke-linecap="round" />
+							<circle cx="12" cy="16" r="0.9" fill="currentColor" stroke="none" />
+						</svg>
+						<div>
+							<b>마크업을 어디에 써도 됩니다.</b> 매니저는 팝업을 열 때 원래 자리에 표식을 남기고
+							요소를 <code>&lt;body&gt;</code> 끝으로 옮긴 뒤, 닫을 때 제자리로 되돌립니다.
+							조상에 <code>transform</code>이나 <code>overflow: hidden</code>이 있어도 레이어가
+							잘리거나 갇히지 않습니다. 관련 마크업 옆에 편하게 작성하세요.
+						</div>
+					</div>
+				</section>
+
+				<!-- ---------- 02 해부 ---------- -->
+				<section class="guide-section" id="anatomy">
+					<div class="guide-section__head">
+						<span class="guide-section__index">02</span>
+						<h2>해부</h2>
+						<p class="guide-section__desc">
+							팝업 한 개를 구성하는 속성과 각자의 역할입니다. 필수는 두 개(<code>data-pop</code>,
+							<code>data-pop-panel</code>)뿐이고 나머지는 선택입니다.
+						</p>
+					</div>
+
+					<div class="spec-table-wrap">
+						<table class="spec-table">
+							<thead>
+								<tr>
+									<th>속성</th>
+									<th>위치</th>
+									<th>필수</th>
+									<th>역할</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><code>data-pop</code></td>
+									<td>팝업 최상위</td>
+									<td><b>필수</b></td>
+									<td>팝업의 이름. 이 값으로 찾아서 엽니다.</td>
+								</tr>
+								<tr>
+									<td><code>data-pop-panel</code></td>
+									<td>팝업 안 박스</td>
+									<td><b>필수</b></td>
+									<td>실제 내용 박스. 딤 클릭 판정과 포커스 트랩의 기준이 됩니다.</td>
+								</tr>
+								<tr>
+									<td><code>hidden</code></td>
+									<td>팝업 최상위</td>
+									<td>권장</td>
+									<td>CSS가 로드되기 전에 내용이 번쩍이는 것을 막습니다.</td>
+								</tr>
+								<tr>
+									<td><code>data-pop-label</code></td>
+									<td>제목 요소</td>
+									<td>권장</td>
+									<td>스크린리더가 읽을 팝업 제목으로 연결됩니다.</td>
+								</tr>
+								<tr>
+									<td><code>data-pop-close</code></td>
+									<td>닫기 버튼</td>
+									<td>선택</td>
+									<td>누르면 닫습니다. 값으로 다른 팝업 이름을 줄 수도 있습니다.</td>
+								</tr>
+								<tr>
+									<td><code>data-pop-open</code></td>
+									<td>여는 버튼</td>
+									<td>선택</td>
+									<td>누르면 해당 이름의 팝업을 엽니다.</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</section>
+
+				<!-- ---------- 03 마크업 호출 ---------- -->
+				<section class="guide-section" id="markup">
+					<div class="guide-section__head">
+						<span class="guide-section__index">03</span>
+						<h2>마크업으로 호출 (선언형)</h2>
+						<p class="guide-section__desc">
+							기본 방식입니다. 스크립트를 한 줄도 쓰지 않습니다. 옵션은 여는 버튼에 붙여
+							그 호출에서만 덮어쓸 수 있습니다.
+						</p>
+					</div>
+
+					<div class="example">
+						<div class="example__head">
+							<span class="example__title">버튼 · 링크 · 팝업 안의 버튼</span>
+							<code class="example__class">data-pop-open</code>
+							<div class="example__actions">
+								<button class="btn btn--sm btn--ghost" data-code-toggle aria-expanded="false">코드</button>
+								<button class="btn btn--sm btn--ghost" data-copy>복사</button>
+							</div>
+						</div>
+						<div class="example__stage">
+							<span class="spec-item">
+								<button class="btn" data-pop-open="g-basic">기본</button>
+								<span class="spec-item__tag">버튼</span>
+							</span>
+							<span class="spec-item">
+								<a class="btn btn--ghost" href="popup-demo.html" data-pop-open="g-basic">링크 폴백</a>
+								<span class="spec-item__tag">JS 꺼지면 이동</span>
+							</span>
+							<span class="spec-item">
+								<button class="btn" data-pop-open="g-basic" data-pop-size="sm">크기 덮어쓰기</button>
+								<span class="spec-item__tag">이 호출만 sm</span>
+							</span>
+							<span class="spec-item">
+								<button class="btn" data-pop-open="g-basic" data-pop-origin="trigger">클릭 위치에서</button>
+								<span class="spec-item__tag">누른 곳에서 자람</span>
+							</span>
+						</div>
+						<div class="example__code" hidden>
+<pre><code>&lt;!-- 기본 --&gt;
+&lt;button type="button" data-pop-open="g-basic"&gt;기본&lt;/button&gt;
+
+&lt;!-- 링크로 두면 JS가 동작하지 않는 환경에서 해당 페이지로 이동한다 --&gt;
+&lt;a href="/popup/shopping/cart.html" data-pop-open="g-basic"&gt;링크 폴백&lt;/a&gt;
+
+&lt;!-- 이 호출에서만 옵션 덮어쓰기 --&gt;
+&lt;button type="button" data-pop-open="g-basic" data-pop-size="sm"&gt;작게&lt;/button&gt;
+&lt;button type="button" data-pop-open="g-basic" data-pop-origin="trigger"&gt;클릭 위치에서&lt;/button&gt;
+
+&lt;!-- 파라미터처럼 &amp;amp; 를 쓸 때는 HTML 속성이므로 이스케이프한다 --&gt;
+&lt;button type="button" data-pop-open="g-basic" data-pop-param="date=111&amp;amp;id=7"&gt;파라미터&lt;/button&gt;
+
+&lt;!-- 닫기 : 값 없이 쓰면 자기가 속한 팝업을 닫는다 --&gt;
+&lt;button type="button" data-pop-close&gt;닫기&lt;/button&gt;
+
+&lt;!-- 다른 팝업을 지목해 닫기 --&gt;
+&lt;button type="button" data-pop-close="g-nest1"&gt;1차까지 닫기&lt;/button&gt;</code></pre>
+						</div>
+						<p class="example__note">
+							이벤트는 <code>document</code>에 한 번만 위임되어 있습니다. 그래서 <b>GNB·LNB가
+							인클루드로 나중에 주입되어도</b> 추가 바인딩 없이 그대로 동작합니다.
+						</p>
+					</div>
+				</section>
+
+				<!-- ---------- 04 함수 호출 ---------- -->
+				<section class="guide-section" id="api">
+					<div class="guide-section__head">
+						<span class="guide-section__index">04</span>
+						<h2>함수로 호출</h2>
+						<p class="guide-section__desc">
+							조건에 따라 띄워야 할 때, 또는 통신 결과에 따라 띄워야 할 때 씁니다.
+							버튼 없이도 열 수 있습니다.
+						</p>
+					</div>
+
+					<div class="example">
+						<div class="example__head">
+							<span class="example__title">Popup API</span>
+							<code class="example__class">Popup.open / close / toggle / isOpen / closeAll</code>
+							<div class="example__actions">
+								<button class="btn btn--sm btn--ghost" data-code-toggle aria-expanded="false">코드</button>
+								<button class="btn btn--sm btn--ghost" data-copy>복사</button>
+							</div>
+						</div>
+						<div class="example__stage">
+							<span class="spec-item">
+								<button class="btn btn--primary" id="g-api-open">Popup.open</button>
+								<span class="spec-item__tag">옵션과 함께 열기</span>
+							</span>
+							<span class="spec-item">
+								<button class="btn" id="g-api-toggle">Popup.toggle</button>
+								<span class="spec-item__tag">열렸으면 닫기</span>
+							</span>
+							<span class="spec-item">
+								<button class="btn btn--ghost" id="g-api-delay">1초 후 자동</button>
+								<span class="spec-item__tag">버튼 없이 호출</span>
+							</span>
+						</div>
+						<div class="example__code" hidden>
+<pre><code>// 조건부 호출
+if (isFirstLogin) {
+  Popup.open("login/consent");
+}
+
+// 옵션과 함께 (마크업 선언을 이 호출에서만 덮어쓴다)
+Popup.open("g-basic", {
+  dim: "static",   // 딤 클릭으로 닫히지 않게
+  size: "lg",
+  origin: "center"
+});
+
+// 열림 여부 확인 후 토글
+if (!Popup.isOpen("g-basic")) {
+  Popup.open("g-basic");
+}
+Popup.toggle("g-basic");
+
+// 닫기 : 이름을 주거나, 생략하면 최상단 팝업
+Popup.close("g-basic");
+Popup.close();
+Popup.closeAll();
+
+// 통신 결과에 따라
+fetch("/api/notice").then(function (res) {
+  return res.json();
+}).then(function (data) {
+  if (data.hasNotice) Popup.open("main/notice");
+});</code></pre>
+						</div>
+					</div>
+
+					<div class="spec-table-wrap">
+						<table class="spec-table">
+							<thead>
+								<tr>
+									<th>함수</th>
+									<th>인수</th>
+									<th>반환</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><code>Popup.open(name, options)</code></td>
+									<td>이름, 옵션 <small>선택</small></td>
+									<td>팝업 요소</td>
+									<td>이미 열려 있으면 아무 일도 하지 않습니다.</td>
+								</tr>
+								<tr>
+									<td><code>Popup.close(name, result)</code></td>
+									<td>이름 <small>생략 가능</small>, 결과값 <small>선택</small></td>
+									<td>팝업 요소</td>
+									<td>이름을 생략하면 최상단 팝업을 닫습니다.</td>
+								</tr>
+								<tr>
+									<td><code>Popup.toggle(name, options)</code></td>
+									<td>이름, 옵션 <small>선택</small></td>
+									<td>팝업 요소</td>
+									<td>열려 있으면 닫고, 닫혀 있으면 엽니다.</td>
+								</tr>
+								<tr>
+									<td><code>Popup.isOpen(name)</code></td>
+									<td>이름</td>
+									<td><code>true</code> / <code>false</code></td>
+									<td>현재 열려 있는지 확인합니다.</td>
+								</tr>
+								<tr>
+									<td><code>Popup.closeAll(result)</code></td>
+									<td>결과값 <small>선택</small></td>
+									<td>없음</td>
+									<td>중첩된 것까지 전부 닫습니다.</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</section>
+
+				<!-- ---------- 05 결과 주고받기 ---------- -->
+				<section class="guide-section" id="result">
+					<div class="guide-section__head">
+						<span class="guide-section__index">05</span>
+						<h2>결과 주고받기</h2>
+						<p class="guide-section__desc">
+							확인·취소처럼 사용자의 선택을 받아야 할 때 씁니다. 전역 변수에 담아 두는 방식 대신
+							닫을 때 값을 실어 보냅니다.
+						</p>
+					</div>
+
+					<div class="example">
+						<div class="example__head">
+							<span class="example__title">확인 · 취소</span>
+							<code class="example__class">pop:open / pop:close</code>
+							<div class="example__actions">
+								<button class="btn btn--sm btn--ghost" data-code-toggle aria-expanded="false">코드</button>
+								<button class="btn btn--sm btn--ghost" data-copy>복사</button>
+							</div>
+						</div>
+						<div class="example__stage example__stage--column">
+							<button class="btn btn--danger" data-pop-open="g-confirm" style="align-self:flex-start;">주문 취소하기</button>
+							<p class="example__note" id="g-confirm-out">아직 선택하지 않았습니다.</p>
+						</div>
+						<div class="example__code" hidden>
+<pre><code>// 1. 팝업 안의 버튼이 결과를 실어 닫는다
+document.getElementById("yes").addEventListener("click", function () {
+  Popup.close("g-confirm", { confirmed: true });
+});
+document.getElementById("no").addEventListener("click", function () {
+  Popup.close("g-confirm", { confirmed: false });
+});
+
+// 2. 부른 쪽에서 결과를 받는다 (이벤트는 버블링된다)
+document.addEventListener("pop:close", function (e) {
+  if (e.target.dataset.pop !== "g-confirm") return;
+  if (e.detail &amp;amp;&amp;amp; e.detail.confirmed) {
+    cancelOrder();
+  }
+});
+
+// 열릴 때 초기화가 필요하면
+document.addEventListener("pop:open", function (e) {
+  if (e.target.dataset.pop !== "g-confirm") return;
+  resetForm(e.target);
+});</code></pre>
+						</div>
+						<p class="example__note">
+							<code>pop:close</code>는 닫힘 애니메이션을 기다리지 않고 <b>즉시</b> 발생합니다.
+							후속 처리가 200ms 늦게 시작되는 일이 없습니다.
+						</p>
+					</div>
+				</section>
+
+				<!-- ---------- 06 딤 ---------- -->
+				<section class="guide-section" id="dim">
+					<div class="guide-section__head">
+						<span class="guide-section__index">06</span>
+						<h2>딤 3종</h2>
+						<p class="guide-section__desc">
+							딤은 별도 요소가 아니라 레이어의 <code>::before</code> 가상요소입니다.
+							DOM이 늘지 않고, <code>data-pop-dim</code> 값만으로 생성 여부가 결정됩니다.
+						</p>
+					</div>
+
+					<div class="example">
+						<div class="example__head">
+							<span class="example__title">딤 모드</span>
+							<code class="example__class">data-pop-dim="true | false | static"</code>
+							<div class="example__actions">
+								<button class="btn btn--sm btn--ghost" data-code-toggle aria-expanded="false">코드</button>
+								<button class="btn btn--sm btn--ghost" data-copy>복사</button>
+							</div>
+						</div>
+						<div class="example__stage">
+							<span class="spec-item">
+								<button class="btn" data-pop-open="g-basic">true</button>
+								<span class="spec-item__tag">기본 · 딤 클릭으로 닫힘</span>
+							</span>
+							<span class="spec-item">
+								<button class="btn" data-pop-open="g-dim-none">false</button>
+								<span class="spec-item__tag">딤 없음 · 뒤 페이지 사용 가능</span>
+							</span>
+							<span class="spec-item">
+								<button class="btn" data-pop-open="g-dim-static">static</button>
+								<span class="spec-item__tag">딤 있음 · 클릭해도 안 닫힘</span>
+							</span>
+						</div>
+						<div class="example__code" hidden>
+<pre><code>&lt;!-- 기본값이므로 생략해도 true --&gt;
+&lt;div class="layerpopup lp" data-pop="cart" data-pop-dim="true" hidden&gt;…&lt;/div&gt;
+
+&lt;!-- 딤 없음. 레이어가 투명 클릭 차단막으로 남지 않도록
+     pointer-events 를 통과시키므로 뒤 페이지를 계속 쓸 수 있다 --&gt;
+&lt;div class="layerpopup lp" data-pop="notice" data-pop-dim="false" hidden&gt;…&lt;/div&gt;
+
+&lt;!-- 필수 동의처럼 반드시 선택해야 하는 팝업 --&gt;
+&lt;div class="layerpopup lp" data-pop="consent" data-pop-dim="static" hidden&gt;…&lt;/div&gt;
+
+&lt;!-- Esc 로도 닫히지 않게 하려면 --&gt;
+&lt;div class="layerpopup lp" data-pop="consent" data-pop-dim="static" data-pop-esc="false" hidden&gt;…&lt;/div&gt;</code></pre>
+						</div>
+					</div>
+
+					<div class="callout">
+						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+							<path d="M12 4.5l8 14H4l8-14z" stroke-linejoin="round" />
+							<path d="M12 10v3.5" stroke-linecap="round" />
+							<circle cx="12" cy="16" r="0.9" fill="currentColor" stroke="none" />
+						</svg>
+						<div>
+							<b>딤 클릭 판정은 드래그를 보호합니다.</b> 패널 안에서 텍스트를 드래그하다 딤에서
+							마우스를 떼도 닫히지 않습니다. 누른 지점과 뗀 지점을 모두 확인하기 때문입니다.
+							<code>click</code> 하나만 보는 구현은 이 순간 닫혀서 작성 중이던 내용이 사라집니다.
+						</div>
+					</div>
+				</section>
+
+				<!-- ---------- 07 유형 ---------- -->
+				<section class="guide-section" id="types">
+					<div class="guide-section__head">
+						<span class="guide-section__index">07</span>
+						<h2>유형 3종</h2>
+						<p class="guide-section__desc">
+							전체화면(<code>full</code>)도 <b>레이어</b>입니다. 호스트 페이지가 뒤에 그대로 남아
+							있으므로 닫으면 즉시 복귀하고 입력 중이던 폼 상태도 보존됩니다.
+							페이지를 <b>이동</b>해야 하는 경우는 매니저를 쓰지 않고 그냥 링크입니다.
+						</p>
+					</div>
+
+					<div class="example">
+						<div class="example__head">
+							<span class="example__title">layer · full · 독립페이지</span>
+							<code class="example__class">data-pop-type="layer | full"</code>
+							<div class="example__actions">
+								<button class="btn btn--sm btn--ghost" data-code-toggle aria-expanded="false">코드</button>
+								<button class="btn btn--sm btn--ghost" data-copy>복사</button>
+							</div>
+						</div>
+						<div class="example__stage">
+							<span class="spec-item">
+								<button class="btn" data-pop-open="g-basic">layer</button>
+								<span class="spec-item__tag">기본 · 중앙 박스</span>
+							</span>
+							<span class="spec-item">
+								<button class="btn" data-pop-open="g-full">full</button>
+								<span class="spec-item__tag">뷰포트 전체를 덮는 레이어</span>
+							</span>
+							<span class="spec-item">
+								<a class="btn btn--ghost" href="popup-demo.html">독립페이지</a>
+								<span class="spec-item__tag">그냥 이동 · 매니저 미사용</span>
+							</span>
+						</div>
+						<div class="example__code" hidden>
+<pre><code>&lt;!-- 일반 레이어 (기본값) --&gt;
+&lt;div class="layerpopup lp" data-pop="cart" hidden&gt;…&lt;/div&gt;
+
+&lt;!-- 전체화면 레이어 : 높이는 100dvh, 노치는 safe-area 로 피한다 --&gt;
+&lt;div class="layerpopup lp" data-pop="terms" data-pop-type="full" hidden&gt;…&lt;/div&gt;
+
+&lt;!-- 독립페이지 : 북마크·공유·네이티브 웹뷰 대상이면 그냥 링크로 둔다 --&gt;
+&lt;a href="/html/login/최초배정동의.html"&gt;약관 전문 보기&lt;/a&gt;</code></pre>
+						</div>
+					</div>
+
+					<div class="spec-table-wrap">
+						<table class="spec-table">
+							<thead>
+								<tr>
+									<th>유형</th>
+									<th>DOM</th>
+									<th>닫은 뒤</th>
+									<th>이럴 때 씁니다</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><code>layer</code> <small>기본</small></td>
+									<td>호스트에 주입</td>
+									<td>즉시 복귀</td>
+									<td>대부분의 경우</td>
+								</tr>
+								<tr>
+									<td><code>full</code></td>
+									<td>호스트에 주입</td>
+									<td>즉시 복귀 · 폼 상태 보존</td>
+									<td>약관 전문, 긴 폼, 모바일 전체화면</td>
+								</tr>
+								<tr>
+									<td>독립페이지</td>
+									<td>주입 없음 <small>이동</small></td>
+									<td>뒤로가기 필요</td>
+									<td>URL 공유·북마크·네이티브 웹뷰</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</section>
+
+				<!-- ---------- 08 중첩 ---------- -->
+				<section class="guide-section" id="nesting">
+					<div class="guide-section__head">
+						<span class="guide-section__index">08</span>
+						<h2>중첩 (2차 팝업)</h2>
+						<p class="guide-section__desc">
+							팝업 안에서 또 다른 팝업을 열 수 있습니다. 특별한 설정은 없고 평소처럼
+							<code>data-pop-open</code>을 쓰면 됩니다.
+						</p>
+					</div>
+
+					<div class="example">
+						<div class="example__head">
+							<span class="example__title">쌓기</span>
+							<code class="example__class">z-index 1000 + 깊이 × 10</code>
+							<div class="example__actions">
+								<button class="btn btn--sm btn--ghost" data-code-toggle aria-expanded="false">코드</button>
+								<button class="btn btn--sm btn--ghost" data-copy>복사</button>
+							</div>
+						</div>
+						<div class="example__stage">
+							<span class="spec-item">
+								<button class="btn btn--primary" data-pop-open="g-nest1">1차 팝업 열기</button>
+								<span class="spec-item__tag">안에서 2차를 연다</span>
+							</span>
+						</div>
+						<div class="example__code" hidden>
+<pre><code>&lt;div class="layerpopup lp" data-pop="g-nest1" hidden&gt;
+  &lt;div class="lp__panel" data-pop-panel&gt;
+    &lt;div class="lp__foot"&gt;
+      &lt;button type="button" data-pop-close&gt;닫기&lt;/button&gt;
+      &lt;!-- 평소와 똑같다 --&gt;
+      &lt;button type="button" data-pop-open="g-nest2"&gt;2차 열기&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+						</div>
+						<p class="example__note">
+							Esc는 <b>최상단 하나만</b> 닫습니다. 아래 레이어는 <code>inert</code>가 걸려 눌리지
+							않고, 배경 스크롤은 <b>전부 닫힌 뒤에</b> 풀립니다.
+						</p>
+					</div>
+				</section>
+
+				<!-- ---------- 09 옵션 레퍼런스 ---------- -->
+				<section class="guide-section" id="options">
+					<div class="guide-section__head">
+						<span class="guide-section__index">09</span>
+						<h2>옵션 레퍼런스</h2>
+						<p class="guide-section__desc">
+							같은 옵션을 세 곳에 쓸 수 있고, 충돌하면 아래 순서로 이깁니다.
+							<b>팝업이 자기 기본값을 들고 있게</b> 하고, 호출부는 예외만 덮어쓰는 것이 좋습니다.
+						</p>
+					</div>
+
+					<div class="example">
+						<div class="example__head">
+							<span class="example__title">우선순위</span>
+							<code class="example__class">open() 인수 &gt; 트리거 &gt; 팝업 영역 &gt; 기본값</code>
+						</div>
+						<div class="example__code">
+<pre><code>Popup.open("cart", { size: "lg" })   ← 1순위. 이 호출에서만
+&lt;button data-pop-open="cart" data-pop-size="md"&gt;  ← 2순위. 이 버튼에서만
+&lt;div data-pop="cart" data-pop-size="sm"&gt;          ← 3순위. 이 팝업의 기본값
+                                                   ← 4순위. 시스템 기본값</code></pre>
+						</div>
+					</div>
+
+					<div class="spec-table-wrap">
+						<table class="spec-table">
+							<thead>
+								<tr>
+									<th>옵션</th>
+									<th>값</th>
+									<th>기본</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><code>data-pop-type</code></td>
+									<td><code>layer</code> · <code>full</code></td>
+									<td><code>layer</code></td>
+									<td>중앙 박스인지 뷰포트 전체인지</td>
+								</tr>
+								<tr>
+									<td><code>data-pop-dim</code></td>
+									<td><code>true</code> · <code>false</code> · <code>static</code></td>
+									<td><code>true</code></td>
+									<td>딤 생성 여부와 클릭 닫기 허용</td>
+								</tr>
+								<tr>
+									<td><code>data-pop-size</code></td>
+									<td><code>sm</code> 360 · <code>md</code> 520 · <code>lg</code> 800</td>
+									<td><code>md</code></td>
+									<td>패널 최대 너비(px)</td>
+								</tr>
+								<tr>
+									<td><code>data-pop-origin</code></td>
+									<td><code>center</code> · <code>trigger</code></td>
+									<td><code>center</code></td>
+									<td><code>trigger</code>면 누른 버튼 쪽에서 자라납니다</td>
+								</tr>
+								<tr>
+									<td><code>data-pop-sheet</code></td>
+									<td><code>mobile</code></td>
+									<td>없음</td>
+									<td>640px 이하에서 하단 시트로 전환</td>
+								</tr>
+								<tr>
+									<td><code>data-pop-esc</code></td>
+									<td><code>true</code> · <code>false</code></td>
+									<td><code>true</code></td>
+									<td>Esc로 닫기 허용</td>
+								</tr>
+								<tr>
+									<td><code>data-pop-scroll</code></td>
+									<td><code>true</code> · <code>false</code></td>
+									<td><code>true</code></td>
+									<td>배경 스크롤 잠금. 비모달 알림은 <code>false</code></td>
+								</tr>
+								<tr>
+									<td><code>data-pop-param</code></td>
+									<td>쿼리 문자열</td>
+									<td>없음</td>
+									<td>팝업에 넘길 값. <code>&amp;</code>는 <code>&amp;amp;</code>로 씁니다</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</section>
+
+				<!-- ---------- 10 모바일 ---------- -->
+				<section class="guide-section" id="mobile">
+					<div class="guide-section__head">
+						<span class="guide-section__index">10</span>
+						<h2>모바일</h2>
+						<p class="guide-section__desc">
+							같은 마크업으로 PC와 모바일을 모두 처리합니다. 별도 페이지도, 분기 스크립트도
+							필요하지 않습니다.
+						</p>
+					</div>
+
+					<div class="example">
+						<div class="example__head">
+							<span class="example__title">바텀시트 전환</span>
+							<code class="example__class">data-pop-sheet="mobile"</code>
+							<div class="example__actions">
+								<button class="btn btn--sm btn--ghost" data-code-toggle aria-expanded="false">코드</button>
+								<button class="btn btn--sm btn--ghost" data-copy>복사</button>
+							</div>
+						</div>
+						<div class="example__stage">
+							<span class="spec-item">
+								<button class="btn btn--primary" data-pop-open="g-sheet">필터 열기</button>
+								<span class="spec-item__tag">창을 640px 이하로 줄여 보세요</span>
+							</span>
+						</div>
+						<div class="example__code" hidden>
+<pre><code>&lt;!-- 640px 이하에서 아래에서 올라오는 시트가 된다 --&gt;
+&lt;div class="layerpopup lp" data-pop="filter" data-pop-sheet="mobile" hidden&gt;…&lt;/div&gt;</code></pre>
+						</div>
+					</div>
+
+					<ul class="checklist">
+						<li>
+							<span class="checklist__mark">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" /></svg>
+							</span>
+							<span><b>높이는 <code>100dvh</code>.</b> <code>100vh</code>를 쓰면 모바일 주소창 높이만큼 아래가 잘립니다.</span>
+						</li>
+						<li>
+							<span class="checklist__mark">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" /></svg>
+							</span>
+							<span><b>스크롤 잠금은 위치까지 복원합니다.</b> <code>overflow: hidden</code>만으로는 iOS Safari에서 잠기지 않고, 닫을 때 맨 위로 튑니다.</span>
+						</li>
+						<li>
+							<span class="checklist__mark">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" /></svg>
+							</span>
+							<span><b>노치·홈 인디케이터는 <code>env(safe-area-inset-*)</code>로 피합니다.</b> 전체화면 팝업의 닫기 버튼이 가려지지 않습니다.</span>
+						</li>
+						<li>
+							<span class="checklist__mark">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" /></svg>
+							</span>
+							<span><b>팝업 끝에서 배경으로 스크롤이 넘어가지 않습니다.</b> <code>overscroll-behavior: contain</code>으로 차단합니다.</span>
+						</li>
+					</ul>
+				</section>
+
+				<!-- ---------- 11 접근성 ---------- -->
+				<section class="guide-section" id="a11y">
+					<div class="guide-section__head">
+						<span class="guide-section__index">11</span>
+						<h2>접근성</h2>
+						<p class="guide-section__desc">
+							대부분 자동으로 처리됩니다. 마크업에서 해 줄 일은 제목에
+							<code>data-pop-label</code>을 붙이는 것 하나입니다.
+						</p>
+					</div>
+
+					<div class="example">
+						<div class="example__head">
+							<span class="example__title">키보드만으로 사용해 보기</span>
+							<code class="example__class">role="dialog" · aria-modal · 포커스 트랩</code>
+							<div class="example__actions">
+								<button class="btn btn--sm btn--ghost" data-code-toggle aria-expanded="false">코드</button>
+								<button class="btn btn--sm btn--ghost" data-copy>복사</button>
+							</div>
+						</div>
+						<div class="example__stage">
+							<span class="spec-item">
+								<button class="btn btn--primary" data-pop-open="g-form">배송 정보 입력</button>
+								<span class="spec-item__tag">Tab · Shift+Tab · Esc</span>
+							</span>
+						</div>
+						<div class="example__code" hidden>
+<pre><code>&lt;div class="layerpopup lp" data-pop="shipping" hidden&gt;
+  &lt;div class="lp__panel" data-pop-panel&gt;
+    &lt;!-- 이 제목이 aria-labelledby 로 자동 연결된다 --&gt;
+    &lt;h2 class="lp__title" data-pop-label&gt;배송 정보 입력&lt;/h2&gt;
+
+    &lt;!-- 아이콘 전용 버튼에는 aria-label 을 꼭 넣는다 --&gt;
+    &lt;button type="button" class="lp__x" data-pop-close aria-label="닫기"&gt;…&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+						</div>
+					</div>
+
+					<ul class="checklist">
+						<li>
+							<span class="checklist__mark">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" /></svg>
+							</span>
+							<span><b>열면 첫 입력 요소로 포커스가 이동</b>하고, Tab은 팝업 안에서만 순환합니다.</span>
+						</li>
+						<li>
+							<span class="checklist__mark">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" /></svg>
+							</span>
+							<span><b>닫으면 원래 눌렀던 버튼으로 포커스가 돌아갑니다.</b> 함수로 열었을 때도 직전 포커스를 기억합니다.</span>
+						</li>
+						<li>
+							<span class="checklist__mark">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" /></svg>
+							</span>
+							<span><b>딤이 없는 팝업은 <code>aria-modal="false"</code></b>입니다. 뒤 페이지를 계속 쓸 수 있으므로 모달이라고 알리지 않습니다.</span>
+						</li>
+						<li>
+							<span class="checklist__mark">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" /></svg>
+							</span>
+							<span><b><code>prefers-reduced-motion</code>을 존중합니다.</b> 모션을 끈 사용자에게는 애니메이션 없이 즉시 열립니다.</span>
+						</li>
+					</ul>
+				</section>
+
+				<!-- ---------- 12 레거시 전환 ---------- -->
+				<section class="guide-section" id="migration">
+					<div class="guide-section__head">
+						<span class="guide-section__index">12</span>
+						<h2>레거시 전환</h2>
+						<p class="guide-section__desc">
+							한 번에 다 바꾸지 않습니다. 기존 공통 함수를 얇은 어댑터로 남겨 두면
+							아직 손대지 않은 페이지도 새 시스템으로 동작합니다.
+						</p>
+					</div>
+
+					<div class="example">
+						<div class="example__head">
+							<span class="example__title">인라인 핸들러 → 선언형</span>
+							<code class="example__class">onclick → data-pop-open</code>
+							<div class="example__actions">
+								<button class="btn btn--sm btn--ghost" data-code-toggle aria-expanded="false">코드</button>
+								<button class="btn btn--sm btn--ghost" data-copy>복사</button>
+							</div>
+						</div>
+						<div class="example__code">
+<pre><code>// 레거시 공통 함수를 이렇게만 바꿔 두면
+// 호출부를 아직 수정하지 않은 페이지도 새 시스템으로 동작한다
+function openPop(id) { Popup.open(id); }
+function closePop(id) { Popup.close(id); }</code></pre>
+						</div>
+						<div class="example__code" hidden>
+<pre><code>&lt;!-- 전 --&gt;
+&lt;a href="javascript:void(0)" onclick="openPop('cart'); return false;"&gt;장바구니&lt;/a&gt;
+&lt;div id="cart" style="display:none"&gt;…&lt;/div&gt;
+
+&lt;!-- 후 --&gt;
+&lt;button type="button" data-pop-open="cart"&gt;장바구니&lt;/button&gt;
+&lt;div class="layerpopup lp" data-pop="cart" hidden&gt;
+  &lt;div class="lp__panel" data-pop-panel&gt;…&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+						</div>
+					</div>
+
+					<div class="spec-table-wrap">
+						<table class="spec-table">
+							<thead>
+								<tr>
+									<th>단계</th>
+									<th>작업</th>
+									<th>영향</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>0</td>
+									<td><code>popup.css</code> · <code>popup.js</code> 공통 인클루드에 1회 추가</td>
+									<td>기존 동작 변화 없음</td>
+								</tr>
+								<tr>
+									<td>1</td>
+									<td>팝업 마크업에 <code>data-pop</code> · <code>data-pop-panel</code> · <code>hidden</code> 부여</td>
+									<td>낮음</td>
+								</tr>
+								<tr>
+									<td>2</td>
+									<td>인라인 <code>onclick</code>을 <code>data-pop-open</code>으로 치환</td>
+									<td>낮음 <small>기계적 · grep 가능</small></td>
+								</tr>
+								<tr>
+									<td>3</td>
+									<td>호출부가 0건이 된 레거시 함수 제거</td>
+									<td>grep 확인 후</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</section>
+
+				<!-- ---------- 13 사용 규칙 ---------- -->
+				<section class="guide-section" id="rules">
+					<div class="guide-section__head">
+						<span class="guide-section__index">13</span>
+						<h2>사용 규칙</h2>
+						<p class="guide-section__desc">
+							코드가 동작하는 것과 올바른 것은 다릅니다. 아래 두 쌍은 실제로 민원이 들어오는
+							지점들입니다.
+						</p>
+					</div>
+
+					<div class="rule-grid">
+						<div class="rule rule--do">
+							<div class="rule__head">
+								<span class="rule__mark">
+									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" /></svg>
+								</span>
+								권장
+							</div>
+							<div class="rule__stage">
+								<button class="btn btn--ghost">취소</button>
+								<button class="btn btn--primary">주문 확정</button>
+							</div>
+							<p class="rule__text">
+								팝업 기본값은 <b>팝업 영역 자신이</b> 들고 있습니다. 어디서 열어도 모양이 같고,
+								디자인을 바꿀 때 한 곳만 고치면 됩니다.
+							</p>
+						</div>
+
+						<div class="rule rule--dont">
+							<div class="rule__head">
+								<span class="rule__mark">
+									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 6l12 12M18 6L6 18" stroke-linecap="round" /></svg>
+								</span>
+								지양
+							</div>
+							<div class="rule__stage">
+								<button class="btn btn--danger">삭제</button>
+								<button class="btn btn--danger">확인</button>
+							</div>
+							<p class="rule__text">
+								호출하는 버튼마다 <code>size</code>·<code>dim</code>을 전부 지정하면, 같은 팝업이
+								화면마다 다르게 보이고 수정할 때 모든 호출부를 찾아야 합니다.
+							</p>
+						</div>
+					</div>
+
+					<ul class="checklist">
+						<li>
+							<span class="checklist__mark">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" /></svg>
+							</span>
+							<span><b>되돌릴 수 없는 동작은 <code>data-pop-dim="static"</code>.</b> 딤을 잘못 눌러 닫히면 사용자는 자기가 무엇을 취소했는지 모릅니다.</span>
+						</li>
+						<li>
+							<span class="checklist__mark">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" /></svg>
+							</span>
+							<span><b>동작은 <code>&lt;button type="button"&gt;</code>.</b> <code>&lt;a href="javascript:void(0)"&gt;</code>는 키보드·스크린리더에서 링크로 읽히고 주소창에 흔적을 남깁니다.</span>
+						</li>
+						<li>
+							<span class="checklist__mark">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" /></svg>
+							</span>
+							<span><b>중첩은 2단까지.</b> 3단 이상 쌓이면 사용자가 어디로 돌아가는지 알 수 없습니다. 단계가 필요하면 한 팝업 안에서 화면을 바꾸세요.</span>
+						</li>
+						<li>
+							<span class="checklist__mark">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" /></svg>
+							</span>
+							<span><b>팝업 이름은 도메인을 붙여 씁니다.</b> <code>cart</code>보다 <code>shopping/cart</code>가 좋습니다. 팝업이 수백 개가 되면 짧은 이름은 반드시 충돌합니다.</span>
+						</li>
+					</ul>
+				</section>
+
+				<footer class="guide-footer">
+					<span>정의 위치 <code>assets/js/popup.js</code> · <code>assets/css/popup.css</code></span>
+					<a class="btn btn--sm btn--ghost" href="popup-demo.html" style="margin-left:auto;">검증 하네스 →</a>
+				</footer>
+			</main>
+		</div>
+
+		<!-- ================= 우측 목차 ================= -->
+		<aside class="guide-toc-rail">
+			<p class="guide-nav__group">이 페이지</p>
+			<nav class="guide-toc" data-toc>
+				<a href="#overview">개요</a>
+				<a href="#anatomy">해부</a>
+				<a href="#markup">마크업 호출</a>
+				<a href="#api">함수 호출</a>
+				<a href="#result">결과 주고받기</a>
+				<a href="#dim">딤 3종</a>
+				<a href="#types">유형 3종</a>
+				<a href="#nesting">중첩</a>
+				<a href="#options">옵션 레퍼런스</a>
+				<a href="#mobile">모바일</a>
+				<a href="#a11y">접근성</a>
+				<a href="#migration">레거시 전환</a>
+				<a href="#rules">사용 규칙</a>
+			</nav>
+		</aside>
+	</div>
+
+	<!-- ======================================================================
+	     가이드 예제용 팝업 영역
+	     ====================================================================== -->
+
+	<div class="layerpopup lp" data-pop="g-basic" data-pop-size="md" hidden>
+		<div class="lp__panel" data-pop-panel>
+			<div class="lp__head">
+				<h2 class="lp__title" data-pop-label>장바구니</h2>
+				<button type="button" class="lp__x" data-pop-close aria-label="닫기">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+						<path d="M6 6l12 12M18 6L6 18" />
+					</svg>
+				</button>
+			</div>
+			<div class="lp__body">
+				<p>가장 기본 형태입니다. 딤 클릭, Esc, 닫기 버튼, 우상단 X 모두 닫힙니다.</p>
+				<p>이 팝업은 <code>data-pop-size="md"</code>를 자기 기본값으로 들고 있습니다.</p>
+			</div>
+			<div class="lp__foot">
+				<button type="button" class="btn btn--ghost" data-pop-close>닫기</button>
+				<button type="button" class="btn btn--primary" data-pop-close>확인</button>
+			</div>
+		</div>
+	</div>
+
+	<div class="layerpopup lp" data-pop="g-dim-none" data-pop-dim="false" data-pop-size="sm" data-pop-scroll="false" hidden>
+		<div class="lp__panel" data-pop-panel>
+			<div class="lp__head">
+				<h2 class="lp__title" data-pop-label>딤 없는 알림</h2>
+			</div>
+			<div class="lp__body">
+				<p>
+					딤이 생성되지 않고 레이어가 클릭을 통과시킵니다. 이 팝업이 열린 상태에서도
+					<b>뒤 페이지를 스크롤하고 버튼을 누를 수 있습니다.</b>
+				</p>
+			</div>
+			<div class="lp__foot">
+				<button type="button" class="btn btn--primary" data-pop-close>확인</button>
+			</div>
+		</div>
+	</div>
+
+	<div class="layerpopup lp" data-pop="g-dim-static" data-pop-dim="static" data-pop-size="sm" hidden>
+		<div class="lp__panel" data-pop-panel>
+			<div class="lp__head">
+				<h2 class="lp__title" data-pop-label>필수 동의</h2>
+			</div>
+			<div class="lp__body">
+				<p>딤을 눌러도 닫히지 않습니다. 아래 버튼으로만 진행할 수 있습니다.</p>
+			</div>
+			<div class="lp__foot">
+				<button type="button" class="btn btn--primary" data-pop-close>동의합니다</button>
+			</div>
+		</div>
+	</div>
+
+	<div class="layerpopup lp" data-pop="g-confirm" data-pop-dim="static" data-pop-size="sm" hidden>
+		<div class="lp__panel" data-pop-panel>
+			<div class="lp__head">
+				<h2 class="lp__title" data-pop-label>주문을 취소할까요?</h2>
+			</div>
+			<div class="lp__body">
+				<p>취소하면 되돌릴 수 없습니다. 선택 결과가 예제 아래에 표시됩니다.</p>
+			</div>
+			<div class="lp__foot">
+				<button type="button" class="btn btn--ghost" id="g-confirm-no">아니오</button>
+				<button type="button" class="btn btn--danger" id="g-confirm-yes">네, 취소합니다</button>
+			</div>
+		</div>
+	</div>
+
+	<div class="layerpopup lp" data-pop="g-nest1" data-pop-size="md" hidden>
+		<div class="lp__panel" data-pop-panel>
+			<div class="lp__head">
+				<h2 class="lp__title" data-pop-label>1차 팝업</h2>
+				<button type="button" class="lp__x" data-pop-close aria-label="닫기">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+						<path d="M6 6l12 12M18 6L6 18" />
+					</svg>
+				</button>
+			</div>
+			<div class="lp__body">
+				<p>여기서 2차를 열면 위에 쌓입니다. 2차가 열린 동안 이 버튼들은 눌리지 않습니다.</p>
+			</div>
+			<div class="lp__foot">
+				<button type="button" class="btn btn--ghost" data-pop-close>닫기</button>
+				<button type="button" class="btn btn--primary" data-pop-open="g-nest2">2차 팝업 열기</button>
+			</div>
+		</div>
+	</div>
+
+	<div class="layerpopup lp" data-pop="g-nest2" data-pop-size="sm" hidden>
+		<div class="lp__panel" data-pop-panel>
+			<div class="lp__head">
+				<h2 class="lp__title" data-pop-label>2차 팝업 (재확인)</h2>
+			</div>
+			<div class="lp__body">
+				<p>Esc를 누르면 이것만 닫히고 1차는 남습니다.</p>
+			</div>
+			<div class="lp__foot">
+				<button type="button" class="btn btn--primary" data-pop-close>확인</button>
+			</div>
+		</div>
+	</div>
+
+	<div class="layerpopup lp" data-pop="g-form" data-pop-size="md" hidden>
+		<div class="lp__panel" data-pop-panel>
+			<div class="lp__head">
+				<h2 class="lp__title" data-pop-label>배송 정보 입력</h2>
+				<button type="button" class="lp__x" data-pop-close aria-label="닫기">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+						<path d="M6 6l12 12M18 6L6 18" />
+					</svg>
+				</button>
+			</div>
+			<div class="lp__body">
+				<label class="lp__field">
+					<span>받는 분</span>
+					<input type="text" placeholder="이름" />
+				</label>
+				<label class="lp__field">
+					<span>연락처</span>
+					<input type="tel" placeholder="010-0000-0000" />
+				</label>
+				<label class="lp__field">
+					<span>배송 방법</span>
+					<select>
+						<option>일반 배송</option>
+						<option>새벽 배송</option>
+					</select>
+				</label>
+			</div>
+			<div class="lp__foot">
+				<button type="button" class="btn btn--ghost" data-pop-close>취소</button>
+				<button type="button" class="btn btn--primary" data-pop-close>저장</button>
+			</div>
+		</div>
+	</div>
+
+	<div class="layerpopup lp" data-pop="g-full" data-pop-type="full" hidden>
+		<div class="lp__panel" data-pop-panel>
+			<div class="lp__head">
+				<h2 class="lp__title" data-pop-label>약관 전문</h2>
+				<button type="button" class="lp__x" data-pop-close aria-label="닫기">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+						<path d="M6 6l12 12M18 6L6 18" />
+					</svg>
+				</button>
+			</div>
+			<div class="lp__body">
+				<p>
+					뷰포트를 덮지만 이동이 아니라 레이어입니다. 호스트 페이지가 뒤에 그대로 남아 있어
+					닫으면 즉시 복귀하고, 입력 중이던 폼 상태도 보존됩니다.
+				</p>
+				<p>
+					높이는 <code>100dvh</code>라서 모바일 주소창이 나타나거나 사라져도 아래가 잘리지 않습니다.
+				</p>
+			</div>
+			<div class="lp__foot">
+				<button type="button" class="btn btn--primary" data-pop-close>닫기</button>
+			</div>
+		</div>
+	</div>
+
+	<div class="layerpopup lp" data-pop="g-sheet" data-pop-sheet="mobile" data-pop-size="md" hidden>
+		<div class="lp__panel" data-pop-panel>
+			<div class="lp__head">
+				<h2 class="lp__title" data-pop-label>필터</h2>
+			</div>
+			<div class="lp__body">
+				<p>창 폭을 640px 이하로 줄이면 아래에서 올라오는 시트로 바뀝니다.</p>
+			</div>
+			<div class="lp__foot">
+				<button type="button" class="btn btn--ghost" data-pop-close>초기화</button>
+				<button type="button" class="btn btn--primary" data-pop-close>적용</button>
+			</div>
+		</div>
+	</div>
+
+	<script src="assets/js/theme.js"></script>
+	<script src="assets/js/guide.js"></script>
+	<script src="assets/js/popup.js"></script>
+	<script>
+		(function () {
+			"use strict";
+
+			/* 04. 함수 호출 예제 */
+			document.getElementById("g-api-open").addEventListener("click", function () {
+				Popup.open("g-basic", { dim: "static", size: "lg" });
+			});
+
+			document.getElementById("g-api-toggle").addEventListener("click", function () {
+				Popup.toggle("g-basic");
+			});
+
+			document.getElementById("g-api-delay").addEventListener("click", function () {
+				var btn = this;
+				var label = btn.textContent;
+				btn.textContent = "1초 후…";
+				btn.disabled = true;
+
+				setTimeout(function () {
+					Popup.open("g-basic");
+					btn.textContent = label;
+					btn.disabled = false;
+				}, 1000);
+			});
+
+			/* 05. 결과 주고받기 예제 */
+			var out = document.getElementById("g-confirm-out");
+
+			document.getElementById("g-confirm-yes").addEventListener("click", function () {
+				Popup.close("g-confirm", { confirmed: true });
+			});
+
+			document.getElementById("g-confirm-no").addEventListener("click", function () {
+				Popup.close("g-confirm", { confirmed: false });
+			});
+
+			document.addEventListener("pop:close", function (e) {
+				if (e.target.dataset.pop !== "g-confirm") return;
+
+				if (!e.detail) {
+					out.textContent = "딤이나 Esc로 닫혔습니다. 결과값 없음.";
+					return;
+				}
+				out.textContent = e.detail.confirmed
+					? "결과: { confirmed: true } — 주문을 취소합니다."
+					: "결과: { confirmed: false } — 아무것도 하지 않습니다.";
+			});
+		})();
+	</script>
+</body>
+</html>

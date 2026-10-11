@@ -1,0 +1,301 @@
+/* ==========================================================================
+   레이어팝업 검증 하네스 — 데모 페이지 레이아웃 (.pd-*)
+
+   역할 분담
+     popup.css   레이어 구조 · 딤 · 스크롤잠금 + 패널 스킨(.lp-*)
+     이 파일     검증 페이지 자체의 레이아웃만
+   ========================================================================== */
+
+.pd-page {
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+/* ---------------------------------------------------------------------- */
+/* 톱바                                                                    */
+/* ---------------------------------------------------------------------- */
+
+.pd-topbar {
+	position: sticky;
+	top: 0;
+	z-index: 20;
+	display: flex;
+	align-items: center;
+	gap: var(--sp-12);
+	height: 56px;
+	padding: 0 var(--sp-24);
+	background: color-mix(in srgb, var(--bg) 82%, transparent);
+	-webkit-backdrop-filter: blur(12px);
+	backdrop-filter: blur(12px);
+	border-bottom: 1px solid var(--border-subtle);
+}
+
+.pd-topbar__title {
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--text-secondary);
+}
+
+.pd-topbar__actions {
+	margin-left: auto;
+	display: flex;
+	align-items: center;
+	gap: var(--sp-8);
+}
+
+/* ---------------------------------------------------------------------- */
+/* 셸 / 히어로                                                             */
+/* ---------------------------------------------------------------------- */
+
+.pd-shell {
+	width: 100%;
+	max-width: 860px;
+	margin: 0 auto;
+	padding: var(--sp-32) var(--sp-24) var(--sp-64);
+}
+
+.pd-hero {
+	margin-bottom: var(--sp-32);
+}
+
+.pd-hero h1 {
+	font-size: 24px;
+	font-weight: 700;
+	letter-spacing: -0.02em;
+	margin-bottom: var(--sp-8);
+}
+
+.pd-hero p {
+	font-size: 13.5px;
+	color: var(--text-secondary);
+	max-width: 68ch;
+	line-height: 1.65;
+}
+
+.pd-hero code {
+	font-family: "SFMono-Regular", "Consolas", "Menlo", monospace;
+	font-size: 12.5px;
+	background: var(--surface-sunken);
+	border-radius: var(--radius-sm);
+	padding: 1px 5px;
+}
+
+/* ---------------------------------------------------------------------- */
+/* 테스트 항목                                                             */
+/* ---------------------------------------------------------------------- */
+
+.pd-test {
+	border-top: 1px solid var(--border-subtle);
+	padding: var(--sp-24) 0;
+}
+
+.pd-test__head {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--sp-16);
+	margin-bottom: var(--sp-16);
+}
+
+.pd-test__index {
+	font-family: "SFMono-Regular", "Consolas", "Menlo", monospace;
+	font-size: 13px;
+	font-weight: 700;
+	color: var(--accent-strong);
+	background: var(--accent-soft);
+	border-radius: var(--radius-sm);
+	padding: var(--sp-2) var(--sp-8);
+	flex-shrink: 0;
+	margin-top: 2px;
+}
+
+.pd-test__head h2 {
+	font-size: 16px;
+	font-weight: 700;
+	margin-bottom: var(--sp-4);
+}
+
+/* 이 테스트에서 무엇을 확인해야 하는지 — 검수자가 읽는 부분이라 본문 대비로 */
+.pd-test__check {
+	font-size: 12.5px;
+	color: var(--text-secondary);
+	line-height: 1.6;
+	max-width: 70ch;
+}
+
+.pd-test__check b {
+	color: var(--text-primary);
+}
+
+.pd-test__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--sp-8);
+	padding-left: calc(28px + var(--sp-16));
+}
+
+@media (max-width: 640px) {
+	.pd-test__actions {
+		padding-left: 0;
+	}
+}
+
+/* ---------------------------------------------------------------------- */
+/* 버튼                                                                    */
+/* ---------------------------------------------------------------------- */
+
+.pd-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--sp-8);
+	height: var(--btn-h-md);
+	padding: 0 var(--sp-16);
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--text-on-accent);
+	/* --accent(#4F6BFF)는 흰 글자와 4.3:1로 AA 미달이므로 한 단계 진한 램프를 쓴다 */
+	background: var(--accent-strong);
+	border-radius: var(--radius-md);
+	transition: background var(--dur-fast) var(--ease-out);
+}
+
+.pd-btn:hover {
+	background: color-mix(in srgb, var(--accent-strong) 85%, #000);
+}
+
+.pd-btn--ghost {
+	color: var(--text-secondary);
+	background: var(--surface);
+	border: 1px solid var(--border-subtle);
+}
+
+.pd-btn--ghost:hover {
+	color: var(--text-primary);
+	background: var(--surface-hover);
+	border-color: var(--border-strong);
+}
+
+/* ---------------------------------------------------------------------- */
+/* transform 함정 컨테이너                                                 */
+/* 조상에 transform이 있으면 position:fixed가 그 조상 기준으로 바뀐다.      */
+/* 매니저가 <body> 끝으로 옮기지 않으면 전체화면 덮기가 실패하는 조건.      */
+/* ---------------------------------------------------------------------- */
+
+.pd-trap {
+	transform: translateZ(0);
+	overflow: hidden;
+	filter: saturate(1);
+	border: 1px dashed var(--warning);
+	border-radius: var(--radius-md);
+	padding: var(--sp-16);
+	margin-top: var(--sp-16);
+	background: color-mix(in srgb, var(--warning) 6%, var(--surface));
+}
+
+.pd-trap__label {
+	font-family: "SFMono-Regular", "Consolas", "Menlo", monospace;
+	font-size: 11px;
+	/* 경고 틴트 배경 위에서 --warning 원색은 2.8:1로 AA 미달.
+	   회색으로 빼지 않고 같은 hue를 본문색 쪽으로 눌러 대비를 확보한다. */
+	color: color-mix(in srgb, var(--warning) 70%, var(--text-primary));
+	margin-bottom: var(--sp-12);
+}
+
+/* ---------------------------------------------------------------------- */
+/* 스크롤 위치 보존 테스트용 채움 영역                                      */
+/* ---------------------------------------------------------------------- */
+
+.pd-filler {
+	display: grid;
+	gap: var(--sp-8);
+	margin-top: var(--sp-16);
+}
+
+.pd-filler__row {
+	height: 56px;
+	border-radius: var(--radius-sm);
+	background: var(--surface);
+	border: 1px solid var(--border-subtle);
+}
+
+/* ---------------------------------------------------------------------- */
+/* 이벤트 로그 — 반복 개폐 시 이벤트 중복 여부를 눈으로 확인한다            */
+/* ---------------------------------------------------------------------- */
+
+.pd-log {
+	position: sticky;
+	bottom: var(--sp-16);
+	margin-top: var(--sp-32);
+	background: var(--surface);
+	border: 1px solid var(--border-subtle);
+	border-radius: var(--radius-md);
+	box-shadow: var(--shadow-md);
+	overflow: hidden;
+}
+
+.pd-log__head {
+	display: flex;
+	align-items: center;
+	gap: var(--sp-8);
+	padding: var(--sp-8) var(--sp-12);
+	border-bottom: 1px solid var(--border-subtle);
+	background: var(--surface-sunken);
+}
+
+.pd-log__title {
+	font-size: 12px;
+	font-weight: 700;
+	color: var(--text-secondary);
+}
+
+.pd-log__count {
+	font-family: "SFMono-Regular", "Consolas", "Menlo", monospace;
+	font-size: 11px;
+	color: var(--accent-strong);
+	background: var(--accent-soft);
+	border-radius: var(--radius-pill);
+	padding: 1px var(--sp-8);
+}
+
+.pd-log__clear {
+	margin-left: auto;
+	font-size: 11px;
+	color: var(--text-secondary);
+	border: 1px solid var(--border-subtle);
+	border-radius: var(--radius-sm);
+	padding: 2px var(--sp-8);
+}
+
+.pd-log__body {
+	max-height: 140px;
+	overflow: auto;
+	padding: var(--sp-8) var(--sp-12);
+	font-family: "SFMono-Regular", "Consolas", "Menlo", monospace;
+	font-size: 11.5px;
+	line-height: 1.7;
+	color: var(--text-secondary);
+}
+
+.pd-log__body:empty::after {
+	content: "팝업을 열고 닫으면 여기에 기록됩니다.";
+	color: var(--text-secondary);
+	opacity: 0.7;
+}
+
+.pd-log__time {
+	color: var(--text-muted);
+}
+
+.pd-log__open {
+	color: var(--success);
+	font-weight: 700;
+}
+
+.pd-log__close {
+	color: var(--danger);
+	font-weight: 700;
+}
+
+/* 팝업 패널 스킨(.lp-*)은 assets/css/popup.css 11번 섹션에 있다.
+   데모 페이지와 사용법 가이드가 같은 패널 디자인을 공유하기 위함이다. */

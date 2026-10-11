@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>레이어팝업 검증 하네스</title>
+	<script>
+		(function () {
+			try {
+				var saved = localStorage.getItem("dashboard-theme");
+				var theme = saved || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+				document.documentElement.setAttribute("data-theme", theme);
+			} catch (e) {
+				document.documentElement.setAttribute("data-theme", "light");
+			}
+		})();
+	</script>
+	<link rel="stylesheet" href="assets/css/tokens.css" />
+	<link rel="stylesheet" href="assets/css/base.css" />
+	<link rel="stylesheet" href="assets/css/components.css" />
+	<link rel="stylesheet" href="assets/css/popup.css" />
+	<link rel="stylesheet" href="assets/css/layout-popup-demo.css" />
+</head>
+<body>
+	<div class="pd-page">
+
+		<header class="pd-topbar">
+			<span class="pd-topbar__title">layout lab · popup-demo</span>
+			<div class="pd-topbar__actions">
+				<button class="theme-toggle" data-theme-toggle aria-label="테마 전환">
+					<svg class="icon-glyph icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+						<path d="M21 12.5A8.5 8.5 0 0111.5 3 8.5 8.5 0 1021 12.5z" stroke-linejoin="round" />
+					</svg>
+					<svg class="icon-glyph icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+						<circle cx="12" cy="12" r="4.5" />
+						<path d="M12 2.5v2M12 19.5v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2.5 12h2M19.5 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" stroke-linecap="round" />
+					</svg>
+				</button>
+				<a class="btn btn--sm btn--ghost" href="index.html">← 갤러리로</a>
+			</div>
+		</header>
+
+		<main class="pd-shell">
+
+			<section class="pd-hero">
+				<h1>레이어팝업 검증 하네스</h1>
+				<p>
+					페이지 안에 이미 존재하는 <code>[data-pop]</code> 영역을 숨겼다 보이게 하는 방식입니다.
+					파일을 가져오지 않습니다. 동작은 <code>data-pop*</code> 속성이, 생김새는 <code>.lp-*</code>
+					클래스가 담당합니다. 아래 10개 항목을 순서대로 눌러보며 확인하세요.
+				</p>
+			</section>
+
+			<!-- 01 -->
+			<section class="pd-test">
+				<div class="pd-test__head">
+					<span class="pd-test__index">01</span>
+					<div>
+						<h2>기본 열기 · 닫기</h2>
+						<p class="pd-test__check">
+							확인: 열고 닫을 때 <b>확대·페이드 애니메이션이 실제로 보이는지</b>. 툭 나타나면
+							강제 리플로우 처리가 빠진 것입니다. 닫기는 ① 닫기 버튼 ② X ③ 딤 클릭 ④ Esc 네 가지가 모두 동작해야 합니다.
+						</p>
+					</div>
+				</div>
+				<div class="pd-test__actions">
+					<button type="button" class="pd-btn" data-pop-open="basic">기본 팝업 열기</button>
+				</div>
+			</section>
+
+			<!-- 02 -->
+			<section class="pd-test">
+				<div class="pd-test__head">
+					<span class="pd-test__index">02</span>
+					<div>
+						<h2>딤 3종: <code>true</code> / <code>false</code> / <code>static</code></h2>
+						<p class="pd-test__check">
+							확인: <b>true</b>는 딤이 보이고 딤 클릭 시 닫힘. <b>false</b>는 딤이 아예 생성되지 않고
+							<b>뒤 페이지의 버튼이 그대로 클릭됨</b>(투명 클릭 차단막이 남지 않아야 함).
+							<b>static</b>은 딤이 있지만 클릭해도 닫히지 않음. 단 Esc는 열려 있음.
+						</p>
+					</div>
+				</div>
+				<div class="pd-test__actions">
+					<button type="button" class="pd-btn" data-pop-open="dim-true">딤 true</button>
+					<button type="button" class="pd-btn pd-btn--ghost" data-pop-open="dim-none">딤 false</button>
+					<button type="button" class="pd-btn pd-btn--ghost" data-pop-open="dim-static">딤 static</button>
+				</div>
+			</section>
+
+			<!-- 03 -->
+			<section class="pd-test">
+				<div class="pd-test__head">
+					<span class="pd-test__index">03</span>
+					<div>
+						<h2>드래그 보호</h2>
+						<p class="pd-test__check">
+							확인: 팝업 안의 긴 문단에서 <b>텍스트를 드래그하다가 딤 영역에서 마우스를 떼도 닫히지 않아야</b> 합니다.
+							<code>click</code> 하나만 보는 구현은 이때 닫혀서 작성 중이던 내용이 날아갑니다.
+							입력칸에 글자를 넣고 드래그로 선택한 뒤 딤에서 손을 떼보세요.
+						</p>
+					</div>
+				</div>
+				<div class="pd-test__actions">
+					<button type="button" class="pd-btn" data-pop-open="drag">드래그 테스트 팝업</button>
+				</div>
+			</section>
+
+			<!-- 04 -->
+			<section class="pd-test">
+				<div class="pd-test__head">
+					<span class="pd-test__index">04</span>
+					<div>
+						<h2>transform 조상 함정</h2>
+						<p class="pd-test__check">
+							아래 점선 상자는 <code>transform</code>·<code>overflow:hidden</code>·<code>filter</code>가
+							모두 걸려 있고, 팝업 마크업이 <b>그 안에</b> 작성되어 있습니다. 확인: 팝업이
+							<b>상자 안에 갇히거나 잘리지 않고 화면 전체를 덮는지</b>. 매니저가 열 때
+							<code>&lt;body&gt;</code> 끝으로 옮기기 때문에 정상 동작해야 합니다.
+						</p>
+					</div>
+				</div>
+				<div class="pd-test__actions">
+					<div class="pd-trap">
+						<div class="pd-trap__label">transform: translateZ(0) · overflow: hidden · filter</div>
+						<button type="button" class="pd-btn" data-pop-open="trapped">갇힌 위치의 팝업 열기</button>
+
+						<!-- 일부러 함정 컨테이너 안에 작성한 팝업 -->
+						<div class="layerpopup lp" data-pop="trapped" data-pop-size="md" hidden>
+							<div class="lp__panel" data-pop-panel>
+								<div class="lp__head">
+									<h2 class="lp__title" data-pop-label>함정을 벗어난 팝업</h2>
+									<button type="button" class="lp__x" data-pop-close aria-label="닫기">
+										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+											<path d="M6 6l12 12M18 6L6 18" />
+										</svg>
+									</button>
+								</div>
+								<div class="lp__body">
+									<p>
+										이 팝업의 마크업은 <code>transform</code>이 걸린 상자 안에 있습니다. 그대로 두면
+										<code>position: fixed</code>가 그 상자를 기준으로 동작해 화면을 덮지 못하고,
+										<code>overflow: hidden</code>에 잘립니다.
+									</p>
+									<p>
+										매니저는 열 때 원래 자리에 주석을 남기고 요소를 <code>&lt;body&gt;</code> 끝으로
+										옮기며, 닫을 때 제자리로 되돌립니다. 덕분에 <b>작성 위치는 자유롭고 렌더링은 항상 정상</b>입니다.
+									</p>
+								</div>
+								<div class="lp__foot">
+									<button type="button" class="pd-btn" data-pop-close>확인</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- 05 -->
+			<section class="pd-test">
+				<div class="pd-test__head">
+					<span class="pd-test__index">05</span>
+					<div>
+						<h2>중첩 (2차 팝업)</h2>
+						<p class="pd-test__check">
+							확인: 1차 팝업 안에서 2차를 열면 <b>2차가 위에 쌓이고</b>, Esc를 한 번 누르면
+							<b>2차만 닫히고 1차는 남아야</b> 합니다. 2차가 열려 있을 때 1차의 버튼은
+							<code>inert</code>로 눌리지 않아야 하고, <b>둘 다 닫은 뒤에만</b> 배경 스크롤이 풀려야 합니다.
+						</p>
+					</div>
+				</div>
+				<div class="pd-test__actions">
+					<button type="button" class="pd-btn" data-pop-open="nest-1">1차 팝업 열기</button>
+				</div>
+			</section>
+
+			<!-- 06 -->
+			<section class="pd-test">
+				<div class="pd-test__head">
+					<span class="pd-test__index">06</span>
+					<div>
+						<h2>배경 스크롤 잠금 · 위치 보존</h2>
+						<p class="pd-test__check">
+							확인: 팝업이 열린 동안 <b>배경이 스크롤되지 않고</b>, 닫은 뒤 <b>원래 보던 위치로 정확히 돌아와야</b> 합니다.
+							맨 위로 튀면 스크롤 위치 저장·복원이 빠진 것입니다. PC에서는 스크롤바가 사라질 때
+							<b>레이아웃이 좌우로 흔들리지 않아야</b> 합니다. iOS Safari 실기기 확인이 필수입니다.
+						</p>
+					</div>
+				</div>
+				<div class="pd-test__actions">
+					<button type="button" class="pd-btn" data-pop-open="basic">이 위치에서 열고 닫아보기</button>
+				</div>
+				<div class="pd-filler" aria-hidden="true">
+					<div class="pd-filler__row"></div>
+					<div class="pd-filler__row"></div>
+					<div class="pd-filler__row"></div>
+					<div class="pd-filler__row"></div>
+					<div class="pd-filler__row"></div>
+					<div class="pd-filler__row"></div>
+				</div>
+			</section>
+
+			<!-- 07 -->
+			<section class="pd-test">
+				<div class="pd-test__head">
+					<span class="pd-test__index">07</span>
+					<div>
+						<h2>키보드: Tab 순환 · 포커스 복귀</h2>
+						<p class="pd-test__check">
+							확인: 열면 <b>첫 입력칸에 포커스</b>가 가고, Tab을 계속 누르면 <b>팝업 안에서만 순환</b>(배경으로 빠져나가지 않음),
+							Shift+Tab도 역순으로 순환. 닫으면 <b>원래 눌렀던 버튼으로 포커스가 돌아와야</b> 합니다.
+							마우스를 쓰지 않고 키보드만으로 열고 닫아보세요.
+						</p>
+					</div>
+				</div>
+				<div class="pd-test__actions">
+					<button type="button" class="pd-btn" data-pop-open="form">폼 팝업 열기 (키보드 테스트)</button>
+				</div>
+			</section>
+
+			<!-- 08 -->
+			<section class="pd-test">
+				<div class="pd-test__head">
+					<span class="pd-test__index">08</span>
+					<div>
+						<h2>반복 개폐 · 결과 전달</h2>
+						<p class="pd-test__check">
+							확인: 같은 팝업을 <b>5회 이상 열고 닫아도</b> 정상 동작하고, 아래 로그에
+							<b>열림/닫힘이 각각 1건씩만</b> 기록되어야 합니다(중복되면 이벤트가 누적되는 것).
+							확인/취소를 누르면 결과가 로그에 함께 남습니다.
+							<br />
+							<b>빠른 재개폐</b>는 닫힘 트랜지션(200ms)이 끝나기 전에 같은 팝업을 다시 여는
+							경쟁 상황을 재현합니다. 뒤늦게 도착하는 닫기 마무리 콜백이 방금 열린 팝업을
+							숨겨버리면 안 되고, 닫은 뒤에는 <b>원래 작성 위치로 정확히 복귀</b>해야 합니다.
+						</p>
+					</div>
+				</div>
+				<div class="pd-test__actions">
+					<button type="button" class="pd-btn" data-pop-open="result">결과 반환 팝업</button>
+					<button type="button" class="pd-btn pd-btn--ghost" id="pd-open-fn">함수로 열기 (Popup.open)</button>
+					<button type="button" class="pd-btn pd-btn--ghost" id="pd-race">빠른 재개폐 (경쟁 상황)</button>
+				</div>
+			</section>
+
+			<!-- 09 -->
+			<section class="pd-test">
+				<div class="pd-test__head">
+					<span class="pd-test__index">09</span>
+					<div>
+						<h2>늦게 주입되는 트리거 (인클루드 상황)</h2>
+						<p class="pd-test__check">
+							아래 버튼은 페이지 로드 1초 후에 JS로 삽입됩니다. GNB/LNB가 인클루드로 나중에
+							들어오는 상황을 재현한 것입니다. 확인: <b>별도 바인딩 없이 그냥 동작해야</b> 합니다
+							(<code>document</code> 위임이므로).
+						</p>
+					</div>
+				</div>
+				<div class="pd-test__actions" id="pd-late-slot">
+					<span class="pd-test__check">주입 대기 중…</span>
+				</div>
+			</section>
+
+			<!-- 10 -->
+			<section class="pd-test">
+				<div class="pd-test__head">
+					<span class="pd-test__index">10</span>
+					<div>
+						<h2>전체화면 · 클릭 위치 · 모바일 바텀시트</h2>
+						<p class="pd-test__check">
+							확인: <b>전체화면</b>은 뷰포트를 꽉 덮고 닫으면 뒤 페이지 상태가 그대로 남아야 합니다
+							(주소창 때문에 아래가 잘리지 않는지 모바일에서 확인). <b>클릭 위치</b>는 누른 버튼 쪽에서
+							자라나야 합니다. 화면 좌우 끝의 두 버튼을 각각 눌러 차이를 보세요.
+							<b>바텀시트</b>는 폭 640px 이하에서 아래에서 올라오는 형태로 바뀝니다.
+						</p>
+					</div>
+				</div>
+				<div class="pd-test__actions" style="justify-content: space-between">
+					<button type="button" class="pd-btn" data-pop-open="origin" data-pop-origin="trigger">← 왼쪽에서 열기</button>
+					<button type="button" class="pd-btn pd-btn--ghost" data-pop-open="full">전체화면</button>
+					<button type="button" class="pd-btn pd-btn--ghost" data-pop-open="sheet">바텀시트</button>
+					<button type="button" class="pd-btn" data-pop-open="origin" data-pop-origin="trigger">오른쪽에서 열기 →</button>
+				</div>
+			</section>
+
+			<!-- 이벤트 로그 -->
+			<div class="pd-log">
+				<div class="pd-log__head">
+					<span class="pd-log__title">이벤트 로그</span>
+					<span class="pd-log__count" id="pd-log-count">0</span>
+					<button type="button" class="pd-log__clear" id="pd-log-clear">비우기</button>
+				</div>
+				<div class="pd-log__body" id="pd-log-body"></div>
+			</div>
+
+		</main>
+	</div>
+
+	<!-- ======================================================================
+	     팝업 영역들. 페이지 안에 미리 존재하고, hidden으로 숨겨져 있다.
+	     ====================================================================== -->
+
+	<!-- 기본 -->
+	<div class="layerpopup lp" data-pop="basic" data-pop-size="md" hidden>
+		<div class="lp__panel" data-pop-panel>
+			<div class="lp__head">
+				<h2 class="lp__title" data-pop-label>기본 레이어팝업</h2>
+				<button type="button" class="lp__x" data-pop-close aria-label="닫기">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+						<path d="M6 6l12 12M18 6L6 18" />
+					</svg>
+				</button>
+			</div>
+			<div class="lp__body">
+				<p>
+					가장 기본 형태입니다. 마크업은 페이지 안에 <code>hidden</code> 상태로 들어 있고,
+					버튼의 <code>data-pop-open="basic"</code>이 이 영역의 <code>data-pop="basic"</code>을 찾아 엽니다.
+				</p>
+				<p>딤 클릭, Esc, 닫기 버튼, 우상단 X 모두 닫힙니다.</p>
+			</div>
+			<div class="lp__foot">
+				<button type="button" class="pd-btn pd-btn--ghost" data-pop-close>닫기</button>
+				<button type="button" class="pd-btn" data-pop-close>확인</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- 딤 true -->
+	<div class="layerpopup lp" data-pop="dim-true" data-pop-dim="true" data-pop-size="sm" hidden>
+		<div class="lp__panel" data-pop-panel>
+			<div class="lp__head">
+				<h2 class="lp__title" data-pop-label>딤 true</h2>
+			</div>
+			<div class="lp__body">
+				<p>딤이 깔리고, <b>딤을 클릭하면 닫힙니다.</b> 기본값입니다.</p>
+			</div>
+			<div class="lp__foot">
+				<button type="button" class="pd-btn" data-pop-close>닫기</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- 딤 false -->
+	<div class="layerpopup lp" data-pop="dim-none" data-pop-dim="false" data-pop-size="sm" data-pop-scroll="false" hidden>
+		<div class="lp__panel" data-pop-panel>
+			<div class="lp__head">
+				<h2 class="lp__title" data-pop-label>딤 false</h2>
+			</div>
+			<div class="lp__body">
+				<p>
+					딤이 생성되지 않습니다. 레이어가 투명한 클릭 차단막으로 남지 않도록
+					<code>pointer-events</code>를 통과시키므로 <b>뒤 페이지를 그대로 쓸 수 있습니다.</b>
+					이 팝업은 <code>data-pop-scroll="false"</code>라서 배경 스크롤도 잠그지 않습니다.
+				</p>
+			</div>
+			<div class="lp__foot">
+				<button type="button" class="pd-btn" data-pop-close>닫기</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- 딤 static -->
+	<div class="layerpopup lp" data-pop="dim-static" data-pop-dim="static" data-pop-size="sm" hidden>
+		<div class="lp__panel" data-pop-panel>
+			<div class="lp__head">
+				<h2 class="lp__title" data-pop-label>딤 static</h2>
+			</div>
+			<div class="lp__body">
+				<p>
+					딤은 있지만 <b>클릭해도 닫히지 않습니다.</b> 필수 동의처럼 사용자가 반드시
+					선택해야 하는 팝업에 씁니다. Esc는 열어두었습니다
+					(<code>data-pop-esc="false"</code>로 막을 수 있습니다).
+				</p>
+			</div>
+			<div class="lp__foot">
+				<button type="button" class="pd-btn" data-pop-close>동의</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- 드래그 보호 -->
+	<div class="layerpopup lp" data-pop="drag" data-pop-size="md" hidden>
+		<div class="lp__panel" data-pop-panel>
+			<div class="lp__head">
+				<h2 class="lp__title" data-pop-label>드래그 보호 테스트</h2>
+			</div>
+			<div class="lp__body">
+				<label class="lp__field">
+					<span>여기에 글자를 입력한 뒤 드래그로 선택해보세요</span>
+					<input type="text" value="이 텍스트를 드래그한 다음 딤에서 손을 떼보세요" />
+				</label>
+				<p>
+					아래 문단도 드래그해보세요. 마우스 버튼을 누른 지점이 패널 안이면, 손을 떼는 지점이
+					딤이어도 팝업이 닫히지 않습니다. <code>pointerdown</code>과 <code>pointerup</code>을
+					모두 확인하기 때문입니다.
+				</p>
+				<p>
+					반대로 딤에서 누르고 딤에서 떼면 정상적으로 닫힙니다. 눌러서 끌어 선택하는 동작과
+					닫으려는 의도를 구분하는 것이 핵심입니다.
+				</p>
+			</div>
+			<div class="lp__foot">
+				<button type="button" class="pd-btn" data-pop-close>닫기</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- 중첩 1차 -->
+	<div class="layerpopup lp" data-pop="nest-1" data-pop-size="md" hidden>
+		<div class="lp__panel" data-pop-panel>
+			<div class="lp__head">
+				<h2 class="lp__title" data-pop-label>1차 팝업</h2>
+				<button type="button" class="lp__x" data-pop-close aria-label="닫기">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+						<path d="M6 6l12 12M18 6L6 18" />
+					</svg>
+				</button>
+			</div>
+			<div class="lp__body">
+				<p>
+					여기서 2차 팝업을 열면 위에 쌓입니다. 2차가 열린 동안 이 버튼들은
+					<code>inert</code>가 걸려 눌리지 않습니다.
+				</p>
+			</div>
+			<div class="lp__foot">
+				<button type="button" class="pd-btn pd-btn--ghost" data-pop-close>닫기</button>
+				<button type="button" class="pd-btn" data-pop-open="nest-2">2차 팝업 열기</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- 중첩 2차 -->
+	<div class="layerpopup lp" data-pop="nest-2" data-pop-size="sm" hidden>
+		<div class="lp__panel" data-pop-panel>
+			<div class="lp__head">
+				<h2 class="lp__title" data-pop-label>2차 팝업 (재확인)</h2>
+			</div>
+			<div class="lp__body">
+				<p>
+					Esc를 누르면 <b>이것만 닫히고 1차는 남습니다.</b> 배경 스크롤은 1차까지 모두 닫힌
+					뒤에 풀립니다.
+				</p>
+			</div>
+			<div class="lp__foot">
+				<button type="button" class="pd-btn" data-pop-close>확인</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- 폼 (키보드) -->
+	<div class="layerpopup lp" data-pop="form" data-pop-size="md" hidden>
+		<div class="lp__panel" data-pop-panel>
+			<div class="lp__head">
+				<h2 class="lp__title" data-pop-label>배송 정보 입력</h2>
+				<button type="button" class="lp__x" data-pop-close aria-label="닫기">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+						<path d="M6 6l12 12M18 6L6 18" />
+					</svg>
+				</button>
+			</div>
+			<div class="lp__body">
+				<label class="lp__field">
+					<span>받는 분</span>
+					<input type="text" placeholder="이름" />
+				</label>
+				<label class="lp__field">
+					<span>연락처</span>
+					<input type="tel" placeholder="010-0000-0000" />
+				</label>
+				<label class="lp__field">
+					<span>배송 방법</span>
+					<select>
+						<option>일반 배송</option>
+						<option>새벽 배송</option>
+						<option>방문 수령</option>
+					</select>
+				</label>
+			</div>
+			<div class="lp__foot">
+				<button type="button" class="pd-btn pd-btn--ghost" data-pop-close>취소</button>
+				<button type="button" class="pd-btn" data-pop-close>저장</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- 결과 반환 -->
+	<div class="layerpopup lp" data-pop="result" data-pop-size="sm" hidden>
+		<div class="lp__panel" data-pop-panel>
+			<div class="lp__head">
+				<h2 class="lp__title" data-pop-label>주문을 취소할까요?</h2>
+			</div>
+			<div class="lp__body">
+				<p>취소하면 되돌릴 수 없습니다. 선택 결과가 아래 로그에 기록됩니다.</p>
+			</div>
+			<div class="lp__foot">
+				<button type="button" class="pd-btn pd-btn--ghost" id="pd-result-no">아니오</button>
+				<button type="button" class="pd-btn" id="pd-result-yes">네, 취소합니다</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- 늦게 주입되는 트리거가 여는 팝업 -->
+	<div class="layerpopup lp" data-pop="late" data-pop-size="sm" hidden>
+		<div class="lp__panel" data-pop-panel>
+			<div class="lp__head">
+				<h2 class="lp__title" data-pop-label>늦게 들어온 버튼이 열었습니다</h2>
+			</div>
+			<div class="lp__body">
+				<p>
+					이 팝업을 연 버튼은 페이지 로드 후에 JS로 삽입된 것입니다. <code>document</code>에
+					위임해 두었기 때문에 추가 바인딩 없이 동작합니다. 인클루드로 들어오는 GNB/LNB의
+					버튼도 마찬가지입니다.
+				</p>
+			</div>
+			<div class="lp__foot">
+				<button type="button" class="pd-btn" data-pop-close>닫기</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- 클릭 위치에서 열기 -->
+	<div class="layerpopup lp" data-pop="origin" data-pop-size="sm" hidden>
+		<div class="lp__panel" data-pop-panel>
+			<div class="lp__head">
+				<h2 class="lp__title" data-pop-label>누른 곳에서 자라났습니다</h2>
+			</div>
+			<div class="lp__body">
+				<p>
+					트리거의 화면 좌표를 패널 기준 <code>transform-origin</code>으로 환산합니다.
+					절대좌표로 띄우지 않으므로 <b>좁은 화면에서도 패널이 화면 밖으로 밀리지 않습니다.</b>
+				</p>
+			</div>
+			<div class="lp__foot">
+				<button type="button" class="pd-btn" data-pop-close>닫기</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- 전체화면 -->
+	<div class="layerpopup lp lp--full" data-pop="full" data-pop-type="full" hidden>
+		<div class="lp__panel" data-pop-panel>
+			<div class="lp__head">
+				<h2 class="lp__title" data-pop-label>전체화면 레이어</h2>
+				<button type="button" class="lp__x" data-pop-close aria-label="닫기">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+						<path d="M6 6l12 12M18 6L6 18" />
+					</svg>
+				</button>
+			</div>
+			<div class="lp__body">
+				<p>
+					뷰포트를 덮지만 <b>이동이 아니라 레이어</b>입니다. 호스트 페이지가 뒤에 그대로 남아 있어
+					닫으면 즉시 복귀하고, 입력 중이던 폼 상태도 보존됩니다.
+				</p>
+				<p>
+					높이는 <code>100dvh</code>를 쓰므로 모바일 주소창이 나타나거나 사라져도 아래가 잘리지 않습니다.
+					노치·홈 인디케이터는 <code>env(safe-area-inset-*)</code>로 피합니다.
+				</p>
+				<p>
+					이동이 필요한 "독립페이지"는 매니저를 쓰지 않고 그냥 링크입니다.
+					북마크·공유·네이티브 웹뷰 대상일 때 그렇게 씁니다.
+				</p>
+			</div>
+			<div class="lp__foot">
+				<button type="button" class="pd-btn" data-pop-close>닫기</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- 바텀시트 -->
+	<div class="layerpopup lp" data-pop="sheet" data-pop-sheet="mobile" data-pop-size="md" hidden>
+		<div class="lp__panel" data-pop-panel>
+			<div class="lp__head">
+				<h2 class="lp__title" data-pop-label>필터</h2>
+			</div>
+			<div class="lp__body">
+				<p>
+					창 폭을 640px 이하로 줄이면 <b>아래에서 올라오는 시트</b>로 바뀝니다. 그보다 넓으면
+					일반 중앙 팝업입니다. 같은 마크업으로 PC와 모바일을 모두 처리합니다.
+				</p>
+			</div>
+			<div class="lp__foot">
+				<button type="button" class="pd-btn pd-btn--ghost" data-pop-close>초기화</button>
+				<button type="button" class="pd-btn" data-pop-close>적용</button>
+			</div>
+		</div>
+	</div>
+
+	<script src="assets/js/theme.js"></script>
+	<script src="assets/js/popup.js"></script>
+	<script>
+		(function () {
+			"use strict";
+
+			/* ---- 이벤트 로그 ---- */
+			var body = document.getElementById("pd-log-body");
+			var countEl = document.getElementById("pd-log-count");
+			var count = 0;
+
+			function log(kind, name, detail) {
+				count++;
+				countEl.textContent = String(count);
+
+				var t = new Date();
+				var time =
+					String(t.getHours()).padStart(2, "0") +
+					":" +
+					String(t.getMinutes()).padStart(2, "0") +
+					":" +
+					String(t.getSeconds()).padStart(2, "0");
+
+				var line = document.createElement("div");
+				var cls = kind === "open" ? "pd-log__open" : "pd-log__close";
+				var extra = detail === undefined ? "" : " → " + JSON.stringify(detail);
+
+				line.innerHTML =
+					'<span class="pd-log__time">' + time + '</span> ' +
+					'<span class="' + cls + '">' + kind.toUpperCase() + "</span> " +
+					name + extra;
+
+				body.appendChild(line);
+				body.scrollTop = body.scrollHeight;
+			}
+
+			document.addEventListener("pop:open", function (e) {
+				log("open", e.target.dataset.pop);
+			});
+
+			document.addEventListener("pop:close", function (e) {
+				log("close", e.target.dataset.pop, e.detail);
+			});
+
+			document.getElementById("pd-log-clear").addEventListener("click", function () {
+				body.innerHTML = "";
+				count = 0;
+				countEl.textContent = "0";
+			});
+
+			/* ---- 08. 함수 호출 / 결과 전달 ---- */
+			document.getElementById("pd-open-fn").addEventListener("click", function () {
+				Popup.open("basic", { dim: "static", size: "lg" });
+			});
+
+			document.getElementById("pd-result-yes").addEventListener("click", function () {
+				Popup.close("result", { confirmed: true });
+			});
+
+			document.getElementById("pd-result-no").addEventListener("click", function () {
+				Popup.close("result", { confirmed: false });
+			});
+
+			/* ---- 08. 경쟁 상황 재현: 닫힘 트랜지션 중에 다시 열기 ----
+			   위치 복원까지 함께 보기 위해 transform 함정 안에 있는 팝업을 쓴다. */
+			document.getElementById("pd-race").addEventListener("click", function () {
+				var name = "trapped";
+
+				Popup.open(name);
+
+				setTimeout(function () {
+					Popup.close(name); // 닫힘 트랜지션 시작 (200ms)
+
+					setTimeout(function () {
+						Popup.open(name); // 트랜지션이 끝나기 전에 다시 열기
+
+						// 다시 열린 상태가 유지되는지 확인
+						setTimeout(function () {
+							var el = document.querySelector('[data-pop="' + name + '"]');
+							var visible = !el.hidden && el.getAttribute("data-pop-state") === "open";
+							log(visible ? "open" : "close", name, {
+								경쟁상황: visible ? "통과 (열린 상태 유지)" : "실패 (숨겨짐)"
+							});
+						}, 400);
+					}, 60);
+				}, 300);
+			});
+
+			/* 닫은 뒤 원래 작성 위치로 돌아갔는지 객관적으로 확인한다 */
+			document.addEventListener("pop:close", function (e) {
+				if (e.target.dataset.pop !== "trapped") return;
+
+				setTimeout(function () {
+					var el = document.querySelector('[data-pop="trapped"]');
+					if (!el || el.getAttribute("data-pop-state")) return; // 아직 열려 있으면 생략
+					var parent = el.parentElement;
+					var restored = !!(parent && parent.classList.contains("pd-trap"));
+					log("close", "trapped", {
+						위치복원: restored ? "통과 (.pd-trap 안으로 복귀)" : "실패 (" + (parent ? parent.className || parent.nodeName : "없음") + ")"
+					});
+				}, 400);
+			});
+
+			/* ---- 09. 인클루드 상황 재현: 로드 1초 후 트리거 주입 ---- */
+			setTimeout(function () {
+				var slot = document.getElementById("pd-late-slot");
+				slot.innerHTML =
+					'<button type="button" class="pd-btn" data-pop-open="late">나중에 주입된 버튼</button>';
+			}, 1000);
+		})();
+	</script>
+</body>
+</html>
