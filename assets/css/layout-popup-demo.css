@@ -127,11 +127,57 @@
 	color: var(--text-primary);
 }
 
+.pd-test__list {
+	margin-top: var(--sp-8);
+	display: grid;
+	gap: var(--sp-4);
+	font-size: 12.5px;
+	color: var(--text-secondary);
+	line-height: 1.6;
+	max-width: 70ch;
+}
+
+.pd-test__list li {
+	position: relative;
+	padding-left: var(--sp-16);
+}
+
+.pd-test__list li::before {
+	content: "";
+	position: absolute;
+	left: 4px;
+	top: 0.65em;
+	width: 4px;
+	height: 4px;
+	border-radius: 50%;
+	background: var(--text-secondary);
+}
+
+.pd-test__list b {
+	color: var(--text-primary);
+}
+
 .pd-test__actions {
 	display: flex;
 	flex-wrap: wrap;
+	align-items: center;
 	gap: var(--sp-8);
 	padding-left: calc(28px + var(--sp-16));
+}
+
+.pd-test__actions + .pd-test__actions {
+	margin-top: var(--sp-12);
+}
+
+/* 06 클릭 위치: 두 버튼을 양 끝으로 벌려야 기준점 차이가 잘 보인다 */
+.pd-test__actions--spread {
+	justify-content: space-between;
+}
+
+/* 03·09: 버튼 옆에 결과나 상태를 한 줄로 */
+.pd-result {
+	font-size: 12.5px;
+	color: var(--text-secondary);
 }
 
 @media (max-width: 640px) {
@@ -200,23 +246,6 @@
 	   회색으로 빼지 않고 같은 hue를 본문색 쪽으로 눌러 대비를 확보한다. */
 	color: color-mix(in srgb, var(--warning) 70%, var(--text-primary));
 	margin-bottom: var(--sp-12);
-}
-
-/* ---------------------------------------------------------------------- */
-/* 스크롤 위치 보존 테스트용 채움 영역                                      */
-/* ---------------------------------------------------------------------- */
-
-.pd-filler {
-	display: grid;
-	gap: var(--sp-8);
-	margin-top: var(--sp-16);
-}
-
-.pd-filler__row {
-	height: 56px;
-	border-radius: var(--radius-sm);
-	background: var(--surface);
-	border: 1px solid var(--border-subtle);
 }
 
 /* ---------------------------------------------------------------------- */
@@ -299,3 +328,281 @@
 
 /* 팝업 패널 스킨(.lp-*)은 assets/css/popup.css 11번 섹션에 있다.
    데모 페이지와 사용법 가이드가 같은 패널 디자인을 공유하기 위함이다. */
+
+/* ---------------------------------------------------------------------- */
+/* 09. "기존 팝업" 가정 — 프로젝트에 원래 있던 팝업처럼 자기 클래스로만      */
+/* 디자인되어 있다. .lp-*를 전혀 쓰지 않으며, data-pop / data-pop-panel만     */
+/* 붙였을 때 이 디자인이 그대로 유지되는지 확인하는 용도.                     */
+/* ---------------------------------------------------------------------- */
+
+.legacy-pop__inner {
+	width: 600px;
+	background: #ffffff;
+	color: #222222;
+	border: 2px solid #222222;
+	border-radius: 0;
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.legacy-pop__bar {
+	padding: 10px 16px;
+	background: #1d4ed8;
+	color: #ffffff;
+	font-weight: 700;
+	font-size: 14px;
+}
+
+.legacy-pop__cont {
+	padding: 16px;
+	font-size: 13px;
+	line-height: 1.7;
+}
+
+.legacy-pop__cont p + p {
+	margin-top: 8px;
+}
+
+.legacy-pop__btns {
+	padding: 0 16px 16px;
+	text-align: center;
+}
+
+.legacy-pop__btn {
+	height: 32px;
+	padding: 0 24px;
+	background: #222222;
+	color: #ffffff;
+	font-size: 13px;
+}
+
+/* ---------------------------------------------------------------------- */
+/* 10. 사이드 패널 안의 메뉴 목록                                          */
+/* ---------------------------------------------------------------------- */
+
+.pd-menu {
+	display: grid;
+	gap: var(--sp-2);
+	padding: 0 var(--sp-12) var(--sp-24);
+	overflow: auto;
+}
+
+.pd-menu__link {
+	display: block;
+	padding: var(--sp-12);
+	border-radius: var(--radius-md);
+	font-size: 14px;
+	font-weight: 500;
+	color: var(--text-secondary);
+}
+
+.pd-menu__link:hover {
+	color: var(--text-primary);
+	background: var(--surface-hover);
+}
+
+.pd-menu__link.is-current {
+	color: var(--accent-strong);
+	background: var(--accent-soft);
+	font-weight: 600;
+}
+
+/* ---------------------------------------------------------------------- */
+/* 사용법 — 맨 위 요약(.pd-quick)과 항목별 접이식 코드(.pd-code)              */
+/* ---------------------------------------------------------------------- */
+
+.pd-quick {
+	margin-bottom: var(--sp-32);
+	padding: var(--sp-24);
+	background: var(--surface);
+	border: 1px solid var(--border-subtle);
+	border-radius: var(--radius-lg);
+}
+
+.pd-quick h2 {
+	font-size: 16px;
+	font-weight: 700;
+	margin-bottom: var(--sp-16);
+}
+
+.pd-quick__steps {
+	display: grid;
+	gap: var(--sp-16);
+	margin-bottom: var(--sp-24);
+}
+
+.pd-quick__steps li > b {
+	display: block;
+	font-size: 13px;
+	margin-bottom: var(--sp-8);
+}
+
+.pd-quick__note {
+	margin-top: var(--sp-16);
+	font-size: 12.5px;
+	line-height: 1.65;
+	color: var(--text-secondary);
+	max-width: 70ch;
+}
+
+.pd-quick__note b {
+	color: var(--text-primary);
+}
+
+.pd-quick__note a {
+	color: var(--accent-strong);
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+/* 코드 박스 (요약과 접이식이 함께 쓴다) */
+
+.pd-code__box {
+	position: relative;
+	background: var(--surface-sunken);
+	border: 1px solid var(--border-subtle);
+	border-radius: var(--radius-md);
+}
+
+.pd-code__box pre {
+	margin: 0;
+	padding: var(--sp-12) var(--sp-16);
+	overflow-x: auto;
+	font-family: "SFMono-Regular", "Consolas", "Menlo", monospace;
+	font-size: 12.5px;
+	line-height: 1.7;
+	color: var(--text-secondary);
+	tab-size: 2;
+}
+
+.pd-code__box code {
+	font: inherit;
+}
+
+.pd-code__copy {
+	position: absolute;
+	top: var(--sp-8);
+	right: var(--sp-8);
+	z-index: 1;
+	height: 24px;
+	padding: 0 var(--sp-8);
+	font-size: 11px;
+	font-weight: 600;
+	color: var(--text-secondary);
+	background: var(--surface);
+	border: 1px solid var(--border-subtle);
+	border-radius: var(--radius-sm);
+}
+
+.pd-code__copy:hover {
+	color: var(--text-primary);
+	border-color: var(--border-strong);
+}
+
+/* 항목별 접이식 */
+
+.pd-code {
+	margin: var(--sp-16) 0 0 calc(28px + var(--sp-16));
+}
+
+@media (max-width: 640px) {
+	.pd-code {
+		margin-left: 0;
+	}
+}
+
+.pd-code > summary {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--sp-8);
+	height: var(--btn-h-sm);
+	padding: 0 var(--sp-12);
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--accent-strong);
+	background: var(--accent-soft);
+	border-radius: var(--radius-sm);
+	cursor: pointer;
+	list-style: none;
+}
+
+.pd-code > summary::-webkit-details-marker {
+	display: none;
+}
+
+.pd-code > summary::before {
+	content: "";
+	width: 6px;
+	height: 6px;
+	border-right: 1.5px solid currentColor;
+	border-bottom: 1.5px solid currentColor;
+	transform: rotate(-45deg);
+	transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.pd-code[open] > summary::before {
+	transform: rotate(45deg);
+}
+
+.pd-code > .pd-code__box {
+	margin-top: var(--sp-8);
+}
+
+.pd-code__note {
+	margin-top: var(--sp-8);
+	font-size: 12.5px;
+	line-height: 1.65;
+	color: var(--text-secondary);
+	max-width: 70ch;
+}
+
+/* 속성 요약표 */
+
+.pd-table-wrap {
+	overflow-x: auto;
+	border: 1px solid var(--border-subtle);
+	border-radius: var(--radius-md);
+}
+
+.pd-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 12.5px;
+}
+
+.pd-table th,
+.pd-table td {
+	padding: var(--sp-8) var(--sp-12);
+	text-align: left;
+	vertical-align: top;
+	border-bottom: 1px solid var(--border-subtle);
+	color: var(--text-secondary);
+}
+
+.pd-table th {
+	font-weight: 700;
+	color: var(--text-primary);
+	background: var(--surface-sunken);
+	white-space: nowrap;
+}
+
+.pd-table tbody tr:last-child td {
+	border-bottom: 0;
+}
+
+.pd-table td:first-child {
+	white-space: nowrap;
+}
+
+.pd-table b {
+	color: var(--text-primary);
+}
+
+.pd-table code,
+.pd-code__note code,
+.pd-quick__note code {
+	font-family: "SFMono-Regular", "Consolas", "Menlo", monospace;
+	font-size: 12px;
+	background: var(--surface-sunken);
+	border-radius: var(--radius-sm);
+	padding: 1px 5px;
+}

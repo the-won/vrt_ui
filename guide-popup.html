@@ -108,7 +108,7 @@
 							<div class="guide-stat__label">호출 방식</div>
 						</div>
 						<div class="guide-stat">
-							<div class="guide-stat__value">3</div>
+							<div class="guide-stat__value">4</div>
 							<div class="guide-stat__label">팝업 유형</div>
 						</div>
 						<div class="guide-stat">
@@ -116,7 +116,7 @@
 							<div class="guide-stat__label">딤 모드</div>
 						</div>
 						<div class="guide-stat">
-							<div class="guide-stat__value">12</div>
+							<div class="guide-stat__value">14</div>
 							<div class="guide-stat__label">data 속성</div>
 						</div>
 					</div>
@@ -300,8 +300,6 @@
 &lt;button type="button" data-pop-open="g-basic" data-pop-size="sm"&gt;작게&lt;/button&gt;
 &lt;button type="button" data-pop-open="g-basic" data-pop-origin="trigger"&gt;클릭 위치에서&lt;/button&gt;
 
-&lt;!-- 파라미터처럼 &amp;amp; 를 쓸 때는 HTML 속성이므로 이스케이프한다 --&gt;
-&lt;button type="button" data-pop-open="g-basic" data-pop-param="date=111&amp;amp;id=7"&gt;파라미터&lt;/button&gt;
 
 &lt;!-- 닫기 : 값 없이 쓰면 자기가 속한 팝업을 닫는다 --&gt;
 &lt;button type="button" data-pop-close&gt;닫기&lt;/button&gt;
@@ -628,10 +626,150 @@ document.addEventListener("pop:open", function (e) {
 					</div>
 				</section>
 
-				<!-- ---------- 08 중첩 ---------- -->
-				<section class="guide-section" id="nesting">
+				<!-- ---------- 08 사이드 패널 ---------- -->
+				<section class="guide-section" id="drawer">
 					<div class="guide-section__head">
 						<span class="guide-section__index">08</span>
+						<h2>사이드 패널 (드로어)</h2>
+						<p class="guide-section__desc">
+							햄버거 메뉴처럼 화면 옆에서 나오는 패널입니다. <code>data-pop-type="drawer"</code>에
+							방향(<code>data-pop-side</code>)과 나오는 방식(<code>data-pop-drawer</code>)을 정합니다.
+							여는 법·닫는 법·Esc·포커스는 일반 팝업과 같습니다.
+						</p>
+					</div>
+
+					<div class="example">
+						<div class="example__head">
+							<span class="example__title">방향 · 플로팅</span>
+							<code class="example__class">data-pop-side · data-pop-drawer</code>
+							<div class="example__actions">
+								<button class="btn btn--sm btn--ghost" data-code-toggle aria-expanded="false">코드</button>
+								<button class="btn btn--sm btn--ghost" data-copy>복사</button>
+							</div>
+						</div>
+						<div class="example__stage">
+							<span class="spec-item">
+								<button class="btn" data-pop-open="g-drawer" data-pop-side="left" aria-expanded="false">왼쪽</button>
+								<span class="spec-item__tag">overlay · 기본</span>
+							</span>
+							<span class="spec-item">
+								<button class="btn" data-pop-open="g-drawer" data-pop-side="right" aria-expanded="false">오른쪽</button>
+								<span class="spec-item__tag">overlay</span>
+							</span>
+							<span class="spec-item">
+								<button class="btn" data-pop-open="g-drawer" data-pop-drawer="float" aria-expanded="false">플로팅</button>
+								<span class="spec-item__tag">가장자리에서 떨어짐</span>
+							</span>
+						</div>
+						<div class="example__code" hidden>
+<pre><code>&lt;!-- 햄버거 버튼 : 열림 상태가 aria-expanded 로 자동 반영된다 --&gt;
+&lt;button type="button" data-pop-open="gnb-menu" aria-expanded="false" aria-label="메뉴"&gt;…&lt;/button&gt;
+
+&lt;div class="layerpopup" data-pop="gnb-menu"
+     data-pop-type="drawer"
+     data-pop-side="left"
+     data-pop-drawer="overlay" hidden&gt;
+  &lt;nav class="lp__panel" data-pop-panel aria-label="사이트 메뉴"&gt;…&lt;/nav&gt;
+&lt;/div&gt;
+
+&lt;!-- 오른쪽 / 플로팅 --&gt;
+&lt;div … data-pop-type="drawer" data-pop-side="right" hidden&gt;…&lt;/div&gt;
+&lt;div … data-pop-type="drawer" data-pop-drawer="float" hidden&gt;…&lt;/div&gt;</code></pre>
+						</div>
+						<p class="example__note">
+							패널 폭은 <code>--pop-drawer-w</code>(기본 320px, 최대 화면의 85%)로 바꿉니다.
+						</p>
+					</div>
+
+					<div class="example">
+						<div class="example__head">
+							<span class="example__title">본문 밀어내기</span>
+							<code class="example__class">data-pop-drawer="push | squeeze" + data-pop-push-target</code>
+							<div class="example__actions">
+								<button class="btn btn--sm btn--ghost" data-code-toggle aria-expanded="false">코드</button>
+								<button class="btn btn--sm btn--ghost" data-copy>복사</button>
+							</div>
+						</div>
+						<div class="example__stage">
+							<span class="spec-item">
+								<a class="btn btn--ghost" href="popup-demo.html">검증 하네스 10번에서 보기</a>
+								<span class="spec-item__tag">본문을 미는 동작은 페이지 구조가 필요해 데모에서 확인</span>
+							</span>
+						</div>
+						<div class="example__code" hidden>
+<pre><code>&lt;!-- 1. 밀려날 본문을 감싸는 요소에 표시한다. body 에는 붙이지 않는다 --&gt;
+&lt;body&gt;
+  &lt;div class="wrap" data-pop-push-target&gt;
+    …GNB · 본문 · 푸터…
+  &lt;/div&gt;
+&lt;/body&gt;
+
+&lt;!-- 2. push : 본문이 패널 폭만큼 옆으로 밀려난다 --&gt;
+&lt;div … data-pop-type="drawer" data-pop-drawer="push" hidden&gt;…&lt;/div&gt;
+
+&lt;!-- 3. squeeze : 본문 폭이 줄어 다시 배치된다 (640px 이하에서는 push로 동작) --&gt;
+&lt;div … data-pop-type="drawer" data-pop-drawer="squeeze" hidden&gt;…&lt;/div&gt;</code></pre>
+						</div>
+					</div>
+
+					<div class="spec-table-wrap">
+						<table class="spec-table">
+							<thead>
+								<tr>
+									<th><code>data-pop-drawer</code></th>
+									<th>패널</th>
+									<th>본문</th>
+									<th>딤 · 스크롤 잠금</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><code>overlay</code> <small>기본</small></td>
+									<td>가장자리에 붙어 덮음</td>
+									<td>그대로</td>
+									<td>켬</td>
+								</tr>
+								<tr>
+									<td><code>float</code></td>
+									<td>가장자리에서 떨어져 떠 있음</td>
+									<td>그대로</td>
+									<td>켬</td>
+								</tr>
+								<tr>
+									<td><code>push</code></td>
+									<td>가장자리에 붙음</td>
+									<td>패널 폭만큼 옆으로 밀려남</td>
+									<td>끔 <small>본문 계속 사용</small></td>
+								</tr>
+								<tr>
+									<td><code>squeeze</code></td>
+									<td>가장자리에 붙음</td>
+									<td>폭이 줄어 다시 배치</td>
+									<td>끔 <small>본문 계속 사용</small></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<div class="callout">
+						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+							<path d="M12 4.5l8 14H4l8-14z" stroke-linejoin="round" />
+							<path d="M12 10v3.5" stroke-linecap="round" />
+							<circle cx="12" cy="16" r="0.9" fill="currentColor" stroke="none" />
+						</svg>
+						<div>
+							<b><code>data-pop-push-target</code>은 <code>&lt;body&gt;</code>가 아닌 감싸개에 붙입니다.</b>
+							열린 팝업은 <code>&lt;body&gt;</code> 맨 끝으로 옮겨지기 때문에 body를 밀면 메뉴 패널까지 같이 밀려납니다.
+							감싸개가 없으면 콘솔에 경고를 남기고 <code>overlay</code>로 엽니다.
+							밀어내기 메뉴는 본문을 쓰면서 열어두는 용도라, 같은 버튼을 다시 누르면 접힙니다.
+						</div>
+					</div>
+				</section>
+
+				<!-- ---------- 09 중첩 ---------- -->
+				<section class="guide-section" id="nesting">
+					<div class="guide-section__head">
+						<span class="guide-section__index">09</span>
 						<h2>중첩 (2차 팝업)</h2>
 						<p class="guide-section__desc">
 							팝업 안에서 또 다른 팝업을 열 수 있습니다. 특별한 설정은 없고 평소처럼
@@ -672,10 +810,10 @@ document.addEventListener("pop:open", function (e) {
 					</div>
 				</section>
 
-				<!-- ---------- 09 옵션 레퍼런스 ---------- -->
+				<!-- ---------- 10 옵션 레퍼런스 ---------- -->
 				<section class="guide-section" id="options">
 					<div class="guide-section__head">
-						<span class="guide-section__index">09</span>
+						<span class="guide-section__index">10</span>
 						<h2>옵션 레퍼런스</h2>
 						<p class="guide-section__desc">
 							같은 옵션을 세 곳에 쓸 수 있고, 충돌하면 아래 순서로 이깁니다.
@@ -709,9 +847,21 @@ document.addEventListener("pop:open", function (e) {
 							<tbody>
 								<tr>
 									<td><code>data-pop-type</code></td>
-									<td><code>layer</code> · <code>full</code></td>
+									<td><code>layer</code> · <code>full</code> · <code>drawer</code></td>
 									<td><code>layer</code></td>
-									<td>중앙 박스인지 뷰포트 전체인지</td>
+									<td>중앙 박스 / 뷰포트 전체 / 옆에서 나오는 패널</td>
+								</tr>
+								<tr>
+									<td><code>data-pop-side</code></td>
+									<td><code>left</code> · <code>right</code></td>
+									<td><code>left</code></td>
+									<td>드로어가 나오는 방향</td>
+								</tr>
+								<tr>
+									<td><code>data-pop-drawer</code></td>
+									<td><code>overlay</code> · <code>float</code> · <code>push</code> · <code>squeeze</code></td>
+									<td><code>overlay</code></td>
+									<td>드로어가 나오는 방식. push·squeeze는 딤·스크롤 잠금 기본값이 꺼짐</td>
 								</tr>
 								<tr>
 									<td><code>data-pop-dim</code></td>
@@ -722,20 +872,20 @@ document.addEventListener("pop:open", function (e) {
 								<tr>
 									<td><code>data-pop-size</code></td>
 									<td><code>sm</code> 360 · <code>md</code> 520 · <code>lg</code> 800</td>
-									<td><code>md</code></td>
-									<td>패널 최대 너비(px)</td>
+									<td>없음</td>
+									<td>패널 최대 너비(px). 선언했을 때만 적용되므로 기존 팝업의 자체 폭은 그대로 유지됩니다</td>
 								</tr>
 								<tr>
 									<td><code>data-pop-origin</code></td>
 									<td><code>center</code> · <code>trigger</code></td>
 									<td><code>center</code></td>
-									<td><code>trigger</code>면 누른 버튼 쪽에서 자라납니다</td>
+									<td><code>trigger</code>면 누른 버튼 자리에서 커지며 나옵니다 (전체화면·시트에는 적용 안 됨)</td>
 								</tr>
 								<tr>
 									<td><code>data-pop-sheet</code></td>
-									<td><code>mobile</code></td>
+									<td><code>mobile</code> · <code>always</code></td>
 									<td>없음</td>
-									<td>640px 이하에서 하단 시트로 전환</td>
+									<td><code>mobile</code>은 640px 이하에서만, <code>always</code>는 항상 하단 시트</td>
 								</tr>
 								<tr>
 									<td><code>data-pop-esc</code></td>
@@ -746,24 +896,18 @@ document.addEventListener("pop:open", function (e) {
 								<tr>
 									<td><code>data-pop-scroll</code></td>
 									<td><code>true</code> · <code>false</code></td>
-									<td><code>true</code></td>
-									<td>배경 스크롤 잠금. 비모달 알림은 <code>false</code></td>
-								</tr>
-								<tr>
-									<td><code>data-pop-param</code></td>
-									<td>쿼리 문자열</td>
-									<td>없음</td>
-									<td>팝업에 넘길 값. <code>&amp;</code>는 <code>&amp;amp;</code>로 씁니다</td>
+									<td>딤 <code>false</code>면 <code>false</code>, 아니면 <code>true</code></td>
+									<td>배경 스크롤 잠금. 딤 없는 팝업은 뒤 페이지를 쓰는 비모달이라 기본으로 잠그지 않습니다</td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
 				</section>
 
-				<!-- ---------- 10 모바일 ---------- -->
+				<!-- ---------- 11 모바일 ---------- -->
 				<section class="guide-section" id="mobile">
 					<div class="guide-section__head">
-						<span class="guide-section__index">10</span>
+						<span class="guide-section__index">11</span>
 						<h2>모바일</h2>
 						<p class="guide-section__desc">
 							같은 마크업으로 PC와 모바일을 모두 처리합니다. 별도 페이지도, 분기 스크립트도
@@ -820,10 +964,10 @@ document.addEventListener("pop:open", function (e) {
 					</ul>
 				</section>
 
-				<!-- ---------- 11 접근성 ---------- -->
+				<!-- ---------- 12 접근성 ---------- -->
 				<section class="guide-section" id="a11y">
 					<div class="guide-section__head">
-						<span class="guide-section__index">11</span>
+						<span class="guide-section__index">12</span>
 						<h2>접근성</h2>
 						<p class="guide-section__desc">
 							대부분 자동으로 처리됩니다. 마크업에서 해 줄 일은 제목에
@@ -876,7 +1020,7 @@ document.addEventListener("pop:open", function (e) {
 							<span class="checklist__mark">
 								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" /></svg>
 							</span>
-							<span><b>딤이 없는 팝업은 <code>aria-modal="false"</code></b>입니다. 뒤 페이지를 계속 쓸 수 있으므로 모달이라고 알리지 않습니다.</span>
+							<span><b>딤이 없는 팝업은 비모달입니다.</b> <code>aria-modal="false"</code>로 알리고, Tab을 가두지 않으며, 배경 스크롤도 잠그지 않습니다.</span>
 						</li>
 						<li>
 							<span class="checklist__mark">
@@ -887,10 +1031,10 @@ document.addEventListener("pop:open", function (e) {
 					</ul>
 				</section>
 
-				<!-- ---------- 12 레거시 전환 ---------- -->
+				<!-- ---------- 13 레거시 전환 ---------- -->
 				<section class="guide-section" id="migration">
 					<div class="guide-section__head">
-						<span class="guide-section__index">12</span>
+						<span class="guide-section__index">13</span>
 						<h2>레거시 전환</h2>
 						<p class="guide-section__desc">
 							한 번에 다 바꾸지 않습니다. 기존 공통 함수를 얇은 어댑터로 남겨 두면
@@ -961,10 +1105,10 @@ function closePop(id) { Popup.close(id); }</code></pre>
 					</div>
 				</section>
 
-				<!-- ---------- 13 사용 규칙 ---------- -->
+				<!-- ---------- 14 사용 규칙 ---------- -->
 				<section class="guide-section" id="rules">
 					<div class="guide-section__head">
-						<span class="guide-section__index">13</span>
+						<span class="guide-section__index">14</span>
 						<h2>사용 규칙</h2>
 						<p class="guide-section__desc">
 							코드가 동작하는 것과 올바른 것은 다릅니다. 아래 두 쌍은 실제로 민원이 들어오는
@@ -1054,6 +1198,7 @@ function closePop(id) { Popup.close(id); }</code></pre>
 				<a href="#result">결과 주고받기</a>
 				<a href="#dim">딤 3종</a>
 				<a href="#types">유형 3종</a>
+				<a href="#drawer">사이드 패널</a>
 				<a href="#nesting">중첩</a>
 				<a href="#options">옵션 레퍼런스</a>
 				<a href="#mobile">모바일</a>
@@ -1080,7 +1225,7 @@ function closePop(id) { Popup.close(id); }</code></pre>
 			</div>
 			<div class="lp__body">
 				<p>가장 기본 형태입니다. 딤 클릭, Esc, 닫기 버튼, 우상단 X 모두 닫힙니다.</p>
-				<p>이 팝업은 <code>data-pop-size="md"</code>를 자기 기본값으로 들고 있습니다.</p>
+				<p>이 팝업은 <code>data-pop-size="md"</code>를 자기 기본값으로 들고 있습니다. 크기를 선언하지 않으면 패널은 자기 클래스가 정한 폭을 그대로 씁니다.</p>
 			</div>
 			<div class="lp__foot">
 				<button type="button" class="btn btn--ghost" data-pop-close>닫기</button>
@@ -1089,7 +1234,7 @@ function closePop(id) { Popup.close(id); }</code></pre>
 		</div>
 	</div>
 
-	<div class="layerpopup lp" data-pop="g-dim-none" data-pop-dim="false" data-pop-size="sm" data-pop-scroll="false" hidden>
+	<div class="layerpopup lp" data-pop="g-dim-none" data-pop-dim="false" data-pop-size="sm" hidden>
 		<div class="lp__panel" data-pop-panel>
 			<div class="lp__head">
 				<h2 class="lp__title" data-pop-label>딤 없는 알림</h2>
@@ -1241,6 +1386,22 @@ function closePop(id) { Popup.close(id); }</code></pre>
 				<button type="button" class="btn btn--primary" data-pop-close>적용</button>
 			</div>
 		</div>
+	</div>
+
+	<div class="layerpopup" data-pop="g-drawer" data-pop-type="drawer" hidden>
+		<nav class="lp__panel" data-pop-panel aria-label="예시 메뉴">
+			<div class="lp__head">
+				<h2 class="lp__title" data-pop-label>메뉴</h2>
+				<button type="button" class="lp__x" data-pop-close aria-label="메뉴 닫기">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+						<path d="M6 6l12 12M18 6L6 18" />
+					</svg>
+				</button>
+			</div>
+			<div class="lp__body">
+				<p>방향과 나오는 방식은 여는 버튼의 <code>data-pop-side</code> · <code>data-pop-drawer</code>가 정했습니다. 같은 팝업 하나를 세 버튼이 함께 씁니다.</p>
+			</div>
+		</nav>
 	</div>
 
 	<script src="assets/js/theme.js"></script>
